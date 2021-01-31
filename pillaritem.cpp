@@ -2,11 +2,13 @@
 #include <QRandomGenerator>
 #include <QGraphicsScene>
 #include "birditem.h"
+#include "scene.h"
 #include <QDebug>
 
 PillarItem::PillarItem():
     topPillar(new QGraphicsPixmapItem(QPixmap(":/images/pipe-green.png"))),
-    bottomPillar(new QGraphicsPixmapItem(QPixmap(":/images/pipe-green.png")))
+    bottomPillar(new QGraphicsPixmapItem(QPixmap(":/images/pipe-green.png"))),
+    pastBird(false)
 {
     topPillar->setPos(QPointF(0,0) - QPointF(topPillar->boundingRect().width()/2,
                                              topPillar->boundingRect().height() + 60));
@@ -37,7 +39,8 @@ PillarItem::PillarItem():
 
 PillarItem::~PillarItem()
 {
-    qDebug() << "Deleting Pillar";
+    delete topPillar;
+    delete bottomPillar;
 }
 
 qreal PillarItem::x() const
@@ -53,6 +56,17 @@ void PillarItem::freezeInPlace()
 void PillarItem::setX(qreal x)
 {
     m_x = x;
+
+    if(x < 0 && !pastBird) {
+        pastBird = true;
+        QGraphicsScene * mScene = scene();
+        Scene *myScene = dynamic_cast<Scene*>(mScene);
+        if(myScene)
+        {
+            myScene->incrementScore();
+        }
+    }
+
     if(collidesWithBird())
     {
         emit collideFail();
