@@ -11,13 +11,15 @@ class BirdItem : public QObject, public QGraphicsPixmapItem
     Q_PROPERTY(qreal rotation READ rotation WRITE setRotation)
     Q_PROPERTY(qreal y READ y WRITE setY)
 public:
+    void pause();
+    void start();
     explicit BirdItem(QPixmap pixmap);
 
     qreal rotation() const;
     qreal y() const;
 
     void shootUp();
-
+    void startFlying();
 signals:
 public slots:
     void setRotation(qreal rotation);

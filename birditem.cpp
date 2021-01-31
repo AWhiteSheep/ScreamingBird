@@ -23,11 +23,8 @@ BirdItem::BirdItem(QPixmap pixmap)
     yAnimation->setEndValue(groundPosition);
     yAnimation->setEasingCurve(QEasingCurve::InQuad);
     yAnimation->setDuration(1000);
-    yAnimation->start();
-
     // initialisation de l'animation donnant la rotation
     rotationAnimation = new QPropertyAnimation(this, "rotation", this);
-    rotateTo(90, 1200, QEasingCurve::InQuad);
 }
 
 qreal BirdItem::rotation() const
@@ -56,6 +53,13 @@ void BirdItem::shootUp()
 
     yAnimation->start();
     rotateTo(-20, 200, QEasingCurve::OutCubic);
+}
+
+void BirdItem::startFlying()
+{
+    // star y animation and rotation
+    yAnimation->start();
+    rotateTo(90, 1200, QEasingCurve::InQuad);
 }
 
 void BirdItem::setRotation(qreal rotation)
@@ -122,4 +126,16 @@ void BirdItem::updatePixmap()
         setPixmap(QPixmap(":/images/redbird-midflap.png"));
         wingPosition = WingPosition::Middle;
     }
+}
+
+void BirdItem::pause()
+{
+    yAnimation->pause();
+    rotationAnimation->pause();
+}
+
+void BirdItem::start()
+{
+    yAnimation->resume();
+    rotationAnimation->resume();
 }
