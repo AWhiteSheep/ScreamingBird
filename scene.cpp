@@ -32,8 +32,28 @@ void Scene::setUpPillarTimer()
     // quand le timer à terminé ajoute un Pillar
     connect(pillarTimer, &QTimer::timeout, [=](){
         PillarItem * pillarItem = new PillarItem();
+        connect(pillarItem, &PillarItem::collideFail,[=]{
+            // stop pillar timer, lorsqu'il y a une collision
+            pillarTimer->stop();
+            freezeBirdAndPillarsInPlace();
+        });
         addItem(pillarItem);
     });
+}
+
+void Scene::freezeBirdAndPillarsInPlace()
+{
+    // freeze bird
+    bird->freezeInPlace();
+    // freeze pillar, get all item in scene
+    QList<QGraphicsItem*> sceneItems = items();
+    foreach(QGraphicsItem *item, sceneItems){
+        PillarItem*pillar = dynamic_cast<PillarItem*>(item);
+        // si c'est bien un pillar appel de la fonction
+        if(pillar){
+            pillar->freezeInPlace();
+        }
+    }
 }
 
 void Scene::keyPressEvent(QKeyEvent *event)

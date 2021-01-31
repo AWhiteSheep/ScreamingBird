@@ -16,12 +16,15 @@ public:
     ~PillarItem();
 
     qreal x() const;
+    void freezeInPlace();
 
 signals:
+    void collideFail(); // fonction qui n'est pas défini elle est émise
 public slots:
     void setX(qreal x);
 
 private:
+    bool collidesWithBird();
     QGraphicsPixmapItem * topPillar;
     QGraphicsPixmapItem * bottomPillar;
     QPropertyAnimation * xAnimation;

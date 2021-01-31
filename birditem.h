@@ -20,6 +20,8 @@ public:
 
     void shootUp();
     void startFlying();
+
+    void freezeInPlace();
 signals:
 public slots:
     void setRotation(qreal rotation);

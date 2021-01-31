@@ -62,6 +62,12 @@ void BirdItem::startFlying()
     rotateTo(90, 1200, QEasingCurve::InQuad);
 }
 
+void BirdItem::freezeInPlace()
+{
+    yAnimation->stop();
+    rotationAnimation->stop();
+}
+
 void BirdItem::setRotation(qreal rotation)
 {
     m_rotation = rotation;

@@ -17,6 +17,7 @@ signals:
 public slots:
 private:
     void setUpPillarTimer();
+    void freezeBirdAndPillarsInPlace();
     QTimer * pillarTimer;
     BirdItem * bird;
     bool paused = false;
