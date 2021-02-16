@@ -28,6 +28,7 @@ Widget::Widget(QWidget *parent)
     ui->graphicsView->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     ui->graphicsView->setSceneRect(scene->sceneRect());
     scene->addBird();
+    scene->startMusic();
 }
 
 Widget::~Widget()

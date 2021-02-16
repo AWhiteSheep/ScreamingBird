@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <scene.h>
+#include <QMediaPlayer>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }

@@ -1,17 +1,27 @@
 #include "scene.h"
-#include "birditem.h"
-#include <QGraphicsSceneMouseEvent>
-#include <QKeyEvent>
-#include <QDebug>
-#include "windows.h"
-#include <mmsystem.h>
 
 Scene::Scene(QObject *parent) : QGraphicsScene(parent),
     gameOn(false), score(0), bestScore(0)
 {
     gameOverPix = nullptr;
     scoreTextItem = nullptr;
+    sceneMedia =  new QMediaPlayer();
     setUpPillarTimer();
+}
+
+Scene::~Scene()
+{
+    delete gameOverPix;
+    delete scoreTextItem;
+    delete sceneMedia;
+}
+
+void Scene::startMusic()
+{
+    if(sceneMedia->state() == QMediaPlayer::PlayingState)
+        sceneMedia->stop();
+    sceneMedia->setMedia(QUrl("qrc:/sound effects/super_mario_medley.mp3"));
+    sceneMedia->play();
 }
 
 void Scene::addBird()
@@ -34,6 +44,7 @@ void Scene::startGame()
         setGameOn(true);
         hideGameOverGraphics();
         pillarTimer->start(1000);
+        startMusic();
     }
 }
 
@@ -134,8 +145,10 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void Scene::showGameOverGraphics()
 {
-    PlaySound(TEXT(PROJECT_PATH "sound effects/smb_gameover.wav"), NULL, SND_ASYNC);
-
+    if(sceneMedia->state() == QMediaPlayer::PlayingState)
+        sceneMedia->stop();
+    sceneMedia->setMedia(QUrl("qrc:/sound effects/smb_gameover.wav"));
+    sceneMedia->play();
     gameOverPix = new QGraphicsPixmapItem(QPixmap(":/images/gameover.png"));
     addItem(gameOverPix);
     // placement au centre de l'écran

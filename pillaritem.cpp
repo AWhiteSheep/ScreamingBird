@@ -1,11 +1,5 @@
 #include "pillaritem.h"
-#include <QRandomGenerator>
-#include <QGraphicsScene>
-#include "birditem.h"
 #include "scene.h"
-#include <QDebug>
-#include "windows.h"
-#include <mmsystem.h>
 
 PillarItem::PillarItem():
     topPillar(new QGraphicsPixmapItem(QPixmap(":/images/pipe-green-top.png"))),
@@ -36,12 +30,16 @@ PillarItem::PillarItem():
     });
     xAnimation->start();
 
+    // set le son pour l'incrémentation de score
+    pillarMedia = new QMediaPlayer();
 }
 
 PillarItem::~PillarItem()
 {
     delete topPillar;
     delete bottomPillar;
+    delete xAnimation;
+    delete pillarMedia;
 }
 
 qreal PillarItem::x() const
@@ -66,7 +64,8 @@ void PillarItem::setX(qreal x)
         {
             myScene->incrementScore();
             // jouer le son pour l'incrémentation du score
-            PlaySound(TEXT(PROJECT_PATH "sound effects/smb_coin.wav"), NULL, SND_ASYNC);
+            pillarMedia->setMedia(QUrl("qrc:/sound effects/smb_coin.wav"));
+            pillarMedia->play();
         }
     }
 

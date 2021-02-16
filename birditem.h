@@ -4,6 +4,9 @@
 #include <QObject>
 #include <QGraphicsPixmapItem>
 #include <QPropertyAnimation>
+#include <QTimer>
+#include <QGraphicsScene>
+#include <QMediaPlayer>
 
 class BirdItem : public QObject, public QGraphicsPixmapItem
 {    
@@ -17,7 +20,7 @@ public:
     void pause();
     void start();
     explicit BirdItem(QPixmap pixmap);
-
+    ~BirdItem();
     qreal rotation() const;
     qreal y() const;
 
@@ -46,6 +49,7 @@ private:
     qreal m_y;
     QPropertyAnimation * yAnimation;
     QPropertyAnimation * rotationAnimation;
+    QMediaPlayer * birdMedia;
     qreal groundPosition;
 };
 

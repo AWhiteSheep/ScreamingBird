@@ -1,4 +1,4 @@
-QT       += core gui
+QT       += core gui multimedia
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -23,10 +23,6 @@ HEADERS += \
 
 FORMS += \
     widget.ui
-
-LIBS += -lwinmm
-
-DEFINES += PROJECT_PATH=\"\\\"$${_PRO_FILE_PWD_}/\\\"\"
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

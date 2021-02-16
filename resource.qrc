@@ -10,5 +10,11 @@
         <file>sound effects/smb_breakblock.wav</file>
         <file>sound effects/smb_coin.wav</file>
         <file>sound effects/smb_gameover.wav</file>
+        <file>sound effects/sfx_die.wav</file>
+        <file>sound effects/sfx_hit.wav</file>
+        <file>sound effects/sfx_point.wav</file>
+        <file>sound effects/sfx_swooshing.wav</file>
+        <file>sound effects/sfx_wing.wav</file>
+        <file>sound effects/super_mario_medley.mp3</file>
     </qresource>
 </RCC>

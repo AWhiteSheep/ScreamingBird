@@ -4,6 +4,11 @@
 #include <QGraphicsItemGroup>
 #include <QGraphicsPixmapItem>
 #include <QPropertyAnimation>
+#include <QRandomGenerator>
+#include <QGraphicsScene>
+#include "birditem.h"
+#include <QDebug>
+#include <QMediaPlayer>
 
 
 // nous utilison QGraphicsItemGroup afin de manipuler un group d'entité comme un seul
@@ -28,6 +33,7 @@ private:
     QGraphicsPixmapItem * topPillar;
     QGraphicsPixmapItem * bottomPillar;
     QPropertyAnimation * xAnimation;
+    QMediaPlayer * pillarMedia;
     int yPos;
 
     qreal m_x;

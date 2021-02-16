@@ -1,6 +1,4 @@
 #include "birditem.h"
-#include <QTimer>
-#include <QGraphicsScene>
 
 BirdItem::BirdItem(QPixmap pixmap)
     :wingPosition(WingPosition::Up),
@@ -25,6 +23,15 @@ BirdItem::BirdItem(QPixmap pixmap)
     yAnimation->setDuration(1000);
     // initialisation de l'animation donnant la rotation
     rotationAnimation = new QPropertyAnimation(this, "rotation", this);
+
+    birdMedia = new QMediaPlayer();
+}
+
+BirdItem::~BirdItem()
+{
+    delete yAnimation;
+    delete rotationAnimation;
+    delete birdMedia;
 }
 
 qreal BirdItem::rotation() const
@@ -39,6 +46,9 @@ qreal BirdItem::y() const
 
 void BirdItem::shootUp()
 {
+    if(birdMedia->state() == QMediaPlayer::PlayingState)
+        birdMedia->stop();
+
     yAnimation->stop();
     rotationAnimation->stop();
     qreal curPosY = y();
@@ -50,9 +60,11 @@ void BirdItem::shootUp()
     connect(yAnimation, &QPropertyAnimation::finished, [=](){
         fallToGroundIfNecessary();
     });
-
     yAnimation->start();
     rotateTo(-20, 200, QEasingCurve::OutCubic);
+
+    birdMedia->setMedia(QUrl("qrc:/sound effects/sfx_wing.wav"));
+    birdMedia->play();
 }
 
 void BirdItem::startFlying()
