@@ -24,6 +24,10 @@ HEADERS += \
 FORMS += \
     widget.ui
 
+LIBS += -lwinmm
+
+DEFINES += PROJECT_PATH=\"\\\"$${_PRO_FILE_PWD_}/\\\"\"
+
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin

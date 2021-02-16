@@ -3,6 +3,8 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QKeyEvent>
 #include <QDebug>
+#include "windows.h"
+#include <mmsystem.h>
 
 Scene::Scene(QObject *parent) : QGraphicsScene(parent),
     gameOn(false), score(0), bestScore(0)
@@ -16,6 +18,7 @@ void Scene::addBird()
 {
     // initialisation the bird et ajout à la scene
     bird = new BirdItem(QPixmap(":/images/redbird-upflap.png"));
+    bird->setZValue(1);
     addItem(bird);// fonction de QGraphicsScene
 }
 
@@ -131,6 +134,8 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void Scene::showGameOverGraphics()
 {
+    PlaySound(TEXT(PROJECT_PATH "sound effects/smb_gameover.wav"), NULL, SND_ASYNC);
+
     gameOverPix = new QGraphicsPixmapItem(QPixmap(":/images/gameover.png"));
     addItem(gameOverPix);
     // placement au centre de l'écran
@@ -144,11 +149,12 @@ void Scene::showGameOverGraphics()
     QFont mFont("Consolas", 30, QFont::Bold);
     scoreTextItem->setHtml(htmlString);
     scoreTextItem->setFont(mFont);
-    scoreTextItem->setDefaultTextColor(Qt::yellow);
+    scoreTextItem->setDefaultTextColor(Qt::red);
     addItem(scoreTextItem);
 
     scoreTextItem->setPos(QPointF(0,0) - QPointF(scoreTextItem->boundingRect().width()/2,
                                                  -gameOverPix->boundingRect().height()/2));
+
 }
 
 void Scene::hideGameOverGraphics()

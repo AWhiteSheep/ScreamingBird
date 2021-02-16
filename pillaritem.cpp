@@ -4,9 +4,11 @@
 #include "birditem.h"
 #include "scene.h"
 #include <QDebug>
+#include "windows.h"
+#include <mmsystem.h>
 
 PillarItem::PillarItem():
-    topPillar(new QGraphicsPixmapItem(QPixmap(":/images/pipe-green.png"))),
+    topPillar(new QGraphicsPixmapItem(QPixmap(":/images/pipe-green-top.png"))),
     bottomPillar(new QGraphicsPixmapItem(QPixmap(":/images/pipe-green.png"))),
     pastBird(false)
 {
@@ -15,21 +17,20 @@ PillarItem::PillarItem():
 
     bottomPillar->setPos(QPointF(0,0) + QPointF(-bottomPillar->boundingRect().width()/2,
                                                 60));
+
     addToGroup(topPillar);
     addToGroup(bottomPillar);
     // rend l'initilisation random
     yPos = QRandomGenerator::global()->bounded(150);
-    int xRandomizer = QRandomGenerator::global()->bounded(200);
-    setPos(QPoint(0,0) + QPoint(260 + xRandomizer, yPos));
+    setPos(QPoint(0,0) + QPoint(260, yPos));
 
     // création de l'animation de droite à gauche
     xAnimation = new QPropertyAnimation(this, "x", this);
-    xAnimation->setStartValue(260 + xRandomizer);
-    xAnimation->setEndValue(-260);
+    xAnimation->setStartValue(600);
+    xAnimation->setEndValue(-600);
     xAnimation->setEasingCurve(QEasingCurve::Linear); // la function utiliser pour atteindre la position final
-    xAnimation->setDuration(1500);
+    xAnimation->setDuration(3500);
     connect(xAnimation, &QPropertyAnimation::finished, [=](){
-        qDebug() << "Animation finished";
         scene()->removeItem(this);
         delete this;
     });
@@ -64,6 +65,8 @@ void PillarItem::setX(qreal x)
         if(myScene)
         {
             myScene->incrementScore();
+            // jouer le son pour l'incrémentation du score
+            PlaySound(TEXT(PROJECT_PATH "sound effects/smb_coin.wav"), NULL, SND_ASYNC);
         }
     }
 

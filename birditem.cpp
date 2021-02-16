@@ -43,9 +43,9 @@ void BirdItem::shootUp()
     rotationAnimation->stop();
     qreal curPosY = y();
     yAnimation->setStartValue(curPosY);
-    yAnimation->setEndValue(curPosY - scene()->sceneRect().height()/8);
+    yAnimation->setEndValue(curPosY - JUMP_HEIGHT);
     yAnimation->setEasingCurve(QEasingCurve::OutQuad);
-    yAnimation->setDuration(285);
+    yAnimation->setDuration(JUMP_DURATION);
     // lorsque l'animation est terminé débuter l'animation de tomber
     connect(yAnimation, &QPropertyAnimation::finished, [=](){
         fallToGroundIfNecessary();
@@ -104,11 +104,10 @@ void BirdItem::fallToGroundIfNecessary()
 
         yAnimation->setStartValue(y());
         yAnimation->setEndValue(groundPosition);
-        yAnimation->setDuration(1200);
+        yAnimation->setDuration(FALL_SPEED);
         yAnimation->start();
 
         rotateTo(90, 1100, QEasingCurve::InCubic);
-
     }
 }
 
