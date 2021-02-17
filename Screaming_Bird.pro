@@ -16,9 +16,13 @@ SOURCES += \
     widget.cpp
 
 HEADERS += \
+    birdattack.h \
     birditem.h \
+    enemy.h \
+    menu.h \
     pillaritem.h \
     scene.h \
+    score.h \
     widget.h
 
 FORMS += \
