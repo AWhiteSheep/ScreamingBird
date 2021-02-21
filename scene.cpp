@@ -1,4 +1,5 @@
 #include "scene.h"
+#include "widget.h"
 
 Scene::Scene(QObject *parent) : QGraphicsScene(parent),
     gameOn(false), score(0), bestScore(0)
@@ -45,6 +46,8 @@ void Scene::startGame()
         hideGameOverGraphics();
         pillarTimer->start(1000);
         startMusic();
+        Widget * parent = dynamic_cast<Widget*>(this->parent());
+        parent->setFocusToGraphicView();
     }
 }
 

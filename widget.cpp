@@ -41,3 +41,8 @@ void Widget::on_startGameButton_clicked()
 {
     scene->startGame();
 }
+
+void Widget::setFocusToGraphicView()
+{
+    ui->graphicsView->setFocus();
+}

@@ -16,7 +16,7 @@ class Widget : public QWidget
 public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
-
+    void setFocusToGraphicView();
 private slots:
     void on_startGameButton_clicked();
 
