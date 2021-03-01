@@ -7,6 +7,7 @@
 #include <QRandomGenerator>
 #include <QGraphicsScene>
 #include "birditem.h"
+#include "scene.h"
 #include <QDebug>
 #include <QMediaPlayer>
 
@@ -26,8 +27,9 @@ public:
 signals:
     void collideFail(); // fonction qui n'est pas défini elle est émise
 public slots:
-    void setX(qreal x);
 
+    void setX(qreal x);
+    void setPillarNumber(int number);
 private:
     bool collidesWithBird();
     QGraphicsPixmapItem * topPillar;
@@ -35,9 +37,12 @@ private:
     QPropertyAnimation * xAnimation;
     QMediaPlayer * pillarMedia;
     int yPos;
-
+    int pillarNumber;
     qreal m_x;
     bool pastBird;
+
+    int getPillarNumber();
+
 };
 
 #endif // PILLARITEM_H

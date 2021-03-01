@@ -5,6 +5,7 @@
 #include <QTimer>
 #include "pillaritem.h"
 #include "birditem.h"
+#include "enemy.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QKeyEvent>
 #include <QDebug>
@@ -22,6 +23,7 @@ public:
     void setGameOn(bool value);
     void incrementScore();
     void startMusic();
+    int getScore();
 signals:
 public slots:
 protected:
@@ -31,6 +33,7 @@ private:
     void showGameOverGraphics();
     void hideGameOverGraphics();
     void setUpPillarTimer();
+    void setUpEnemy();
     void freezeBirdAndPillarsInPlace();
     void cleanPillars();
     QTimer * pillarTimer;

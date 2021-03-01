@@ -57,6 +57,8 @@ void Scene::setUpPillarTimer()
     // quand le timer à terminé ajoute un Pillar
     connect(pillarTimer, &QTimer::timeout, [=](){
         PillarItem * pillarItem = new PillarItem();
+        int number = 0;
+        pillarItem->setPillarNumber(number);
         connect(pillarItem, &PillarItem::collideFail,[=]{
             // stop the game
             // stop pillar timer, lorsqu'il y a une collision
@@ -67,6 +69,13 @@ void Scene::setUpPillarTimer()
         });
         addItem(pillarItem);
     });
+}
+
+void Scene::setUpEnemy(){
+    enemy *enemyItem = new enemy();
+    addItem(enemyItem);
+    qDebug() << "enemy created";
+
 }
 
 void Scene::freezeBirdAndPillarsInPlace()
@@ -186,3 +195,8 @@ void Scene::hideGameOverGraphics()
         scoreTextItem = nullptr;
     }
 }
+
+ int Scene::getScore()
+ {
+     return score;
+ }

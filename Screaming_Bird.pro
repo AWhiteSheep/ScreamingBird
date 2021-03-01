@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     birditem.cpp \
+    enemy.cpp \
     main.cpp \
     pillaritem.cpp \
     scene.cpp \
