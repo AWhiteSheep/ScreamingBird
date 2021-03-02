@@ -55,13 +55,17 @@ void Scene::startGame()
 
 void Scene::addMenu()
 {
-    buttonStart = new Button(QPixmap(":/images/buttons/start-button-200.png"),
-                             QPixmap(":/images/buttons/start-button-blue-300.png"));
+    buttonStart = new Button(QPixmap(":/images/buttons/play-button-idle-200.png"),
+                             QPixmap(":/images/buttons/play-button-press-200.png"));
     buttonStart->setZValue(1);
     addItem(buttonStart);// fonction de QGraphicsScene
     // placement au centre de l'écran
-    buttonStart->setPos(QPointF(0,0) - QPointF(buttonStart->boundingRect().width()/2,
+    buttonStart->setPos(QPointF(0,-50) - QPointF(buttonStart->boundingRect().width()/2,
                                                buttonStart->boundingRect().height()/2));
+    connect(buttonStart, &Button::mouseRelease, [=]{
+            startGame();
+            buttonStart->hide();
+    });
 }
 
 void Scene::addReplayButton()
@@ -198,6 +202,8 @@ void Scene::showGameOverGraphics()
     scoreTextItem->setPos(QPointF(0,0) - QPointF(scoreTextItem->boundingRect().width()/2,
                                                  -gameOverPix->boundingRect().height()/2));
 
+
+    buttonStart->show();
 }
 
 void Scene::hideGameOverGraphics()

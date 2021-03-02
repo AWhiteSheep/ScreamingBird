@@ -26,5 +26,55 @@
         <file>images/buttons/start-button-blue-300.png</file>
         <file>images/buttons/start-button-blue-400.png</file>
         <file>images/buttons/start-button-blue-500.png</file>
+        <file>images/buttons/music-on-off-off-100.png</file>
+        <file>images/buttons/music-on-off-off-200.png</file>
+        <file>images/buttons/music-on-off-off-300.png</file>
+        <file>images/buttons/music-on-off-off-400.png</file>
+        <file>images/buttons/music-on-off-off-500.png</file>
+        <file>images/buttons/music-on-off-on-100.png</file>
+        <file>images/buttons/music-on-off-on-200.png</file>
+        <file>images/buttons/music-on-off-on-300.png</file>
+        <file>images/buttons/music-on-off-on-400.png</file>
+        <file>images/buttons/music-on-off-on-500.png</file>
+        <file>images/buttons/music-on-off-idle-100.png</file>
+        <file>images/buttons/music-on-off-idle-200.png</file>
+        <file>images/buttons/music-on-off-idle-300.png</file>
+        <file>images/buttons/music-on-off-idle-400.png</file>
+        <file>images/buttons/music-on-off-idle-500.png</file>
+        <file>images/buttons/left-button-idle-200.png</file>
+        <file>images/buttons/left-button-idle-300.png</file>
+        <file>images/buttons/left-button-idle-400.png</file>
+        <file>images/buttons/left-button-idle-500.png</file>
+        <file>images/buttons/left-button-press-100.png</file>
+        <file>images/buttons/left-button-press-200.png</file>
+        <file>images/buttons/left-button-press-300.png</file>
+        <file>images/buttons/left-button-press-400.png</file>
+        <file>images/buttons/left-button-press-500.png</file>
+        <file>images/buttons/left-button-idle-100.png</file>
+        <file>images/buttons/right-button-idle-100.png</file>
+        <file>images/buttons/right-button-idle-200.png</file>
+        <file>images/buttons/right-button-idle-300.png</file>
+        <file>images/buttons/right-button-idle-400.png</file>
+        <file>images/buttons/right-button-idle-500.png</file>
+        <file>images/buttons/right-button-press-100.png</file>
+        <file>images/buttons/right-button-press-200.png</file>
+        <file>images/buttons/right-button-press-300.png</file>
+        <file>images/buttons/right-button-press-400.png</file>
+        <file>images/buttons/right-button-press-500.png</file>
+        <file>images/buttons/play-button-press-200.png</file>
+        <file>images/buttons/play-button-press-300.png</file>
+        <file>images/buttons/play-button-press-400.png</file>
+        <file>images/buttons/play-button-press-500.png</file>
+        <file>images/buttons/play-button-press-100.png</file>
+        <file>images/buttons/play-button-idle-100.png</file>
+        <file>images/buttons/play-button-idle-200.png</file>
+        <file>images/buttons/play-button-idle-300.png</file>
+        <file>images/buttons/play-button-idle-400.png</file>
+        <file>images/buttons/play-button-idle-500.png</file>
+        <file>images/buttons/replay-button-100.png</file>
+        <file>images/buttons/replay-button-200.png</file>
+        <file>images/buttons/replay-button-300.png</file>
+        <file>images/buttons/replay-button-400.png</file>
+        <file>images/buttons/replay-button-500.png</file>
     </qresource>
 </RCC>

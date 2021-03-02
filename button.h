@@ -11,11 +11,12 @@
 
 class Button : public QObject, public QGraphicsPixmapItem
 {
+    Q_OBJECT
 public:
     Button(QPixmap pixmap_idle, QPixmap pixmap_press);
     ~Button();
-//    void buttonRelease();
-//    void buttonPress();
+signals:
+    void mouseRelease();
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *);
