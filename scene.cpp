@@ -15,6 +15,8 @@ Scene::~Scene()
     delete gameOverPix;
     delete scoreTextItem;
     delete sceneMedia;
+    delete bird;
+    delete buttonStart;
 }
 
 void Scene::startMusic()
@@ -49,6 +51,22 @@ void Scene::startGame()
         Widget * parent = dynamic_cast<Widget*>(this->parent());
         parent->setFocusToGraphicView();
     }
+}
+
+void Scene::addMenu()
+{
+    buttonStart = new Button(QPixmap(":/images/buttons/start-button-200.png"),
+                             QPixmap(":/images/buttons/start-button-blue-300.png"));
+    buttonStart->setZValue(1);
+    addItem(buttonStart);// fonction de QGraphicsScene
+    // placement au centre de l'écran
+    buttonStart->setPos(QPointF(0,0) - QPointF(buttonStart->boundingRect().width()/2,
+                                               buttonStart->boundingRect().height()/2));
+}
+
+void Scene::addReplayButton()
+{
+
 }
 
 void Scene::setUpPillarTimer()

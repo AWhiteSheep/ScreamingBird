@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     birditem.cpp \
+    button.cpp \
     enemy.cpp \
     main.cpp \
     pillaritem.cpp \
@@ -19,8 +20,8 @@ SOURCES += \
 HEADERS += \
     birdattack.h \
     birditem.h \
+    button.h \
     enemy.h \
-    menu.h \
     pillaritem.h \
     scene.h \
     score.h \

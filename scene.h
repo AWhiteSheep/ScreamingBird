@@ -10,6 +10,7 @@
 #include <QKeyEvent>
 #include <QDebug>
 #include <QMediaPlayer>
+#include "button.h"
 
 class Scene : public QGraphicsScene
 {
@@ -24,6 +25,8 @@ public:
     void incrementScore();
     void startMusic();
     int getScore();
+    void addMenu();
+    void addReplayButton();
 signals:
 public slots:
 protected:
@@ -38,6 +41,7 @@ private:
     void cleanPillars();
     QTimer * pillarTimer;
     BirdItem * bird;
+    Button * buttonStart;
     bool paused = false;
     bool gameOn;
     int score;
