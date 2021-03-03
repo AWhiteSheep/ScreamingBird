@@ -15,6 +15,7 @@ class Button : public QObject, public QGraphicsPixmapItem
 public:
     Button(QPixmap pixmap_idle, QPixmap pixmap_press);
     ~Button();
+    void setIdlePixmap(QPixmap pixmap_idle);
 signals:
     void mouseRelease();
 protected:

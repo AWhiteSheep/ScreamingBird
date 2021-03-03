@@ -10,6 +10,12 @@ Button::~Button()
 {
 }
 
+void Button::setIdlePixmap(QPixmap pixmap_idle)
+{
+    this->pixmap_idle = pixmap_idle;
+    setPixmap(pixmap_idle);
+}
+
 void Button::mousePressEvent(QGraphicsSceneMouseEvent *)
 {
     setPixmap(pixmap_press);

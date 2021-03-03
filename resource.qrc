@@ -76,5 +76,20 @@
         <file>images/buttons/replay-button-300.png</file>
         <file>images/buttons/replay-button-400.png</file>
         <file>images/buttons/replay-button-500.png</file>
+        <file>images/birds/bluebird-downflap.pixil</file>
+        <file>images/birds/bluebird-downflap-100.png</file>
+        <file>images/birds/bluebird-downflap-200.png</file>
+        <file>images/birds/bluebird-downflap-300.png</file>
+        <file>images/birds/bluebird-midflap.pixil</file>
+        <file>images/birds/bluebird-midflap-100.png</file>
+        <file>images/birds/bluebird-midflap-200.png</file>
+        <file>images/birds/bluebird-midflap-300.png</file>
+        <file>images/birds/bluebird-upflap.pixil</file>
+        <file>images/birds/bluebird-upflap-100.png</file>
+        <file>images/birds/bluebird-upflap-200.png</file>
+        <file>images/birds/bluebird-upflap-300.png</file>
+        <file>images/birds/redbird-downflap.pixil</file>
+        <file>images/birds/redbird-midflap.pixil</file>
+        <file>images/birds/redbird-upflap.pixil</file>
     </qresource>
 </RCC>

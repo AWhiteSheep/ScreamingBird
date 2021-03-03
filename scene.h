@@ -41,11 +41,16 @@ private:
     void cleanPillars();
     QTimer * pillarTimer;
     BirdItem * bird;
-    Button * buttonStart;
+    Button * btnStart;
+    Button * btnNext;
+    Button * btnBack;
+    Button * btnMusic;
+    bool musicOn = true;
     bool paused = false;
     bool gameOn;
     int score;
     int bestScore;
+    int birdColor = 0;
     QGraphicsPixmapItem * gameOverPix;
     QGraphicsTextItem * scoreTextItem;
     QMediaPlayer * sceneMedia;
