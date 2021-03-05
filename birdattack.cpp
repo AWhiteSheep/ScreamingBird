@@ -1,32 +1,45 @@
-/*
 #include "birdattack.h"
 #include "scene.h"
+#include <QTimer>
+#include <QGraphicsScene>
+#include <QList>
+#include <QDebug>
 
 
-BirdAttack::BirdAttack():
-    feu(new QGraphicsPixmapItem(QPixmap(":/images/fireball05.png")))
+birdattack::birdattack() : QObject(), QGraphicsRectItem()
 {
+    //dessiner l'ennemi
+    setRect(0,0,100,50);
 
+    //connect
+    QTimer * Timer = new QTimer(this);
+    connect(Timer, SIGNAL(timeout()),this,SLOT(move()));
+
+    Timer->start(50);
 }
 
-BirdAttack::~BirdAttack()
+/*
+birdattack::~birdattack()
 {
 
-}
+}*/
 
-qreal BirdAttack::getX() const
+qreal birdattack::getX()
 {
     return xPos;
 }
 
-void BirdAttack::freezeInPlace()
+void birdattack::freezeInPlace()
 {
-    xAnimation->stop();
+    //xAnimation->stop();
 }
 
-void BirdAttack::setX(qreal x)
+void birdattack::setX(qreal x)
 {
-
+    xPos = x;
 }
 
-*/
+bool birdattack::collidesWithEnemy()
+{
+    return 0;
+}

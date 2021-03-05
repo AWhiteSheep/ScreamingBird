@@ -10,29 +10,34 @@
 #include "birditem.h"
 #include <QDebug>
 
-class BirdAttack
+class birdattack : public QObject, public QGraphicsRectItem
 {
-    /*
-    Q_OBJECT
-    Q_PROPERTY(qreal x READ x WRITE setX )
-
-    const qreal VITESSE_BOULE = 90;    //valeur à ajuster
-public:
-    BirdAttack();
-    ~BirdAttack();
-
-    qreal getX() const;
-    void setX(qreal x);
-    void freezeInPlace();
 private:
-    bool collidesWithEnemy();
-    QGraphicsPixmapItem * feu;
-    QPropertyAnimation * xAnimation;
-    QMediaPlayer * feuMedia;
+    Q_OBJECT
+    //Q_PROPERTY(qreal x READ x WRITE setX )
 
+    // variables
+    const qreal VITESSE_BOULE = 90;    //valeur à ajuster
     qreal yPos;
     qreal xPos;
-    */
+
+
+    //QGraphicsPixmapItem * feu;
+    //QPropertyAnimation * xAnimation;
+    //QMediaPlayer * feuMedia;
+
+public:
+    // constructeur
+    birdattack();
+
+    // destructeur
+    //~birdattack();
+
+    // fonctions
+    qreal getX();
+    void setX(qreal x);
+    void freezeInPlace();
+    bool collidesWithEnemy();
 };
 
 #endif // BIRDATTACK_H
