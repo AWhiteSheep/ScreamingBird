@@ -11,7 +11,8 @@
 enum BirdColor
 {
     RED,
-    BLUE
+    BLUE,
+    YELLOW
 };
 
 class BirdItem : public QObject, public QGraphicsPixmapItem
