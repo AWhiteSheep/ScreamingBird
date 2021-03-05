@@ -4,12 +4,20 @@
 #include <QObject>
 #include <QGraphicsPixmapItem>
 #include <QMediaPlayer>
-
-class Enemy
+#include "birditem.h"
+#include "pillaritem.h"
+#include <QGraphicsRectItem>
+class enemy:public QObject, public QGraphicsRectItem
 {
+    Q_OBJECT
 public:
-    Enemy();
-    ~Enemy();
+    qreal y();
+    qreal x();
+
+     enemy();
+    ~enemy();
+
+    void move();
 };
 
 #endif // ENEMY_H

@@ -8,6 +8,12 @@
 #include <QGraphicsScene>
 #include <QMediaPlayer>
 
+enum BirdColor
+{
+    RED,
+    BLUE
+};
+
 class BirdItem : public QObject, public QGraphicsPixmapItem
 {    
     const qreal JUMP_HEIGHT = 80;       // 30 - 120
@@ -28,6 +34,7 @@ public:
     void startFlying();
 
     void freezeInPlace();
+    BirdColor color;
 signals:
 public slots:
     void setRotation(qreal rotation);

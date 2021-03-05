@@ -29,6 +29,7 @@ Widget::Widget(QWidget *parent)
     ui->graphicsView->setSceneRect(scene->sceneRect());
     scene->addBird();
     scene->startMusic();
+    scene->addMenu();
 }
 
 Widget::~Widget()

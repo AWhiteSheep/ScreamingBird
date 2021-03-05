@@ -130,17 +130,26 @@ void BirdItem::updatePixmap()
     if(wingPosition == WingPosition::Middle){
         if(wingDirection){
             // UP
-            setPixmap(QPixmap(":/images/redbird-upflap.png"));
+            if(color == BirdColor::RED)
+                setPixmap(QPixmap(":/images/redbird-upflap.png"));
+            else if(color == BirdColor::BLUE)
+                setPixmap(QPixmap(":/images/birds/bluebird-upflap-200.png"));
             wingPosition = WingPosition::Up;
             wingDirection = 0;
         } else {
             // DOWN
-            setPixmap(QPixmap(":/images/redbird-downflap.png"));
+            if(color == BirdColor::RED)
+                setPixmap(QPixmap(":/images/redbird-downflap.png"));
+            else if(color == BirdColor::BLUE)
+                setPixmap(QPixmap(":/images/birds/bluebird-downflap-200.png"));
             wingPosition = WingPosition::Down;
             wingDirection = 1;
         }
     } else {
-        setPixmap(QPixmap(":/images/redbird-midflap.png"));
+        if(color == BirdColor::RED)
+            setPixmap(QPixmap(":/images/redbird-midflap.png"));
+        else if(color == BirdColor::BLUE)
+            setPixmap(QPixmap(":/images/birds/bluebird-midflap-200.png"));
         wingPosition = WingPosition::Middle;
     }
 }

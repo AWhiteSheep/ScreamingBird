@@ -14,6 +14,7 @@ PillarItem::PillarItem():
 
     addToGroup(topPillar);
     addToGroup(bottomPillar);
+
     // rend l'initilisation random
     yPos = QRandomGenerator::global()->bounded(150);
     setPos(QPoint(0,0) + QPoint(260, yPos));
@@ -63,6 +64,8 @@ void PillarItem::setX(qreal x)
         if(myScene)
         {
             myScene->incrementScore();
+            int pillar = myScene->getScore();
+             qDebug() << "pillar : "<< pillar;
             // jouer le son pour l'incrémentation du score
             pillarMedia->setMedia(QUrl("qrc:/sound effects/smb_coin.wav"));
             pillarMedia->play();
@@ -90,4 +93,14 @@ bool PillarItem::collidesWithBird()
             return true;
     }
     return false;
+}
+
+void PillarItem::setPillarNumber(int number)
+{
+    pillarNumber = number;
+}
+
+int PillarItem::getPillarNumber()
+{
+    return pillarNumber;
 }

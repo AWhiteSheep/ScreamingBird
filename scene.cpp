@@ -15,6 +15,8 @@ Scene::~Scene()
     delete gameOverPix;
     delete scoreTextItem;
     delete sceneMedia;
+    delete bird;
+    delete btnStart;
 }
 
 void Scene::startMusic()
@@ -29,7 +31,10 @@ void Scene::addBird()
 {
     // initialisation the bird et ajout à la scene
     bird = new BirdItem(QPixmap(":/images/redbird-upflap.png"));
+    bird->color = static_cast<enum::BirdColor>(0);
     bird->setZValue(1);
+    bird->setPos(QPointF(0,0) - QPointF(bird->boundingRect().width()/2,
+                                                   bird->boundingRect().height()/2));
     addItem(bird);// fonction de QGraphicsScene
 }
 
@@ -51,12 +56,90 @@ void Scene::startGame()
     }
 }
 
+void Scene::addMenu()
+{
+    // START BUTTON
+    btnStart = new Button(QPixmap(":/images/buttons/play-button-idle-200.png"),
+                             QPixmap(":/images/buttons/play-button-press-200.png"));
+    btnStart->setZValue(1);
+    addItem(btnStart);// fonction de QGraphicsScene
+    // placement au centre de l'écran
+    btnStart->setPos(QPointF(0,-50) - QPointF(btnStart->boundingRect().width()/2,
+                                               btnStart->boundingRect().height()/2));
+    connect(btnStart, &Button::mouseRelease, [=]{
+            QList<QGraphicsItem*> sceneItems = items();
+            foreach(QGraphicsItem *item, sceneItems){
+                Button*button = dynamic_cast<Button*>(item);
+                // si c'est bien un pillar appel de la fonction
+                if(button){
+                    button->hide();
+                }
+            }
+            startGame();
+    });
+    // NEXT BUTTON
+    btnNext = new Button(QPixmap(":/images/buttons/right-button-idle-200.png"),
+                             QPixmap(":/images/buttons/right-button-press-200.png"));
+    btnNext->setZValue(1);
+    addItem(btnNext);
+    btnNext->setPos(QPointF(50,0) - QPointF(btnNext->boundingRect().width()/2,
+                                               btnNext->boundingRect().height()/2));
+    connect(btnNext, &Button::mouseRelease, [=]{
+        qDebug() << "button next";
+        if(birdColor == 1)
+            birdColor = 0;
+        else
+            birdColor++;
+        bird->color = static_cast<enum::BirdColor>(birdColor);
+    });
+    // BACK BUTTON
+    btnBack = new Button(QPixmap(":/images/buttons/left-button-idle-200.png"),
+                             QPixmap(":/images/buttons/left-button-press-200.png"));
+    btnBack->setZValue(1);
+    addItem(btnBack);
+    btnBack->setPos(QPointF(-50,0) - QPointF(btnBack->boundingRect().width()/2,
+                                               btnBack->boundingRect().height()/2));
+    connect(btnBack, &Button::mouseRelease, [=]{
+        qDebug() << "button back";
+        if(birdColor == 0)
+            birdColor = 1;
+        else
+            birdColor--;
+        bird->color = static_cast<enum::BirdColor>(birdColor);
+    });
+    // MUSIC BUTTON
+    if(musicOn)
+        btnMusic = new Button(QPixmap(":/images/buttons/music-on-off-on-200.png"),
+                             QPixmap(":/images/buttons/music-on-off-idle-200.png"));
+    else
+        btnMusic = new Button(QPixmap(":/images/buttons/music-on-off-off-200.png"),
+                             QPixmap(":/images/buttons/music-on-off-idle-200.png"));
+    btnMusic->setZValue(1);
+    addItem(btnMusic);
+    btnMusic->setPos(QPointF(0,50) - QPointF(btnMusic->boundingRect().width()/2,
+                                               btnMusic->boundingRect().height()/2));
+    connect(btnMusic, &Button::mouseRelease, [=]{
+        musicOn = !musicOn;
+        if(musicOn)
+            btnMusic->setIdlePixmap(QPixmap(":/images/buttons/music-on-off-on-200.png"));
+        else
+            btnMusic->setIdlePixmap(QPixmap(":/images/buttons/music-on-off-off-200.png"));
+    });
+}
+
+void Scene::addReplayButton()
+{
+
+}
+
 void Scene::setUpPillarTimer()
 {
     pillarTimer = new QTimer(this);
     // quand le timer à terminé ajoute un Pillar
     connect(pillarTimer, &QTimer::timeout, [=](){
         PillarItem * pillarItem = new PillarItem();
+        int number = 0;
+        pillarItem->setPillarNumber(number);
         connect(pillarItem, &PillarItem::collideFail,[=]{
             // stop the game
             // stop pillar timer, lorsqu'il y a une collision
@@ -67,6 +150,13 @@ void Scene::setUpPillarTimer()
         });
         addItem(pillarItem);
     });
+}
+
+void Scene::setUpEnemy(){
+    enemy *enemyItem = new enemy();
+    addItem(enemyItem);
+    qDebug() << "enemy created";
+
 }
 
 void Scene::freezeBirdAndPillarsInPlace()
@@ -171,6 +261,8 @@ void Scene::showGameOverGraphics()
     scoreTextItem->setPos(QPointF(0,0) - QPointF(scoreTextItem->boundingRect().width()/2,
                                                  -gameOverPix->boundingRect().height()/2));
 
+
+    btnStart->show();
 }
 
 void Scene::hideGameOverGraphics()
@@ -186,3 +278,8 @@ void Scene::hideGameOverGraphics()
         scoreTextItem = nullptr;
     }
 }
+
+ int Scene::getScore()
+ {
+     return score;
+ }
