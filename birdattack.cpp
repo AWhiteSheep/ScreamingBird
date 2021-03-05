@@ -6,7 +6,7 @@
 #include <QDebug>
 
 
-birdattack::birdattack() : QObject(), QGraphicsRectItem()
+birdattack::birdattack()
 {
     //dessiner l'ennemi
     setRect(0,0,100,50);
@@ -18,11 +18,10 @@ birdattack::birdattack() : QObject(), QGraphicsRectItem()
     Timer->start(50);
 }
 
-/*
 birdattack::~birdattack()
 {
 
-}*/
+}
 
 qreal birdattack::getX()
 {

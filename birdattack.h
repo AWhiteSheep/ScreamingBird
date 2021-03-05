@@ -31,7 +31,7 @@ public:
     birdattack();
 
     // destructeur
-    //~birdattack();
+    ~birdattack();
 
     // fonctions
     qreal getX();
