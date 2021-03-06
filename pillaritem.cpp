@@ -95,12 +95,3 @@ bool PillarItem::collidesWithBird()
     return false;
 }
 
-void PillarItem::setPillarNumber(int number)
-{
-    pillarNumber = number;
-}
-
-int PillarItem::getPillarNumber()
-{
-    return pillarNumber;
-}

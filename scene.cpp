@@ -8,12 +8,15 @@ Scene::Scene(QObject *parent) : QGraphicsScene(parent),
     scoreTextItem = nullptr;
     sceneMedia =  new QMediaPlayer();
     setUpPillarTimer();
+    setUpEnemyTimer();
 }
 
 Scene::~Scene()
 {
     delete gameOverPix;
     delete scoreTextItem;
+    delete sceneScoreTextItem;
+    delete sceneBackgroundMap;
     delete sceneMedia;
     delete bird;
     delete btnStart;
@@ -51,17 +54,21 @@ void Scene::startGame()
     bird->setPos(QPointF(0,0) - QPointF(bird->boundingRect().width()/2,
                                                    bird->boundingRect().height()/2));
 
+    bird->color = static_cast<BirdColor>(this->birdColor);
     addItem(bird);
     bird->setZValue(1);
-    bird->startFlying();
+    //bird->startFlying();
     // ajoute un item Pillar à chaque 1000
     if(!pillarTimer->isActive())
     {
         score = 0;
+        updateSceneScore();
         cleanPillars();
+        cleanEnemy();
         setGameOn(true);
         hideGameOverGraphics();
         pillarTimer->start(1000);
+        enemyTimer->start(3000);
         startMusic();
         Widget * parent = dynamic_cast<Widget*>(this->parent());
         parent->setFocusToGraphicView();
@@ -144,18 +151,39 @@ void Scene::addReplayButton()
 
 }
 
+void Scene::addSceneScore()
+{
+    sceneScoreTextItem = new QGraphicsTextItem();
+    QString htmlString = "<p>" + QString::number(score) + "</p>";
+    QFont mFont("Consolas", 20, QFont::Bold);
+    sceneScoreTextItem->setHtml(htmlString);
+    sceneScoreTextItem->setFont(mFont);
+    sceneScoreTextItem->setDefaultTextColor(Qt::red);
+    addItem(sceneScoreTextItem);
+
+    sceneScoreTextItem->setPos(QPointF(sceneBackgroundMap->boundingRect().width()/2,-sceneBackgroundMap->boundingRect().height()/2)
+                               +QPointF(-65,10));
+    sceneScoreTextItem->setZValue(2);
+}
+
+void Scene::updateSceneScore()
+{
+    QString htmlString = "<p>" + QString::number(score) + "</p>";
+    QFont mFont("Consolas", 20, QFont::Bold);
+    sceneScoreTextItem->setHtml(htmlString);
+}
+
 void Scene::setUpPillarTimer()
 {
     pillarTimer = new QTimer(this);
     // quand le timer à terminé ajoute un Pillar
     connect(pillarTimer, &QTimer::timeout, [=](){
         PillarItem * pillarItem = new PillarItem();
-        int number = 0;
-        pillarItem->setPillarNumber(number);
         connect(pillarItem, &PillarItem::collideFail,[=]{
             // stop the game
             // stop pillar timer, lorsqu'il y a une collision
             pillarTimer->stop();
+            enemyTimer->stop();
             freezeBirdAndPillarsInPlace();
             setGameOn(false);
             showGameOverGraphics();
@@ -164,10 +192,19 @@ void Scene::setUpPillarTimer()
     });
 }
 
-void Scene::setUpEnemy(){
-    enemy *enemyItem = new enemy();
+void Scene::setUpEnemyTimer(){
+    enemyTimer = new QTimer(this);
+    connect(enemyTimer, &QTimer::timeout, [=](){
+    enemy * enemyItem = new enemy();
+    connect(enemyItem, &enemy::collideFail,[=]{
+        pillarTimer->stop();
+        enemyTimer->stop();
+        freezeBirdAndPillarsInPlace();
+        setGameOn(false);
+        showGameOverGraphics();
+        });
     addItem(enemyItem);
-    qDebug() << "enemy created";
+    });
 }
 
 void Scene::setUpAttack()
@@ -184,9 +221,12 @@ void Scene::freezeBirdAndPillarsInPlace()
     QList<QGraphicsItem*> sceneItems = items();
     foreach(QGraphicsItem *item, sceneItems){
         PillarItem*pillar = dynamic_cast<PillarItem*>(item);
+        enemy* EnemyItem = dynamic_cast<enemy*>(item);
         // si c'est bien un pillar appel de la fonction
         if(pillar){
             pillar->freezeInPlace();
+        }else if(EnemyItem){
+            EnemyItem->freezeInPlace();
         }
     }
 }
@@ -200,6 +240,19 @@ void Scene::cleanPillars()
         if(pillar){
             removeItem(pillar);
             delete pillar;
+        }
+    }
+}
+
+void Scene::cleanEnemy()
+{
+    QList<QGraphicsItem*> sceneItems = items();
+    foreach(QGraphicsItem *item, sceneItems){
+        enemy *enemyItem = dynamic_cast<enemy*>(item);
+        // si c'est bien un pillar appel de la fonction
+        if(enemyItem){
+            removeItem(enemyItem);
+            delete enemyItem;
         }
     }
 }
@@ -221,6 +274,7 @@ void Scene::incrementScore()
         bestScore = score;
 
     qDebug() << "Score: " << score << " Best Score: " << bestScore;
+    updateSceneScore();
 }
 
 void Scene::keyPressEvent(QKeyEvent *event)
@@ -238,6 +292,8 @@ void Scene::keyPressEvent(QKeyEvent *event)
         }
     } else if((event->key() == Qt::Key_Space || event->key() == Qt::Key_W)  && !paused){
         bird->shootUp();
+    } else if(event->key() == Qt::Key_S  && !paused){
+        bird->shootDown();
     } else if (event->key() == Qt::Key_D && !paused) {
         setUpAttack();
     }

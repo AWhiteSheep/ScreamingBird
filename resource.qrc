@@ -91,8 +91,15 @@
         <file>images/birds/redbird-downflap.pixil</file>
         <file>images/birds/redbird-midflap.pixil</file>
         <file>images/birds/redbird-upflap.pixil</file>
+        <file>images/Flying-Koopa.png</file>
         <file>images/birds/yellowbird-downflap-200.png</file>
         <file>images/birds/yellowbird-midflap-200.png</file>
         <file>images/birds/yellowbird-upflap-200.png</file>
+        <file>images/scores/score-background-100.png</file>
+        <file>images/scores/score-background-200.png</file>
+        <file>images/scores/score-background-300.png</file>
+        <file>images/scores/high-score-100.png</file>
+        <file>images/scores/high-score-200.png</file>
+        <file>images/scores/high-score-300.png</file>
     </qresource>
 </RCC>
