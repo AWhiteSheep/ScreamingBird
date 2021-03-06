@@ -7,6 +7,7 @@
 #include <QTimer>
 #include <QGraphicsScene>
 #include <QMediaPlayer>
+#include "birdattack.h"
 
 enum BirdColor
 {
@@ -14,6 +15,8 @@ enum BirdColor
     BLUE,
     YELLOW
 };
+
+class BirdAttack; // let the compiler know such a class will be defined
 
 class BirdItem : public QObject, public QGraphicsPixmapItem
 {    
@@ -23,6 +26,8 @@ class BirdItem : public QObject, public QGraphicsPixmapItem
     Q_OBJECT
     Q_PROPERTY(qreal rotation READ rotation WRITE setRotation)
     Q_PROPERTY(qreal y READ y WRITE setY)
+
+    BirdAttack *flamme;
 public:
     void pause();
     void start();
@@ -32,6 +37,7 @@ public:
     qreal y() const;
 
     void shootUp();
+    void attack();
     void startFlying();
 
     void freezeInPlace();

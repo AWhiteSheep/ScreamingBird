@@ -1,4 +1,4 @@
-#include "birdattack.h"
+#include "BirdAttack.h"
 #include "scene.h"
 #include <QTimer>
 #include <QGraphicsScene>
@@ -6,7 +6,7 @@
 #include <QDebug>
 
 
-birdattack::birdattack()
+BirdAttack::BirdAttack()
 {
     //dessiner l'ennemi
     setRect(0,0,100,50);
@@ -18,27 +18,27 @@ birdattack::birdattack()
     Timer->start(50);
 }
 
-birdattack::~birdattack()
+BirdAttack::~BirdAttack()
 {
 
 }
 
-qreal birdattack::getX()
+qreal BirdAttack::getX()
 {
     return xPos;
 }
 
-void birdattack::freezeInPlace()
+void BirdAttack::freezeInPlace()
 {
     //xAnimation->stop();
 }
 
-void birdattack::setX(qreal x)
+void BirdAttack::setX(qreal x)
 {
     xPos = x;
 }
 
-bool birdattack::collidesWithEnemy()
+bool BirdAttack::collidesWithEnemy()
 {
     return 0;
 }

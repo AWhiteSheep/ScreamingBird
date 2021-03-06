@@ -1,4 +1,8 @@
 #include "birditem.h"
+#include "birdattack.h"
+#include "scene.h"
+#include <QGraphicsScene>
+
 
 BirdItem::BirdItem(QPixmap pixmap)
     :wingPosition(WingPosition::Up),
@@ -67,9 +71,16 @@ void BirdItem::shootUp()
     birdMedia->play();
 }
 
+void BirdItem::attack()
+{
+    flamme = new BirdAttack();
+    qDebug() << "flamme created";
+    //scene->addItem(flamme);
+}
+
 void BirdItem::startFlying()
 {
-    // star y animation and rotation
+    // start y animation and rotation
     yAnimation->start();
     rotateTo(90, 1200, QEasingCurve::InQuad);
 }

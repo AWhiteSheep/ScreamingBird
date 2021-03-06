@@ -10,7 +10,7 @@
 #include "birditem.h"
 #include <QDebug>
 
-class birdattack : public QObject, public QGraphicsRectItem
+class BirdAttack : public QObject, public QGraphicsRectItem
 {
 private:
     Q_OBJECT
@@ -28,10 +28,10 @@ private:
 
 public:
     // constructeur
-    birdattack();
+    BirdAttack();
 
     // destructeur
-    ~birdattack();
+    ~BirdAttack();
 
     // fonctions
     qreal getX();

@@ -168,7 +168,6 @@ void Scene::setUpEnemy(){
     enemy *enemyItem = new enemy();
     addItem(enemyItem);
     qDebug() << "enemy created";
-
 }
 
 void Scene::freezeBirdAndPillarsInPlace()
@@ -231,8 +230,10 @@ void Scene::keyPressEvent(QKeyEvent *event)
         } else {
             bird->start();
         }
-    } else if(event->key() == Qt::Key_Space && !paused){
+    } else if((event->key() == Qt::Key_Space || event->key() == Qt::Key_W)  && !paused){
         bird->shootUp();
+    } else if (event->key() == Qt::Key_D && !paused) {
+        bird->attack(); //cracher du feu
     }
     QGraphicsScene::keyPressEvent(event);
 }
@@ -240,7 +241,7 @@ void Scene::keyPressEvent(QKeyEvent *event)
 void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     // vérifier le le boutton presser
-    if(!gameOn) {// ne rien fiare
+    if(!gameOn) {// ne rien faire
     }
     else if(event->button() == Qt::LeftButton && !paused){
         bird->shootUp();
