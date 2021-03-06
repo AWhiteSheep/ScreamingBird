@@ -1,4 +1,8 @@
 #include "birditem.h"
+#include "birdattack.h"
+#include "scene.h"
+#include <QGraphicsScene>
+
 
 BirdItem::BirdItem(QPixmap pixmap)
     :wingPosition(WingPosition::Up),
@@ -67,9 +71,16 @@ void BirdItem::shootUp()
     birdMedia->play();
 }
 
+void BirdItem::attack()
+{
+    flamme = new BirdAttack();
+    qDebug() << "flamme created";
+    //scene->addItem(flamme);
+}
+
 void BirdItem::startFlying()
 {
-    // star y animation and rotation
+    // start y animation and rotation
     yAnimation->start();
     rotateTo(90, 1200, QEasingCurve::InQuad);
 }
@@ -134,6 +145,8 @@ void BirdItem::updatePixmap()
                 setPixmap(QPixmap(":/images/redbird-upflap.png"));
             else if(color == BirdColor::BLUE)
                 setPixmap(QPixmap(":/images/birds/bluebird-upflap-200.png"));
+            else if(color == BirdColor::YELLOW)
+                setPixmap(QPixmap(":/images/birds/yellowbird-upflap-200.png"));
             wingPosition = WingPosition::Up;
             wingDirection = 0;
         } else {
@@ -142,6 +155,8 @@ void BirdItem::updatePixmap()
                 setPixmap(QPixmap(":/images/redbird-downflap.png"));
             else if(color == BirdColor::BLUE)
                 setPixmap(QPixmap(":/images/birds/bluebird-downflap-200.png"));
+            else if(color == BirdColor::YELLOW)
+                setPixmap(QPixmap(":/images/birds/yellowbird-downflap-200.png"));
             wingPosition = WingPosition::Down;
             wingDirection = 1;
         }
@@ -150,6 +165,8 @@ void BirdItem::updatePixmap()
             setPixmap(QPixmap(":/images/redbird-midflap.png"));
         else if(color == BirdColor::BLUE)
             setPixmap(QPixmap(":/images/birds/bluebird-midflap-200.png"));
+        else if(color == BirdColor::YELLOW)
+            setPixmap(QPixmap(":/images/birds/yellowbird-midflap-200.png"));
         wingPosition = WingPosition::Middle;
     }
 }

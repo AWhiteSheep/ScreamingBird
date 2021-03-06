@@ -42,6 +42,18 @@ void Scene::addBird()
 void Scene::startGame()
 {
     //start animation for Bird and Pillars
+    delete bird;
+    if(static_cast<enum::BirdColor>(birdColor) == BirdColor::RED)
+        bird = new BirdItem(QPixmap(":/images/redbird-midflap.png"));
+    else if(static_cast<enum::BirdColor>(birdColor) == BirdColor::BLUE)
+        bird = new BirdItem(QPixmap(":/images/birds/bluebird-midflap-200.png"));
+    else if(static_cast<enum::BirdColor>(birdColor) == BirdColor::YELLOW)
+        bird = new BirdItem(QPixmap(":/images/birds/yellowbird-midflap-200.png"));
+    bird->setPos(QPointF(0,0) - QPointF(bird->boundingRect().width()/2,
+                                                   bird->boundingRect().height()/2));
+
+    addItem(bird);
+    bird->setZValue(1);
     bird->startFlying();
     // ajoute un item Pillar à chaque 1000
     if(!pillarTimer->isActive())
@@ -89,7 +101,7 @@ void Scene::addMenu()
                                                btnNext->boundingRect().height()/2));
     connect(btnNext, &Button::mouseRelease, [=]{
         qDebug() << "button next";
-        if(birdColor == 1)
+        if(birdColor == 2)
             birdColor = 0;
         else
             birdColor++;
@@ -105,7 +117,7 @@ void Scene::addMenu()
     connect(btnBack, &Button::mouseRelease, [=]{
         qDebug() << "button back";
         if(birdColor == 0)
-            birdColor = 1;
+            birdColor = 2;
         else
             birdColor--;
         bird->color = static_cast<enum::BirdColor>(birdColor);
@@ -245,8 +257,10 @@ void Scene::keyPressEvent(QKeyEvent *event)
         } else {
             bird->start();
         }
-    } else if(event->key() == Qt::Key_Space && !paused){
+    } else if((event->key() == Qt::Key_Space || event->key() == Qt::Key_W)  && !paused){
         bird->shootUp();
+    } else if (event->key() == Qt::Key_D && !paused) {
+        bird->attack(); //cracher du feu
     }
     QGraphicsScene::keyPressEvent(event);
 }
@@ -254,7 +268,7 @@ void Scene::keyPressEvent(QKeyEvent *event)
 void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     // vérifier le le boutton presser
-    if(!gameOn) {// ne rien fiare
+    if(!gameOn) {// ne rien faire
     }
     else if(event->button() == Qt::LeftButton && !paused){
         bird->shootUp();
