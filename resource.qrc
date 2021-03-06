@@ -91,5 +91,6 @@
         <file>images/birds/redbird-downflap.pixil</file>
         <file>images/birds/redbird-midflap.pixil</file>
         <file>images/birds/redbird-upflap.pixil</file>
+        <file>images/Flying-Koopa.png</file>
     </qresource>
 </RCC>

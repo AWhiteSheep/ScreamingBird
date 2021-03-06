@@ -2,6 +2,7 @@
 #include "ui_widget.h"
 #include <QGraphicsPixmapItem>
 #include <pillaritem.h>
+#include "enemy.h"
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
@@ -30,6 +31,7 @@ Widget::Widget(QWidget *parent)
     scene->addBird();
     scene->startMusic();
     scene->addMenu();
+
 }
 
 Widget::~Widget()
