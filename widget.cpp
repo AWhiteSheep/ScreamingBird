@@ -15,13 +15,21 @@ Widget::Widget(QWidget *parent)
 
     // recheche de la ressource de l'arrière plan
     QPixmap background(":/images/background-day.png");
-    QGraphicsPixmapItem * pixItem =
+    scene->sceneBackgroundMap =
             new QGraphicsPixmapItem(background);
-    pixItem->setPos(QPointF(0,0) - QPointF(pixItem->boundingRect().width()/2,
+    QGraphicsPixmapItem * pixItem = scene->sceneBackgroundMap;
+    scene->sceneBackgroundMap->setPos(QPointF(0,0) - QPointF(pixItem->boundingRect().width()/2,
                                            pixItem->boundingRect().height()/2));
 
     scene->addItem(pixItem);
-
+    // ajout de score board
+    QGraphicsPixmapItem* score = new QGraphicsPixmapItem(QPixmap(":/images/scores/score-background-200.png"));
+    score->setPos(QPointF(pixItem->boundingRect().width()/2, -pixItem->boundingRect().height()/2)
+                  -QPointF(score->boundingRect().width(),0)
+                  +QPointF(-10,10));
+    score->setZValue(1);
+    scene->addItem(score);
+    scene->addSceneScore();
     // centrer l'arrière plan
 
     ui->graphicsView->setScene(scene);

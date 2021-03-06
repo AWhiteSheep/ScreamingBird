@@ -10,7 +10,7 @@ BirdItem::BirdItem(QPixmap pixmap)
 {
     setPixmap(pixmap);
 
-    QTimer * birdWingsTimer = new QTimer(this);
+    birdWingsTimer = new QTimer(this);
     // listener pour le timer fait une appel à chaque fois le timer complêté
     connect(birdWingsTimer, &QTimer::timeout, [=](){
         updatePixmap();
@@ -19,14 +19,14 @@ BirdItem::BirdItem(QPixmap pixmap)
     birdWingsTimer->start(80);
 
     // initialisation de l'animation de l'oiseau tomber vers le bas
-    groundPosition = scenePos().y() + 290;
+    //groundPosition = scenePos().y() + 290;
     yAnimation = new QPropertyAnimation(this, "y", this);
-    yAnimation->setStartValue(scenePos().y());
-    yAnimation->setEndValue(groundPosition);
-    yAnimation->setEasingCurve(QEasingCurve::InQuad);
-    yAnimation->setDuration(1000);
+    //yAnimation->setStartValue(scenePos().y());
+    //yAnimation->setEndValue(groundPosition);
+    //yAnimation->setEasingCurve(QEasingCurve::InQuad);
+    //yAnimation->setDuration(1000);
     // initialisation de l'animation donnant la rotation
-    rotationAnimation = new QPropertyAnimation(this, "rotation", this);
+    //rotationAnimation = new QPropertyAnimation(this, "rotation", this);
 
     birdMedia = new QMediaPlayer();
 }
@@ -34,7 +34,7 @@ BirdItem::BirdItem(QPixmap pixmap)
 BirdItem::~BirdItem()
 {
     delete yAnimation;
-    delete rotationAnimation;
+    //delete rotationAnimation;
     delete birdMedia;
 }
 
@@ -54,18 +54,40 @@ void BirdItem::shootUp()
         birdMedia->stop();
 
     yAnimation->stop();
-    rotationAnimation->stop();
+    //rotationAnimation->stop();
     qreal curPosY = y();
     yAnimation->setStartValue(curPosY);
     yAnimation->setEndValue(curPosY - JUMP_HEIGHT);
     yAnimation->setEasingCurve(QEasingCurve::OutQuad);
     yAnimation->setDuration(JUMP_DURATION);
     // lorsque l'animation est terminé débuter l'animation de tomber
-    connect(yAnimation, &QPropertyAnimation::finished, [=](){
-        fallToGroundIfNecessary();
-    });
+    //connect(yAnimation, &QPropertyAnimation::finished, [=](){
+        //fallToGroundIfNecessary();
+    //});
     yAnimation->start();
-    rotateTo(-20, 200, QEasingCurve::OutCubic);
+    //rotateTo(-20, 200, QEasingCurve::OutCubic);
+
+    birdMedia->setMedia(QUrl("qrc:/sound effects/sfx_wing.wav"));
+    birdMedia->play();
+}
+
+void BirdItem::shootDown()
+{
+    if(birdMedia->state() == QMediaPlayer::PlayingState)
+        birdMedia->stop();
+
+    yAnimation->stop();
+    qreal curPosY = y();
+    yAnimation->setStartValue(curPosY);
+    yAnimation->setEndValue(curPosY + JUMP_HEIGHT);
+    yAnimation->setEasingCurve(QEasingCurve::OutQuad);
+    yAnimation->setDuration(JUMP_DURATION);
+    // lorsque l'animation est terminé débuter l'animation de tomber
+    //connect(yAnimation, &QPropertyAnimation::finished, [=](){
+        //fallToGroundIfNecessary();
+    //});
+    yAnimation->start();
+    //rotateTo(-20, 200, QEasingCurve::OutCubic);
 
     birdMedia->setMedia(QUrl("qrc:/sound effects/sfx_wing.wav"));
     birdMedia->play();
@@ -81,14 +103,15 @@ void BirdItem::attack()
 void BirdItem::startFlying()
 {
     // start y animation and rotation
-    yAnimation->start();
-    rotateTo(90, 1200, QEasingCurve::InQuad);
+    //yAnimation->start();
+    //rotateTo(90, 1200, QEasingCurve::InQuad);
+
 }
 
 void BirdItem::freezeInPlace()
 {
     yAnimation->stop();
-    rotationAnimation->stop();
+    //rotationAnimation->stop();
 }
 
 void BirdItem::setRotation(qreal rotation)
@@ -174,11 +197,11 @@ void BirdItem::updatePixmap()
 void BirdItem::pause()
 {
     yAnimation->pause();
-    rotationAnimation->pause();
+    //rotationAnimation->pause();
 }
 
 void BirdItem::start()
 {
     yAnimation->resume();
-    rotationAnimation->resume();
+    //rotationAnimation->resume();
 }

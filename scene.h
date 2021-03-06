@@ -27,6 +27,9 @@ public:
     int getScore();
     void addMenu();
     void addReplayButton();
+    void addSceneScore();
+    void updateSceneScore();
+    QGraphicsPixmapItem * sceneBackgroundMap;
 signals:
 public slots:
 protected:
@@ -53,6 +56,7 @@ private:
     int birdColor = 0;
     QGraphicsPixmapItem * gameOverPix;
     QGraphicsTextItem * scoreTextItem;
+    QGraphicsTextItem * sceneScoreTextItem;
     QMediaPlayer * sceneMedia;
 
     // QGraphicsScene interface
