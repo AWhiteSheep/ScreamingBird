@@ -37,6 +37,7 @@ private:
     void hideGameOverGraphics();
     void setUpPillarTimer();
     void setUpEnemy();
+    void setUpAttack();
     void freezeBirdAndPillarsInPlace();
     void cleanPillars();
     QTimer * pillarTimer;

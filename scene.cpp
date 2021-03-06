@@ -170,6 +170,12 @@ void Scene::setUpEnemy(){
     qDebug() << "enemy created";
 }
 
+void Scene::setUpAttack()
+{
+    bird->attack(); //cracher du feu
+    addItem(bird->flamme);
+}
+
 void Scene::freezeBirdAndPillarsInPlace()
 {
     // freeze bird
@@ -233,7 +239,7 @@ void Scene::keyPressEvent(QKeyEvent *event)
     } else if((event->key() == Qt::Key_Space || event->key() == Qt::Key_W)  && !paused){
         bird->shootUp();
     } else if (event->key() == Qt::Key_D && !paused) {
-        bird->attack(); //cracher du feu
+        setUpAttack();
     }
     QGraphicsScene::keyPressEvent(event);
 }
