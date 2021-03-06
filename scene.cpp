@@ -8,6 +8,7 @@ Scene::Scene(QObject *parent) : QGraphicsScene(parent),
     scoreTextItem = nullptr;
     sceneMedia =  new QMediaPlayer();
     setUpPillarTimer();
+    setUpEnemyTimer();
 }
 
 Scene::~Scene()
@@ -63,9 +64,11 @@ void Scene::startGame()
         score = 0;
         updateSceneScore();
         cleanPillars();
+        cleanEnemy();
         setGameOn(true);
         hideGameOverGraphics();
         pillarTimer->start(1000);
+        enemyTimer->start(3000);
         startMusic();
         Widget * parent = dynamic_cast<Widget*>(this->parent());
         parent->setFocusToGraphicView();
@@ -176,12 +179,11 @@ void Scene::setUpPillarTimer()
     // quand le timer à terminé ajoute un Pillar
     connect(pillarTimer, &QTimer::timeout, [=](){
         PillarItem * pillarItem = new PillarItem();
-        int number = 0;
-        pillarItem->setPillarNumber(number);
         connect(pillarItem, &PillarItem::collideFail,[=]{
             // stop the game
             // stop pillar timer, lorsqu'il y a une collision
             pillarTimer->stop();
+            enemyTimer->stop();
             freezeBirdAndPillarsInPlace();
             setGameOn(false);
             showGameOverGraphics();
@@ -190,10 +192,19 @@ void Scene::setUpPillarTimer()
     });
 }
 
-void Scene::setUpEnemy(){
-    enemy *enemyItem = new enemy();
+void Scene::setUpEnemyTimer(){
+    enemyTimer = new QTimer(this);
+    connect(enemyTimer, &QTimer::timeout, [=](){
+    enemy * enemyItem = new enemy();
+    connect(enemyItem, &enemy::collideFail,[=]{
+        pillarTimer->stop();
+        enemyTimer->stop();
+        freezeBirdAndPillarsInPlace();
+        setGameOn(false);
+        showGameOverGraphics();
+        });
     addItem(enemyItem);
-    qDebug() << "enemy created";
+    });
 }
 
 void Scene::freezeBirdAndPillarsInPlace()
@@ -204,9 +215,12 @@ void Scene::freezeBirdAndPillarsInPlace()
     QList<QGraphicsItem*> sceneItems = items();
     foreach(QGraphicsItem *item, sceneItems){
         PillarItem*pillar = dynamic_cast<PillarItem*>(item);
+        enemy* EnemyItem = dynamic_cast<enemy*>(item);
         // si c'est bien un pillar appel de la fonction
         if(pillar){
             pillar->freezeInPlace();
+        }else if(EnemyItem){
+            EnemyItem->freezeInPlace();
         }
     }
 }
@@ -220,6 +234,19 @@ void Scene::cleanPillars()
         if(pillar){
             removeItem(pillar);
             delete pillar;
+        }
+    }
+}
+
+void Scene::cleanEnemy()
+{
+    QList<QGraphicsItem*> sceneItems = items();
+    foreach(QGraphicsItem *item, sceneItems){
+        enemy *enemyItem = dynamic_cast<enemy*>(item);
+        // si c'est bien un pillar appel de la fonction
+        if(enemyItem){
+            removeItem(enemyItem);
+            delete enemyItem;
         }
     }
 }

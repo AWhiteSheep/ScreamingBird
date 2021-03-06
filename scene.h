@@ -39,10 +39,12 @@ private:
     void showGameOverGraphics();
     void hideGameOverGraphics();
     void setUpPillarTimer();
-    void setUpEnemy();
+    void setUpEnemyTimer();
     void freezeBirdAndPillarsInPlace();
     void cleanPillars();
+    void cleanEnemy();
     QTimer * pillarTimer;
+    QTimer * enemyTimer;
     BirdItem * bird;
     Button * btnStart;
     Button * btnNext;
