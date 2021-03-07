@@ -228,6 +228,12 @@ void Scene::setUpEnemyTimer(){
     });
 }
 
+void Scene::setUpAttack()
+{
+    bird->attack(); //cracher du feu
+    addItem(bird->flamme);
+}
+
 void Scene::freezeBirdAndPillarsInPlace()
 {
     // freeze bird
@@ -312,7 +318,7 @@ void Scene::keyPressEvent(QKeyEvent *event)
     } else if(event->key() == Qt::Key_S  && !paused){
         bird->shootDown();
     } else if (event->key() == Qt::Key_D && !paused) {
-        bird->attack(); //cracher du feu
+        setUpAttack();
     }
     QGraphicsScene::keyPressEvent(event);
 }

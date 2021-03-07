@@ -26,9 +26,9 @@ class BirdItem : public QObject, public QGraphicsPixmapItem
     Q_OBJECT
     Q_PROPERTY(qreal rotation READ rotation WRITE setRotation)
     Q_PROPERTY(qreal y READ y WRITE setY)
-
-    BirdAttack *flamme;
 public:
+    BirdAttack *flamme;
+
     void pause();
     void start();
     explicit BirdItem(QPixmap pixmap);
