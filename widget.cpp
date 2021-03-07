@@ -23,7 +23,7 @@ Widget::Widget(QWidget *parent)
                                            pixItem->boundingRect().height()/2));
 
     scene->addItem(pixItem);
-    // ajout de score board
+    // ajout du score
     QGraphicsPixmapItem* score = new QGraphicsPixmapItem(QPixmap(":/images/scores/score-background-200.png"));
     score->setPos(QPointF(pixItem->boundingRect().width()/2, -pixItem->boundingRect().height()/2)
                   -QPointF(score->boundingRect().width(),0)
@@ -31,8 +31,14 @@ Widget::Widget(QWidget *parent)
     score->setZValue(1);
     scene->addItem(score);
     scene->addSceneScore();
+    // ajout du high score
+    QGraphicsPixmapItem* highScore = new QGraphicsPixmapItem(QPixmap(":/images/scores/high-score-200.png"));
+    highScore->setPos(-QPointF(pixItem->boundingRect().width()/2, pixItem->boundingRect().height()/2)
+                  +QPointF(10,10));
+    highScore->setZValue(1);
+    scene->addItem(highScore);
+    scene->addSceneHighScore();
     // centrer l'arrière plan
-
     ui->graphicsView->setScene(scene);
     ui->graphicsView->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
     ui->graphicsView->setSceneRect(scene->sceneRect());

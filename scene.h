@@ -28,7 +28,9 @@ public:
     void addMenu();
     void addReplayButton();
     void addSceneScore();
+    void addSceneHighScore();
     void updateSceneScore();
+    void updateSceneHighScore();
     QGraphicsPixmapItem * sceneBackgroundMap;
 signals:
 public slots:
@@ -59,6 +61,7 @@ private:
     QGraphicsPixmapItem * gameOverPix;
     QGraphicsTextItem * scoreTextItem;
     QGraphicsTextItem * sceneScoreTextItem;
+    QGraphicsTextItem * sceneHighScoreTextItem;
     QMediaPlayer * sceneMedia;
 
     // QGraphicsScene interface
