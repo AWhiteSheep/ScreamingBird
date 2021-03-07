@@ -41,12 +41,9 @@ private:
     void showGameOverGraphics();
     void hideGameOverGraphics();
     void setUpPillarTimer();
-<<<<<<< HEAD
     void setUpEnemy();
     void setUpAttack();
-=======
     void setUpEnemyTimer();
->>>>>>> b9bb47666b9653f2a12519c995efb7ea933f7fbe
     void freezeBirdAndPillarsInPlace();
     void cleanPillars();
     void cleanEnemy();
