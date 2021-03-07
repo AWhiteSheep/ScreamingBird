@@ -27,6 +27,11 @@ public:
     int getScore();
     void addMenu();
     void addReplayButton();
+    void addSceneScore();
+    void addSceneHighScore();
+    void updateSceneScore();
+    void updateSceneHighScore();
+    QGraphicsPixmapItem * sceneBackgroundMap;
 signals:
 public slots:
 protected:
@@ -36,6 +41,8 @@ private:
     void showGameOverGraphics();
     void hideGameOverGraphics();
     void setUpPillarTimer();
+    void setUpEnemy();
+    void setUpAttack();
     void setUpEnemyTimer();
     void freezeBirdAndPillarsInPlace();
     void cleanPillars();
@@ -55,6 +62,8 @@ private:
     int birdColor = 0;
     QGraphicsPixmapItem * gameOverPix;
     QGraphicsTextItem * scoreTextItem;
+    QGraphicsTextItem * sceneScoreTextItem;
+    QGraphicsTextItem * sceneHighScoreTextItem;
     QMediaPlayer * sceneMedia;
 
     // QGraphicsScene interface

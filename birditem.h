@@ -20,15 +20,15 @@ class BirdAttack; // let the compiler know such a class will be defined
 
 class BirdItem : public QObject, public QGraphicsPixmapItem
 {    
-    const qreal JUMP_HEIGHT = 80;       // 30 - 120
+    const qreal JUMP_HEIGHT = 60;       // 30 - 120
     const qreal JUMP_DURATION = 285;    // 200 - 300
     const qreal FALL_SPEED = 1700;      // 800 - 2000
     Q_OBJECT
     Q_PROPERTY(qreal rotation READ rotation WRITE setRotation)
     Q_PROPERTY(qreal y READ y WRITE setY)
-
-    BirdAttack *flamme;
 public:
+    BirdAttack *flamme;
+
     void pause();
     void start();
     explicit BirdItem(QPixmap pixmap);
@@ -37,6 +37,7 @@ public:
     qreal y() const;
 
     void shootUp();
+    void shootDown();
     void attack();
     void startFlying();
 
@@ -64,6 +65,7 @@ private:
     QPropertyAnimation * yAnimation;
     QPropertyAnimation * rotationAnimation;
     QMediaPlayer * birdMedia;
+    QTimer * birdWingsTimer;
     qreal groundPosition;
 };
 
