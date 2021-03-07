@@ -4,16 +4,24 @@
 #include <QList>
 #include <QDebug>
 
-enemy::enemy() : Enemy(new QGraphicsPixmapItem(QPixmap(":/images/Flying-Koopa.png"))), pastBird(false)
+enemy::enemy():
+   WingDirection(0), pastBird(false)
 {
-    Enemy->setPos(QPointF(0,0) - QPointF(Enemy->boundingRect().width()/2,
-                                                       Enemy->boundingRect().height()/2));
-    addToGroup(Enemy);
+    //set l'ennemi dans l'espace
 
-    yPos = QRandomGenerator::global()->bounded(150);
+    yPos = QRandomGenerator::global()->bounded(200);
     setPos(QPoint(0,0) + QPoint(260, yPos));
 
-    qDebug()<<"enemy created";
+    //Commence l'animation des ailes
+        EnemyWingsTimer = new QTimer(this);
+        // listener pour le timer fait une appel à chaque fois le timer complêté
+        connect(EnemyWingsTimer, &QTimer::timeout, [=](){
+            updatePixmap();
+        });
+
+        EnemyWingsTimer->start(100);
+
+    //Commence l'animation d'avancement
 
     // création de l'animation de droite à gauche
     xAnimation = new QPropertyAnimation(this, "x", this);
@@ -31,8 +39,8 @@ enemy::enemy() : Enemy(new QGraphicsPixmapItem(QPixmap(":/images/Flying-Koopa.pn
 
 enemy::~enemy()
 {
-    delete Enemy;
     delete xAnimation;
+    delete EnemyWingsTimer;
 };
 
 qreal enemy::x() const
@@ -43,6 +51,8 @@ qreal enemy::x() const
 void enemy::freezeInPlace()
 {
     xAnimation->stop();
+    EnemyWingsTimer->stop();
+
 };
 
 void enemy::setX(qreal x)
@@ -63,9 +73,9 @@ void enemy::setX(qreal x)
 bool enemy::collidesWithBird()
 {
     // list des items qui touche l'objet
-    QList<QGraphicsItem*> collidingItems = Enemy->collidingItems();
+     QList<QGraphicsItem*> collidingItems = this->collidingItems();
 
-    foreach(QGraphicsItem * item, collidingItems)
+   foreach(QGraphicsItem * item, collidingItems)
     {
         BirdItem * birdItem = dynamic_cast<BirdItem*>(item);
         if(birdItem)
@@ -74,3 +84,41 @@ bool enemy::collidesWithBird()
     return false;
 };
 
+int enemy::updatePixmap()
+{
+    if(WingDirection == 0)
+    {
+        setPixmap(QPixmap(":/images/koopa/Koopa-1.png"));
+        WingDirection++;
+        return 0;
+    }else if(WingDirection == 1){
+        setPixmap(QPixmap(":/images/koopa/Koopa-2.png"));
+        WingDirection++;
+        return 0;
+    }else if(WingDirection == 2){
+        setPixmap(QPixmap(":/images/koopa/Koopa-1.png"));
+        WingDirection++;
+        return 0;
+    }else if(WingDirection == 3){
+        setPixmap(QPixmap(":/images/koopa/Koopa-2.png"));
+        WingDirection++;
+        return 0;
+    }else if(WingDirection == 4){
+        setPixmap(QPixmap(":/images/koopa/Koopa-3.png"));
+        WingDirection++;
+        return 0;
+    }else if(WingDirection == 5){
+        setPixmap(QPixmap(":/images/koopa/Koopa-4.png"));
+        WingDirection++;
+        return 0;
+    }else if(WingDirection == 6){
+        setPixmap(QPixmap(":/images/koopa/Koopa-3.png"));
+        WingDirection++;
+        return 0;
+    }else if(WingDirection == 7){
+        setPixmap(QPixmap(":/images/koopa/Koopa-4.png"));
+        WingDirection = 0;
+        return 0;
+    }
+    return 0;
+}

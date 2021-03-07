@@ -177,6 +177,8 @@ void Scene::setUpEnemyTimer(){
         setGameOn(false);
         showGameOverGraphics();
         });
+    enemyItem->setPos(QPointF(0,0) - QPointF(enemyItem->boundingRect().width()/2,
+                                                   enemyItem->boundingRect().height()/2));
     addItem(enemyItem);
     });
 }
