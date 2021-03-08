@@ -24,10 +24,12 @@ Scene::~Scene()
 
 void Scene::startMusic()
 {
-    if(sceneMedia->state() == QMediaPlayer::PlayingState)
-        sceneMedia->stop();
-    sceneMedia->setMedia(QUrl("qrc:/sound effects/super_mario_medley.mp3"));
-    sceneMedia->play();
+    if(musicOn) {
+        if(sceneMedia->state() == QMediaPlayer::PlayingState)
+            sceneMedia->stop();
+        sceneMedia->setMedia(QUrl("qrc:/sound effects/super_mario_medley.mp3"));
+        sceneMedia->play();
+    }
 }
 
 void Scene::addBird()
@@ -138,7 +140,7 @@ void Scene::addMenu()
     btnMusic->setPos(QPointF(0,50) - QPointF(btnMusic->boundingRect().width()/2,
                                                btnMusic->boundingRect().height()/2));
     connect(btnMusic, &Button::mouseRelease, [=]{
-        musicOn = !musicOn;
+        setMusic(!musicOn);
         if(musicOn)
             btnMusic->setIdlePixmap(QPixmap(":/images/buttons/music-on-off-on-200.png"));
         else
@@ -192,6 +194,16 @@ void Scene::updateSceneHighScore()
     QString htmlString = "<p>" + QString::number(bestScore) + "</p>";
     QFont mFont("Consolas", 20, QFont::Bold);
     sceneHighScoreTextItem->setHtml(htmlString);
+}
+
+void Scene::setMusic(bool x)
+{
+    musicOn = x;
+    if(sceneMedia->state() == QMediaPlayer::PlayingState && !musicOn)
+        sceneMedia->stop();
+    else if(musicOn) {
+        startMusic();
+    }
 }
 
 void Scene::setUpPillarTimer()
@@ -345,21 +357,6 @@ void Scene::showGameOverGraphics()
     // placement au centre de l'écran
     gameOverPix->setPos(QPointF(0,0) - QPointF(gameOverPix->boundingRect().width()/2,
                                                gameOverPix->boundingRect().height()/2));
-    // QGraphicsTextItem class provides a text item that you can add to a QGraphicsScene to display formatted text.
-    scoreTextItem = new QGraphicsTextItem();
-    QString htmlString = "<p> Score : " + QString::number(score) + " </p>"
-        + "<p> Best Score : " + QString::number(bestScore) + "</p>";
-
-    QFont mFont("Consolas", 30, QFont::Bold);
-    scoreTextItem->setHtml(htmlString);
-    scoreTextItem->setFont(mFont);
-    scoreTextItem->setDefaultTextColor(Qt::red);
-    addItem(scoreTextItem);
-
-    scoreTextItem->setPos(QPointF(0,0) - QPointF(scoreTextItem->boundingRect().width()/2,
-                                                 -gameOverPix->boundingRect().height()/2));
-
-
     btnStart->show();
 }
 

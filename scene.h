@@ -31,6 +31,7 @@ public:
     void addSceneHighScore();
     void updateSceneScore();
     void updateSceneHighScore();
+    void setMusic(bool x);
     QGraphicsPixmapItem * sceneBackgroundMap;
 signals:
 public slots:

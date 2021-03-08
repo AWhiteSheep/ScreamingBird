@@ -41,6 +41,7 @@ PillarItem::~PillarItem()
     delete bottomPillar;
     delete xAnimation;
     delete pillarMedia;
+    delete pillarMedia;
 }
 
 qreal PillarItem::x() const
