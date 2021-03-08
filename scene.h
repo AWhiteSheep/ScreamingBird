@@ -28,7 +28,9 @@ public:
     void addMenu();
     void addReplayButton();
     void addSceneScore();
+    void addSceneHighScore();
     void updateSceneScore();
+    void updateSceneHighScore();
     QGraphicsPixmapItem * sceneBackgroundMap;
 signals:
 public slots:
@@ -45,6 +47,9 @@ private:
 //=======
     void setUpEnemyTimer();
 //>>>>>>> b9bb47666b9653f2a12519c995efb7ea933f7fbe
+    void setUpEnemy();
+    void setUpAttack();
+    void setUpEnemyTimer();
     void freezeBirdAndPillarsInPlace();
     void cleanPillars();
     void cleanEnemy();
@@ -64,6 +69,7 @@ private:
     QGraphicsPixmapItem * gameOverPix;
     QGraphicsTextItem * scoreTextItem;
     QGraphicsTextItem * sceneScoreTextItem;
+    QGraphicsTextItem * sceneHighScoreTextItem;
     QMediaPlayer * sceneMedia;
 
     // QGraphicsScene interface

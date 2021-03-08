@@ -166,11 +166,32 @@ void Scene::addSceneScore()
     sceneScoreTextItem->setZValue(2);
 }
 
+void Scene::addSceneHighScore()
+{
+    sceneHighScoreTextItem = new QGraphicsTextItem();
+    QString htmlString = "<p>" + QString::number(bestScore) + "</p>";
+    QFont mFont("Consolas", 20, QFont::Bold);
+    sceneHighScoreTextItem->setHtml(htmlString);
+    sceneHighScoreTextItem->setFont(mFont);
+    sceneHighScoreTextItem->setDefaultTextColor(Qt::red);
+    addItem(sceneHighScoreTextItem);
+    sceneHighScoreTextItem->setPos(-QPointF(sceneBackgroundMap->boundingRect().width()/2,sceneBackgroundMap->boundingRect().height()/2)
+                               +QPointF(100,10));
+    sceneHighScoreTextItem->setZValue(2);
+}
+
 void Scene::updateSceneScore()
 {
     QString htmlString = "<p>" + QString::number(score) + "</p>";
     QFont mFont("Consolas", 20, QFont::Bold);
     sceneScoreTextItem->setHtml(htmlString);
+}
+
+void Scene::updateSceneHighScore()
+{
+    QString htmlString = "<p>" + QString::number(bestScore) + "</p>";
+    QFont mFont("Consolas", 20, QFont::Bold);
+    sceneHighScoreTextItem->setHtml(htmlString);
 }
 
 void Scene::setUpPillarTimer()
@@ -203,6 +224,8 @@ void Scene::setUpEnemyTimer(){
         setGameOn(false);
         showGameOverGraphics();
         });
+    enemyItem->setPos(QPointF(0,0) - QPointF(enemyItem->boundingRect().width()/2,
+                                                   enemyItem->boundingRect().height()/2));
     addItem(enemyItem);
     });
 }
@@ -273,8 +296,10 @@ void Scene::setGameOn(bool value)
 void Scene::incrementScore()
 {
     score++;
-    if(score > bestScore)
+    if(score > bestScore){
         bestScore = score;
+        updateSceneHighScore();
+    }
 
     qDebug() << "Score: " << score << " Best Score: " << bestScore;
     updateSceneScore();
