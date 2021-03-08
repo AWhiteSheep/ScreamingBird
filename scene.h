@@ -44,11 +44,6 @@ private:
 //<<<<<<< HEAD
     void setUpEnemy();
     void setUpAttack();
-//=======
-    void setUpEnemyTimer();
-//>>>>>>> b9bb47666b9653f2a12519c995efb7ea933f7fbe
-    void setUpEnemy();
-    void setUpAttack();
     void setUpEnemyTimer();
     void freezeBirdAndPillarsInPlace();
     void cleanPillars();
