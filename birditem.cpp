@@ -95,9 +95,8 @@ void BirdItem::shootDown()
 
 void BirdItem::attack()
 {
-    flamme = new BirdAttack();
-    qDebug() << "flamme created";
-    //scene->addItem(flamme);
+    //flamme = new BirdAttack();
+    //qDebug() << "flamme created";
 }
 
 void BirdItem::startFlying()

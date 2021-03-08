@@ -42,6 +42,7 @@ private:
     void showGameOverGraphics();
     void hideGameOverGraphics();
     void setUpPillarTimer();
+//<<<<<<< HEAD
     void setUpEnemy();
     void setUpAttack();
     void setUpEnemyTimer();

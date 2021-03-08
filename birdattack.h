@@ -10,7 +10,7 @@
 #include "birditem.h"
 #include <QDebug>
 
-class BirdAttack : public QObject, public QGraphicsRectItem
+class BirdAttack : public QObject, public QGraphicsPixmapItem
 {
 private:
     Q_OBJECT
@@ -22,20 +22,22 @@ private:
     qreal xPos;
 
 
-    //QGraphicsPixmapItem * feu;
+    QGraphicsPixmapItem * feu;
     //QPropertyAnimation * xAnimation;
     //QMediaPlayer * feuMedia;
 
 public:
     // constructeur
-    BirdAttack();
+    explicit BirdAttack();
 
     // destructeur
     ~BirdAttack();
 
     // fonctions
     qreal getX();
+    qreal getY();
     void setX(qreal x);
+    void setY(qreal x);
     void freezeInPlace();
     bool collidesWithEnemy();
 };
