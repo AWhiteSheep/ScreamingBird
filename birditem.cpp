@@ -4,9 +4,11 @@
 #include <QGraphicsScene>
 
 
-BirdItem::BirdItem(QPixmap pixmap)
+BirdItem::BirdItem(QPixmap pixmap, qreal sky, qreal ground)
     :wingPosition(WingPosition::Up),
-     wingDirection(0)
+     wingDirection(0),
+     skyPosition(sky),
+     groundPosition(ground)
 {
     setPixmap(pixmap);
 
@@ -19,14 +21,7 @@ BirdItem::BirdItem(QPixmap pixmap)
     birdWingsTimer->start(80);
 
     // initialisation de l'animation de l'oiseau tomber vers le bas
-    //groundPosition = scenePos().y() + 290;
     yAnimation = new QPropertyAnimation(this, "y", this);
-    //yAnimation->setStartValue(scenePos().y());
-    //yAnimation->setEndValue(groundPosition);
-    //yAnimation->setEasingCurve(QEasingCurve::InQuad);
-    //yAnimation->setDuration(1000);
-    // initialisation de l'animation donnant la rotation
-    //rotationAnimation = new QPropertyAnimation(this, "rotation", this);
 
     birdMedia = new QMediaPlayer();
 }
@@ -57,7 +52,10 @@ void BirdItem::shootUp()
     //rotationAnimation->stop();
     qreal curPosY = y();
     yAnimation->setStartValue(curPosY);
-    yAnimation->setEndValue(curPosY - JUMP_HEIGHT);
+    qreal endValue = curPosY - JUMP_HEIGHT;
+    if(skyPosition >= endValue)
+        endValue = skyPosition;
+    yAnimation->setEndValue(endValue);
     yAnimation->setEasingCurve(QEasingCurve::OutQuad);
     yAnimation->setDuration(JUMP_DURATION);
     // lorsque l'animation est terminé débuter l'animation de tomber
@@ -79,7 +77,10 @@ void BirdItem::shootDown()
     yAnimation->stop();
     qreal curPosY = y();
     yAnimation->setStartValue(curPosY);
-    yAnimation->setEndValue(curPosY + JUMP_HEIGHT);
+    qreal endValue = curPosY + JUMP_HEIGHT;
+    if(groundPosition <= endValue)
+        endValue = groundPosition;
+    yAnimation->setEndValue(endValue);
     yAnimation->setEasingCurve(QEasingCurve::OutQuad);
     yAnimation->setDuration(JUMP_DURATION);
     // lorsque l'animation est terminé débuter l'animation de tomber
@@ -97,8 +98,21 @@ void BirdItem::startFlying()
 {
     // start y animation and rotation
     //yAnimation->start();
-    //rotateTo(90, 1200, QEasingCurve::InQuad);
 
+}
+
+void BirdItem::die()
+{
+    birdWingsTimer->stop();
+    yAnimation->stop();
+    yAnimation->setStartValue(scenePos().y());
+    yAnimation->setEndValue(groundPosition);
+    yAnimation->setEasingCurve(QEasingCurve::InQuad);
+    yAnimation->setDuration(1000);
+    yAnimation->start();
+    // initialisation de l'animation donnant la rotation
+    rotationAnimation = new QPropertyAnimation(this, "rotation", this);
+    rotateTo(90, 1200, QEasingCurve::InQuad);
 }
 
 void BirdItem::freezeInPlace()
