@@ -14,21 +14,23 @@ class BirdAttack : public QObject, public QGraphicsPixmapItem
 {
 private:
     Q_OBJECT
-    //Q_PROPERTY(qreal x READ x WRITE setX )
+    Q_PROPERTY(qreal x READ x WRITE setX )
 
     // variables
     const qreal VITESSE_BOULE = 90;    //valeur à ajuster
     qreal yPos;
     qreal xPos;
 
-
-    QGraphicsPixmapItem * feu;
-    //QPropertyAnimation * xAnimation;
+    //QGraphicsPixmapItem * feu;
+    QPropertyAnimation * xAnimation;
     //QMediaPlayer * feuMedia;
+
+public slots:
+    void move();
 
 public:
     // constructeur
-    explicit BirdAttack();
+    explicit BirdAttack(qreal birdPosX, qreal birdPosY);
 
     // destructeur
     ~BirdAttack();

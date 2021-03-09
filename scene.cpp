@@ -244,7 +244,7 @@ void Scene::setUpEnemyTimer(){
 
 void Scene::setUpAttack()
 {
-    BirdAttack *flamme = new BirdAttack();
+    BirdAttack *flamme = new BirdAttack(1, bird->y());
     addItem(flamme);
     qDebug() << "flamme";
 }

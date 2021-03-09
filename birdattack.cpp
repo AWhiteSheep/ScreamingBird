@@ -6,18 +6,33 @@
 #include <QDebug>
 #include <QPixmap>
 
-BirdAttack::BirdAttack()// : feu(new QGraphicsPixmapItem(QPixmap(":/images/pixel-fire-ball.png")))
+BirdAttack::BirdAttack(qreal birdPosX, qreal birdPosY)
 {
+    // set position
     setPixmap(QPixmap(":/images/pixel-fire-ball.png"));
-    setPos(QPoint(0,0));
+    setPos(QPoint(-60,birdPosY-103));
 
-    //feu->setPos(QPointF(0,0));// - QPointF(feu->boundingRect().width()/2, feu->boundingRect().height()/2));
+    // animation
+    // connect to signal
+    QTimer * timer = new QTimer;
+    connect(timer, SIGNAL(timeout()), this, SLOT(move()));
 
-};
+    // set timer
+    timer->start(30); //every 30 ms the fireball will move
+}
 
 BirdAttack::~BirdAttack()
 {
+    delete xAnimation;
+}
 
+void BirdAttack::move()
+{
+    // bouger la boule de feu
+    setPos(x()+5, y());
+
+    // delete if off the screan
+    if (pos().x() < )
 }
 
 qreal BirdAttack::getX()
@@ -32,7 +47,7 @@ qreal BirdAttack::getY()
 
 void BirdAttack::freezeInPlace()
 {
-    //xAnimation->stop();
+    xAnimation->stop();
 }
 
 void BirdAttack::setX(qreal x)
