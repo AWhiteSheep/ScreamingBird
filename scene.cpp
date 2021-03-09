@@ -244,8 +244,6 @@ void Scene::setUpEnemyTimer(){
 
 void Scene::setUpAttack()
 {
-    //fonction à suprimer?! (bird->attack())
-    //bird->attack(); //cracher du feu
     BirdAttack *flamme = new BirdAttack();
     addItem(flamme);
     qDebug() << "flamme";

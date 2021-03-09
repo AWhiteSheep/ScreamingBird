@@ -38,3 +38,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 RESOURCES += \
     resource.qrc
+
+DISTFILES += \
+    ../../../../Downloads/pixel-fire-ball.png \
+    images/pixel-fire-ball.png

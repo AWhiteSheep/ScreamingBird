@@ -93,12 +93,6 @@ void BirdItem::shootDown()
     birdMedia->play();
 }
 
-void BirdItem::attack()
-{
-    //flamme = new BirdAttack();
-    //qDebug() << "flamme created";
-}
-
 void BirdItem::startFlying()
 {
     // start y animation and rotation

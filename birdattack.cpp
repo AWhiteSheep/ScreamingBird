@@ -6,11 +6,12 @@
 #include <QDebug>
 #include <QPixmap>
 
-BirdAttack::BirdAttack() : feu(new QGraphicsPixmapItem(QPixmap(":/images/pixel-fire-ball.png")))
+BirdAttack::BirdAttack()// : feu(new QGraphicsPixmapItem(QPixmap(":/images/pixel-fire-ball.png")))
 {
-    qDebug() << "constructeur du feu";
+    setPixmap(QPixmap(":/images/pixel-fire-ball.png"));
+    setPos(QPoint(0,0));
 
-    feu->setPos(QPointF(0,0));// - QPointF(feu->boundingRect().width()/2, feu->boundingRect().height()/2));
+    //feu->setPos(QPointF(0,0));// - QPointF(feu->boundingRect().width()/2, feu->boundingRect().height()/2));
 
 };
 
