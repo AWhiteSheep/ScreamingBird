@@ -5,7 +5,7 @@
 #include <QDebug>
 
 enemy::enemy():
-   WingDirection(0), pastBird(false)
+   wingPosition(WingPosition::Frame1), pastBird(false)
 {
     //set l'ennemi dans l'espace
 
@@ -86,38 +86,38 @@ bool enemy::collidesWithBird()
 
 int enemy::updatePixmap()
 {
-    if(WingDirection == 0)
+    if(wingPosition == WingPosition::Frame1)
     {
         setPixmap(QPixmap(":/images/koopa/Koopa-1.png"));
-        WingDirection++;
+        wingPosition = WingPosition::Frame2;
         return 0;
-    }else if(WingDirection == 1){
+    }else if(wingPosition == WingPosition::Frame2){
         setPixmap(QPixmap(":/images/koopa/Koopa-2.png"));
-        WingDirection++;
+        wingPosition = WingPosition::Frame3;
         return 0;
-    }else if(WingDirection == 2){
+    }else if(wingPosition == WingPosition::Frame3){
         setPixmap(QPixmap(":/images/koopa/Koopa-1.png"));
-        WingDirection++;
+        wingPosition = WingPosition::Frame4;
         return 0;
-    }else if(WingDirection == 3){
+    }else if(wingPosition == WingPosition::Frame4){
         setPixmap(QPixmap(":/images/koopa/Koopa-2.png"));
-        WingDirection++;
+        wingPosition = WingPosition::Frame5;
         return 0;
-    }else if(WingDirection == 4){
+    }else if(wingPosition == WingPosition::Frame5){
         setPixmap(QPixmap(":/images/koopa/Koopa-3.png"));
-        WingDirection++;
+        wingPosition = WingPosition::Frame6;
         return 0;
-    }else if(WingDirection == 5){
+    }else if(wingPosition == WingPosition::Frame6){
         setPixmap(QPixmap(":/images/koopa/Koopa-4.png"));
-        WingDirection++;
+        wingPosition = WingPosition::Frame7;
         return 0;
-    }else if(WingDirection == 6){
+    }else if(wingPosition == WingPosition::Frame7){
         setPixmap(QPixmap(":/images/koopa/Koopa-3.png"));
-        WingDirection++;
+        wingPosition = WingPosition::Frame8;
         return 0;
-    }else if(WingDirection == 7){
+    }else if(wingPosition == WingPosition::Frame8){
         setPixmap(QPixmap(":/images/koopa/Koopa-4.png"));
-        WingDirection = 0;
+        wingPosition = WingPosition::Frame1;
         return 0;
     }
     return 0;
