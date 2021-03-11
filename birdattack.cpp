@@ -6,15 +6,27 @@
 #include <QDebug>
 #include <QPixmap>
 
-BirdAttack::BirdAttack(qreal birdPosX, qreal birdPosY)
+BirdAttack::BirdAttack(qreal birdPosY, qreal limiteScreen) : fireball(Frame1)
 {
-    // set position
-    setPixmap(QPixmap(":/images/pixel-fire-ball.png"));
-    setPos(QPoint(-60,birdPosY-103));
+    freeze = 0;
 
+    // determiner la limite de l'écran pour être en mesure de détecter quand la boule sort du jeu
+    rightLimiteScreen = limiteScreen;
+
+    // set position
+    setPixmap(QPixmap(":/images/Fireball/Frame-1.png"));
+    setPos(QPoint(-60,birdPosY-15));
+
+    //animation de la boule de feu
+    animationFireball = new QTimer();
+    connect(animationFireball, &QTimer::timeout, [=](){
+        updatePixmap();
+    });
+
+    animationFireball->start(100);
     // animation
     // connect to signal
-    QTimer * timer = new QTimer;
+    timer = new QTimer;
     connect(timer, SIGNAL(timeout()), this, SLOT(move()));
 
     // set timer
@@ -23,44 +35,91 @@ BirdAttack::BirdAttack(qreal birdPosX, qreal birdPosY)
 
 BirdAttack::~BirdAttack()
 {
-    delete xAnimation;
+    //delete xAnimation;
+    scene()->removeItem(this);
+    delete timer;
+    delete animationFireball;
 }
 
 void BirdAttack::move()
 {
     // bouger la boule de feu
-    setPos(x()+5, y());
+    if (freeze)
+    {
+        // don't move
+    }
+    else
+    {
+        //move
+        setPos(x()+VITESSE_BOULE, y());
+    }
 
     // delete if off the screan
-    if (pos().x() < )
+    if (pos().x() + 20 > rightLimiteScreen)
+    {
+        delete this;
+    }
 }
 
+/*
 qreal BirdAttack::getX()
 {
-    return xPos;
+    //return xPos;
 }
 
 qreal BirdAttack::getY()
 {
-    return yPos;
-}
-
-void BirdAttack::freezeInPlace()
-{
-    xAnimation->stop();
+    //return yPos;
 }
 
 void BirdAttack::setX(qreal x)
 {
-    xPos = x;
+    //xPos = x;
 }
 
 void BirdAttack::setY(qreal y)
 {
-    yPos = y;
+    //yPos = y;
+}
+*/
+
+void BirdAttack::freezeInPlace()
+{
+    freeze = 1;
 }
 
 bool BirdAttack::collidesWithEnemy()
 {
+    return 0;
+}
+
+int BirdAttack::updatePixmap()
+{
+    if(fireball == Fireball::Frame1)
+    {
+        setPixmap(QPixmap(":/images/Fireball/Frame-1.png"));
+        fireball = Fireball::Frame2;
+        return 0;
+    }else if(fireball == Fireball::Frame2){
+        setPixmap(QPixmap(":/images/Fireball/Frame-2.png"));
+        fireball = Fireball::Frame3;
+        return 0;
+    }else if(fireball == Fireball::Frame3){
+        setPixmap(QPixmap(":/images/Fireball/Frame-3.png"));
+        fireball = Fireball::Frame4;
+        return 0;
+    }else if(fireball == Fireball::Frame4){
+        setPixmap(QPixmap(":/images/Fireball/Frame-4.png"));
+        fireball = Fireball::Frame5;
+        return 0;
+    }else if(fireball == Fireball::Frame5){
+        setPixmap(QPixmap(":/images/Fireball/Frame-5.png"));
+        fireball = Fireball::Frame6;
+        return 0;
+    }else if(fireball == Fireball::Frame6){
+        setPixmap(QPixmap(":/images/Fireball/Frame-6.png"));
+        fireball = Fireball::Frame1;
+        return 0;
+    }
     return 0;
 }
