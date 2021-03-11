@@ -43,7 +43,9 @@ void Scene::addBird()
 {
     // initialisation the bird et ajout à la scene
     bird = new BirdItem(QPixmap(":/images/redbird-upflap.png"),
-                        -sceneBackgroundMap->boundingRect().height()/2, sceneBackgroundMap->boundingRect().height()/2);
+                        -sceneBackgroundMap->boundingRect().height()/2,
+                        sceneBackgroundMap->boundingRect().height()/2
+                        );
     bird->color = static_cast<enum::BirdColor>(0);
     bird->setZValue(1);
     bird->setPos(QPointF(0,0) - QPointF(bird->boundingRect().width()/2,
@@ -70,32 +72,34 @@ void Scene::startGame()
     bird->color = static_cast<BirdColor>(this->birdColor);
     addItem(bird);
     bird->setZValue(1);
-    //bird->startFlying();
+    score = 0;
+    updateSceneScore();
+    cleanPillars();
+    cleanEnemy();
+    setGameOn(true);
+    hideGameOverGraphics();
+    Widget * parent = dynamic_cast<Widget*>(this->parent());
+    parent->setFocusToGraphicView();
+    startMusic();
+    hideTitle();
     // ajoute un item Pillar à chaque 1000
     if(!pillarTimer->isActive())
     {
-        score = 0;
-        updateSceneScore();
-        cleanPillars();
-        cleanEnemy();
-        setGameOn(true);
-        hideGameOverGraphics();
         pillarTimer->start(1000);
         enemyTimer->start(3000);
-        startMusic();
-        Widget * parent = dynamic_cast<Widget*>(this->parent());
-        parent->setFocusToGraphicView();
     }
 }
 
 void Scene::addMenu()
 {
+    showTitle();
     // MENU BUTTON
     btnMenu = new Button(QPixmap(":/images/buttons/menu-button-200.png"),
                          QPixmap(":/images/buttons/menu-button-press-200.png"));
     btnMenu->setZValue(1);
     addItem(btnMenu);
     connect(btnMenu, &Button::mouseRelease, [=]{
+        showTitle();
         hideGameOverGraphics();
         delete bird;
         addBird();
@@ -235,6 +239,29 @@ void Scene::setMusic(bool x)
         sceneMedia->stop();
     else if(musicOn) {
         startMusic();
+    }
+}
+
+void Scene::showTitle()
+{
+    titlePix = new QGraphicsPixmapItem(QPixmap(":/images/screaming-bird-title-600.png"));
+    addItem(titlePix);
+    // placement au centre de l'écran
+    titlePix->setPos(QPointF(0,0) - QPointF(titlePix->boundingRect().width()/2,
+                                               250));
+}
+
+void Scene::hideTitle()
+{
+    if(titlePix != nullptr) {
+        removeItem(titlePix);
+        delete titlePix;
+        titlePix = nullptr;
+    }
+    if(titlePix != nullptr){
+        removeItem(titlePix);
+        delete titlePix;
+        titlePix = nullptr;
     }
 }
 

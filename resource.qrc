@@ -107,5 +107,7 @@
         <file>images/pixel-fire-ball.png</file>
         <file>images/buttons/menu-button-200.png</file>
         <file>images/buttons/menu-button-press-200.png</file>
+        <file>images/screaming-bird-title-400.png</file>
+        <file>images/screaming-bird-title-600.png</file>
     </qresource>
 </RCC>

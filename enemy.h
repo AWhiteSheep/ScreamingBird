@@ -13,16 +13,20 @@
 class enemy:public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
-    Q_PROPERTY(qreal x READ x WRITE setX ) // QProperty est essentiel afin d'utiliser les animation QT sur un objet.
+    Q_PROPERTY(qreal x READ x WRITE setX) // QProperty est essentiel afin d'utiliser les animation QT sur un objet.
+    Q_PROPERTY(qreal y READ y WRITE setY)
+    qreal ENEMY_SPEED = 2000;      // 1000 - 3000
 public:
     explicit enemy();
     ~enemy();
 
     void freezeInPlace();
     qreal x() const;
+    qreal y() const;
 
 public slots:
     void setX(qreal x);
+    void setY(qreal y);
 signals:
     void collideFail(); // fonction qui n'est pas défini elle est émise
 
@@ -45,11 +49,14 @@ private:
     QGraphicsPixmapItem * Enemy;
     QPropertyAnimation * xAnimation;
     QPropertyAnimation * yAnimation;
+    QTimer * yAnimationTimer;
     QTimer * EnemyWingsTimer;
 
    int xPos;
    int yPos;
    qreal m_x;
+   qreal m_y;
+   bool isGoingUp = false;
    bool pastBird;
 };
 

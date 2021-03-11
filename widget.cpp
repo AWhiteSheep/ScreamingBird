@@ -12,8 +12,6 @@ Widget::Widget(QWidget *parent)
     // initialisation de la scene et configuration de ce qui sera affiché
     // dans une vue graphique
     scene = new Scene(this); // besoin d'une référence au parent
-    //scene->setSceneRect(-250,-300,500,600);
-
     // recheche de la ressource de l'arrière plan
     QPixmap background(":/images/background-day.png");
     scene->sceneBackgroundMap =
@@ -21,7 +19,6 @@ Widget::Widget(QWidget *parent)
     QGraphicsPixmapItem * pixItem = scene->sceneBackgroundMap;
     scene->sceneBackgroundMap->setPos(QPointF(0,0) - QPointF(pixItem->boundingRect().width()/2,
                                            pixItem->boundingRect().height()/2));
-
     scene->addItem(pixItem);
     // ajout du score
     QGraphicsPixmapItem* score = new QGraphicsPixmapItem(QPixmap(":/images/scores/score-background-200.png"));
