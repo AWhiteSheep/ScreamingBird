@@ -276,9 +276,8 @@ void Scene::setUpEnemyTimer(){
 
 void Scene::setUpAttack()
 {
-    BirdAttack *flamme = new BirdAttack(1, bird->y());
+    BirdAttack *flamme = new BirdAttack(bird->y(), sceneBackgroundMap->boundingRect().width()/2);
     addItem(flamme);
-    qDebug() << "flamme";
 }
 
 void Scene::freezeBirdAndPillarsInPlace()

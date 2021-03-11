@@ -17,9 +17,11 @@ private:
     Q_PROPERTY(qreal x READ x WRITE setX )
 
     // variables
-    const qreal VITESSE_BOULE = 90;    //valeur à ajuster
-    qreal yPos;
-    qreal xPos;
+    const qreal VITESSE_BOULE = 5;    //valeur à ajuster
+    //qreal yPos;
+    //qreal xPos;
+    qreal rightLimiteScreen;
+    QTimer * timer;
 
     //QGraphicsPixmapItem * feu;
     QPropertyAnimation * xAnimation;
@@ -30,16 +32,16 @@ public slots:
 
 public:
     // constructeur
-    explicit BirdAttack(qreal birdPosX, qreal birdPosY);
+    explicit BirdAttack(qreal birdPosY, qreal limiteScreen);
 
     // destructeur
     ~BirdAttack();
 
     // fonctions
-    qreal getX();
-    qreal getY();
-    void setX(qreal x);
-    void setY(qreal x);
+    //qreal getX();
+    //qreal getY();
+    //void setX(qreal x);
+    //void setY(qreal x);
     void freezeInPlace();
     bool collidesWithEnemy();
 };
