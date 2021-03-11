@@ -56,6 +56,7 @@ private:
     Button * btnNext;
     Button * btnBack;
     Button * btnMusic;
+    Button * btnMenu;
     bool musicOn = true;
     bool paused = false;
     bool gameOn;

@@ -19,7 +19,14 @@ Scene::~Scene()
     delete sceneBackgroundMap;
     delete sceneMedia;
     delete bird;
-    delete btnStart;
+    QList<QGraphicsItem*> sceneItems = items();
+    foreach(QGraphicsItem *item, sceneItems){
+        Button*button = dynamic_cast<Button*>(item);
+        // si c'est bien un pillar appel de la fonction
+        if(button){
+            delete button;
+        }
+    }
 }
 
 void Scene::startMusic()
@@ -35,7 +42,8 @@ void Scene::startMusic()
 void Scene::addBird()
 {
     // initialisation the bird et ajout à la scene
-    bird = new BirdItem(QPixmap(":/images/redbird-upflap.png"));
+    bird = new BirdItem(QPixmap(":/images/redbird-upflap.png"),
+                        -sceneBackgroundMap->boundingRect().height()/2, sceneBackgroundMap->boundingRect().height()/2);
     bird->color = static_cast<enum::BirdColor>(0);
     bird->setZValue(1);
     bird->setPos(QPointF(0,0) - QPointF(bird->boundingRect().width()/2,
@@ -48,11 +56,14 @@ void Scene::startGame()
     //start animation for Bird and Pillars
     delete bird;
     if(static_cast<enum::BirdColor>(birdColor) == BirdColor::RED)
-        bird = new BirdItem(QPixmap(":/images/redbird-midflap.png"));
+        bird = new BirdItem(QPixmap(":/images/redbird-midflap.png"),
+                            -sceneBackgroundMap->boundingRect().height()/2, sceneBackgroundMap->boundingRect().height()/2);
     else if(static_cast<enum::BirdColor>(birdColor) == BirdColor::BLUE)
-        bird = new BirdItem(QPixmap(":/images/birds/bluebird-midflap-200.png"));
+        bird = new BirdItem(QPixmap(":/images/birds/bluebird-midflap-200.png"),
+                            -sceneBackgroundMap->boundingRect().height()/2, sceneBackgroundMap->boundingRect().height()/2);
     else if(static_cast<enum::BirdColor>(birdColor) == BirdColor::YELLOW)
-        bird = new BirdItem(QPixmap(":/images/birds/yellowbird-midflap-200.png"));
+        bird = new BirdItem(QPixmap(":/images/birds/yellowbird-midflap-200.png"),
+                            -sceneBackgroundMap->boundingRect().height()/2, sceneBackgroundMap->boundingRect().height()/2);
     bird->setPos(QPointF(0,0) - QPointF(bird->boundingRect().width()/2,
                                                    bird->boundingRect().height()/2));
 
@@ -79,6 +90,27 @@ void Scene::startGame()
 
 void Scene::addMenu()
 {
+    // MENU BUTTON
+    btnMenu = new Button(QPixmap(":/images/buttons/menu-button-200.png"),
+                         QPixmap(":/images/buttons/menu-button-press-200.png"));
+    btnMenu->setZValue(1);
+    addItem(btnMenu);
+    connect(btnMenu, &Button::mouseRelease, [=]{
+        hideGameOverGraphics();
+        delete bird;
+        addBird();
+        cleanPillars();
+        QList<QGraphicsItem*> sceneItems = items();
+        foreach(QGraphicsItem *item, sceneItems){
+            Button*button = dynamic_cast<Button*>(item);
+            // si c'est bien un pillar appel de la fonction
+            if(button){
+                button->show();
+            }
+        }
+        btnMenu->hide();
+    });
+    btnMenu->hide();
     // START BUTTON
     btnStart = new Button(QPixmap(":/images/buttons/play-button-idle-200.png"),
                              QPixmap(":/images/buttons/play-button-press-200.png"));
@@ -351,15 +383,24 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void Scene::showGameOverGraphics()
 {
+    bird->die();
     if(sceneMedia->state() == QMediaPlayer::PlayingState)
         sceneMedia->stop();
     sceneMedia->setMedia(QUrl("qrc:/sound effects/smb_gameover.wav"));
     sceneMedia->play();
+    if(gameOverPix)
+        delete gameOverPix;
     gameOverPix = new QGraphicsPixmapItem(QPixmap(":/images/gameover.png"));
     addItem(gameOverPix);
     // placement au centre de l'écran
     gameOverPix->setPos(QPointF(0,0) - QPointF(gameOverPix->boundingRect().width()/2,
                                                gameOverPix->boundingRect().height()/2));
+    btnMenu->setPos(QPointF(0,0)
+                    - QPointF(btnMenu->boundingRect().width()/2,
+                              btnMenu->boundingRect().height()/2
+                              -gameOverPix->boundingRect().height()
+                              -30));
+    btnMenu->show();
     btnStart->show();
 }
 

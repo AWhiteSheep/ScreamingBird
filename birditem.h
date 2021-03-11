@@ -27,7 +27,7 @@ class BirdItem : public QObject, public QGraphicsPixmapItem
 public:
     void pause();
     void start();
-    explicit BirdItem(QPixmap pixmap);
+    explicit BirdItem(QPixmap pixmap, qreal sky, qreal ground);
     ~BirdItem();
     qreal rotation() const;
     qreal y() const;
@@ -35,7 +35,7 @@ public:
     void shootUp();
     void shootDown();
     void startFlying();
-
+    void die();
     void freezeInPlace();
     BirdColor color;
 signals:
@@ -62,6 +62,7 @@ private:
     QMediaPlayer * birdMedia;
     QTimer * birdWingsTimer;
     qreal groundPosition;
+    qreal skyPosition;
 };
 
 #endif // BIRDITEM_H

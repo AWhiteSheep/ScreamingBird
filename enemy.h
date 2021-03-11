@@ -20,7 +20,7 @@ public:
 
     void freezeInPlace();
     qreal x() const;
-    int yPos;
+
 public slots:
     void setX(qreal x);
 signals:
@@ -28,22 +28,27 @@ signals:
 
 private:
     enum WingPosition{
-        upMouthClose,
-        downMouthClose,
-        upMouthOpen,
-        downMouthOpen
+        Frame1,
+        Frame2,
+        Frame3,
+        Frame4,
+        Frame5,
+        Frame6,
+        Frame7,
+        Frame8
     };
-    WingPosition  wingPosition;
+
     int updatePixmap();
     bool collidesWithBird();
+
+    WingPosition  wingPosition;
     QGraphicsPixmapItem * Enemy;
     QPropertyAnimation * xAnimation;
     QPropertyAnimation * yAnimation;
-
     QTimer * EnemyWingsTimer;
 
    int xPos;
-   int WingDirection;
+   int yPos;
    qreal m_x;
    bool pastBird;
 };

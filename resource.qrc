@@ -105,5 +105,7 @@
         <file>images/scores/high-score-200.png</file>
         <file>images/scores/high-score-300.png</file>
         <file>images/pixel-fire-ball.png</file>
+        <file>images/buttons/menu-button-200.png</file>
+        <file>images/buttons/menu-button-press-200.png</file>
     </qresource>
 </RCC>
