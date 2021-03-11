@@ -9,7 +9,7 @@ enemy::enemy():
 {
     //set l'ennemi dans l'espace
 
-    m_y = QRandomGenerator::global()->bounded(200);
+    m_y = QRandomGenerator::global()->bounded(150);
     setPos(QPoint(0,0) + QPoint(260, m_y));
 
     //Commence l'animation des ailes
@@ -81,7 +81,9 @@ qreal enemy::y() const
 
 void enemy::freezeInPlace()
 {
+    yAnimation->stop();
     xAnimation->stop();
+    yAnimationTimer->stop();
     EnemyWingsTimer->stop();
 
 };

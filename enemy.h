@@ -15,7 +15,7 @@ class enemy:public QObject, public QGraphicsPixmapItem
     Q_OBJECT
     Q_PROPERTY(qreal x READ x WRITE setX) // QProperty est essentiel afin d'utiliser les animation QT sur un objet.
     Q_PROPERTY(qreal y READ y WRITE setY)
-    qreal ENEMY_SPEED = 2000;      // 1000 - 3000
+    qreal ENEMY_SPEED = 1200;      // 1000 - 3000
 public:
     explicit enemy();
     ~enemy();
