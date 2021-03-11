@@ -49,9 +49,11 @@ private:
     void freezeBirdAndPillarsInPlace();
     void cleanPillars();
     void cleanEnemy();
+    void cleanAttack();
     QTimer * pillarTimer;
     QTimer * enemyTimer;
     BirdItem * bird;
+    BirdAttack * fireball;
     Button * btnStart;
     Button * btnNext;
     Button * btnBack;

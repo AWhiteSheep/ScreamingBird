@@ -78,6 +78,7 @@ void Scene::startGame()
         updateSceneScore();
         cleanPillars();
         cleanEnemy();
+        cleanAttack();
         setGameOn(true);
         hideGameOverGraphics();
         pillarTimer->start(1000);
@@ -276,24 +277,33 @@ void Scene::setUpEnemyTimer(){
 
 void Scene::setUpAttack()
 {
-    BirdAttack *flamme = new BirdAttack(bird->y(), sceneBackgroundMap->boundingRect().width()/2);
-    addItem(flamme);
+    fireball = new BirdAttack(bird->y(), sceneBackgroundMap->boundingRect().width()/2);
+    addItem(fireball);
 }
 
 void Scene::freezeBirdAndPillarsInPlace()
 {
     // freeze bird
     bird->freezeInPlace();
+
+
+    // freeze fireball
+    //fireball->freezeInPlace();
+
+
     // freeze pillar, get all item in scene
     QList<QGraphicsItem*> sceneItems = items();
     foreach(QGraphicsItem *item, sceneItems){
-        PillarItem*pillar = dynamic_cast<PillarItem*>(item);
+        PillarItem* pillar = dynamic_cast<PillarItem*>(item);
         enemy* EnemyItem = dynamic_cast<enemy*>(item);
+        BirdAttack* fireballItem = dynamic_cast<BirdAttack*>(item);
         // si c'est bien un pillar appel de la fonction
         if(pillar){
             pillar->freezeInPlace();
         }else if(EnemyItem){
             EnemyItem->freezeInPlace();
+        }else if (fireballItem) {
+            fireballItem->freezeInPlace();
         }
     }
 }
@@ -320,6 +330,20 @@ void Scene::cleanEnemy()
         if(enemyItem){
             removeItem(enemyItem);
             delete enemyItem;
+        }
+    }
+}
+
+void Scene::cleanAttack()
+{
+    QList<QGraphicsItem*> sceneItems = items();
+    foreach(QGraphicsItem *item, sceneItems)
+    {
+        BirdAttack *fireballItem = dynamic_cast<BirdAttack*>(item);
+        // si c'est bien un pillar appel de la fonction
+        if(fireballItem){
+            //removeItem(fireballItem);
+            delete fireballItem;
         }
     }
 }

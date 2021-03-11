@@ -22,9 +22,10 @@ private:
     //qreal xPos;
     qreal rightLimiteScreen;
     QTimer * timer;
+    bool freeze;
 
     //QGraphicsPixmapItem * feu;
-    QPropertyAnimation * xAnimation;
+    //QPropertyAnimation * xAnimation;
     //QMediaPlayer * feuMedia;
 
 public slots:
