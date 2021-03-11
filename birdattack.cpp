@@ -8,6 +8,8 @@
 
 BirdAttack::BirdAttack(qreal birdPosY, qreal limiteScreen) : fireball(Frame1)
 {
+    freeze = 0;
+
     // determiner la limite de l'écran pour être en mesure de détecter quand la boule sort du jeu
     rightLimiteScreen = limiteScreen;
 
@@ -34,6 +36,7 @@ BirdAttack::BirdAttack(qreal birdPosY, qreal limiteScreen) : fireball(Frame1)
 BirdAttack::~BirdAttack()
 {
     //delete xAnimation;
+    scene()->removeItem(this);
     delete timer;
     delete animationFireball;
 }
@@ -41,17 +44,20 @@ BirdAttack::~BirdAttack()
 void BirdAttack::move()
 {
     // bouger la boule de feu
-    setPos(x()+VITESSE_BOULE, y());
+    if (freeze)
+    {
+        // don't move
+    }
+    else
+    {
+        //move
+        setPos(x()+VITESSE_BOULE, y());
+    }
 
     // delete if off the screan
     if (pos().x() + 20 > rightLimiteScreen)
     {
-
-        qDebug() << "flamme trop loin";
-        scene()->removeItem(this);
-        qDebug() << "flamme retiree";
         delete this;
-        qDebug() << "flamme deleted";
     }
 }
 
@@ -79,7 +85,7 @@ void BirdAttack::setY(qreal y)
 
 void BirdAttack::freezeInPlace()
 {
-    xAnimation->stop();
+    freeze = 1;
 }
 
 bool BirdAttack::collidesWithEnemy()
