@@ -32,7 +32,7 @@ void BirdAttack::move()
     setPos(x()+5, y());
 
     // delete if off the screan
-    if (pos().x() < )
+    //if (pos().x() < );
 }
 
 qreal BirdAttack::getX()
