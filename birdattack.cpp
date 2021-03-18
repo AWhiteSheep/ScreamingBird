@@ -7,7 +7,7 @@
 #include <QDebug>
 #include <QPixmap>
 
-BirdAttack::BirdAttack(qreal birdPosY, qreal limiteScreen)
+BirdAttack::BirdAttack(qreal birdPosY, qreal limiteScreen) : fireball(Frame1)
 {
     freeze = 0;
 
@@ -15,9 +15,16 @@ BirdAttack::BirdAttack(qreal birdPosY, qreal limiteScreen)
     rightLimiteScreen = limiteScreen;
 
     // set position
-    setPixmap(QPixmap(":/images/pixel-fire-ball.png"));
-    setPos(QPoint(10,birdPosY-20));
+    setPixmap(QPixmap(":/images/Fireball/Frame-1.png"));
+    setPos(QPoint(-60,birdPosY-15));
 
+    //animation de la boule de feu
+    animationFireball = new QTimer();
+    connect(animationFireball, &QTimer::timeout, [=](){
+        updatePixmap();
+    });
+
+    animationFireball->start(100);
     // animation
     // connect to signal
     timer = new QTimer;
@@ -32,6 +39,7 @@ BirdAttack::~BirdAttack()
     //delete xAnimation;
     scene()->removeItem(this);
     delete timer;
+    delete animationFireball;
 }
 
 void BirdAttack::move()
@@ -103,5 +111,36 @@ void BirdAttack::freezeInPlace()
 
 bool BirdAttack::collidesWithEnemy()
 {
+    return 0;
+}
+
+int BirdAttack::updatePixmap()
+{
+    if(fireball == Fireball::Frame1)
+    {
+        setPixmap(QPixmap(":/images/Fireball/Frame-1.png"));
+        fireball = Fireball::Frame2;
+        return 0;
+    }else if(fireball == Fireball::Frame2){
+        setPixmap(QPixmap(":/images/Fireball/Frame-2.png"));
+        fireball = Fireball::Frame3;
+        return 0;
+    }else if(fireball == Fireball::Frame3){
+        setPixmap(QPixmap(":/images/Fireball/Frame-3.png"));
+        fireball = Fireball::Frame4;
+        return 0;
+    }else if(fireball == Fireball::Frame4){
+        setPixmap(QPixmap(":/images/Fireball/Frame-4.png"));
+        fireball = Fireball::Frame5;
+        return 0;
+    }else if(fireball == Fireball::Frame5){
+        setPixmap(QPixmap(":/images/Fireball/Frame-5.png"));
+        fireball = Fireball::Frame6;
+        return 0;
+    }else if(fireball == Fireball::Frame6){
+        setPixmap(QPixmap(":/images/Fireball/Frame-6.png"));
+        fireball = Fireball::Frame1;
+        return 0;
+    }
     return 0;
 }

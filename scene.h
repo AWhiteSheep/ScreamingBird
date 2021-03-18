@@ -32,6 +32,8 @@ public:
     void updateSceneScore();
     void updateSceneHighScore();
     void setMusic(bool x);
+    void showTitle();
+    void hideTitle();
     QGraphicsPixmapItem * sceneBackgroundMap;
 signals:
 public slots:
@@ -42,7 +44,6 @@ private:
     void showGameOverGraphics();
     void hideGameOverGraphics();
     void setUpPillarTimer();
-//<<<<<<< HEAD
     void setUpEnemy();
     void setUpAttack();
     void setUpEnemyTimer();
@@ -66,6 +67,7 @@ private:
     int bestScore;
     int birdColor = 0;
     QGraphicsPixmapItem * gameOverPix;
+    QGraphicsPixmapItem * titlePix;
     QGraphicsTextItem * scoreTextItem;
     QGraphicsTextItem * sceneScoreTextItem;
     QGraphicsTextItem * sceneHighScoreTextItem;

@@ -28,6 +28,20 @@ private:
     //QPropertyAnimation * xAnimation;
     //QMediaPlayer * feuMedia;
 
+    //animation boule de feu
+    enum Fireball{
+        Frame1,
+        Frame2,
+        Frame3,
+        Frame4,
+        Frame5,
+        Frame6,
+    };
+
+    Fireball fireball;
+    QTimer * animationFireball;
+
+    int updatePixmap();
 public slots:
     void move();
 
