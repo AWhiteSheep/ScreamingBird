@@ -110,6 +110,8 @@ void Scene::addMenu()
         delete bird;
         addBird();
         cleanPillars();
+        cleanEnemy();
+        cleanAttack();
         QList<QGraphicsItem*> sceneItems = items();
         foreach(QGraphicsItem *item, sceneItems){
             Button*button = dynamic_cast<Button*>(item);
@@ -320,11 +322,6 @@ void Scene::freezeBirdAndPillarsInPlace()
     // freeze bird
     bird->freezeInPlace();
 
-
-    // freeze fireball
-    //fireball->freezeInPlace();
-
-
     // freeze pillar, get all item in scene
     QList<QGraphicsItem*> sceneItems = items();
     foreach(QGraphicsItem *item, sceneItems){
@@ -360,7 +357,7 @@ void Scene::cleanEnemy()
     QList<QGraphicsItem*> sceneItems = items();
     foreach(QGraphicsItem *item, sceneItems){
         enemy *enemyItem = dynamic_cast<enemy*>(item);
-        // si c'est bien un pillar appel de la fonction
+        // si c'est bien un enemy appel de la fonction
         if(enemyItem){
             removeItem(enemyItem);
             delete enemyItem;
@@ -374,7 +371,6 @@ void Scene::cleanAttack()
     foreach(QGraphicsItem *item, sceneItems)
     {
         BirdAttack *fireballItem = dynamic_cast<BirdAttack*>(item);
-        // si c'est bien un pillar appel de la fonction
         if(fireballItem){
             //removeItem(fireballItem);
             delete fireballItem;
