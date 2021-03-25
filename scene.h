@@ -11,6 +11,7 @@
 #include <QDebug>
 #include <QMediaPlayer>
 #include "button.h"
+#include "CommunicationFPGA.h"
 
 class Scene : public QGraphicsScene
 {
@@ -34,6 +35,8 @@ public:
     void setMusic(bool x);
     void showTitle();
     void hideTitle();
+    void startFPGACommunication();
+    void stopFPGACommunication();
     QGraphicsPixmapItem * sceneBackgroundMap;
 signals:
 public slots:
@@ -55,6 +58,7 @@ private:
     QTimer * pillarTimer;
     QTimer * enemyTimer;
     QTimer * titleTimer;
+    QTimer * fpgaTimer;
     BirdItem * bird;
     BirdAttack * fireball;
     Button * btnStart;
@@ -77,6 +81,9 @@ private:
     QMediaPlayer * sceneMedia;
 
     // QGraphicsScene interface
+
+    // Communication FPGA
+    CommunicationFPGA * port;
 };
 
 #endif // SCENE_H

@@ -8,6 +8,9 @@ CONFIG += c++11
 # In order to do so, uncomment the following line.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+
+PRECOMPILED_HEADER = CommunicationFPGA.h
+
 SOURCES += \
     birdattack.cpp \
     birditem.cpp \
@@ -19,6 +22,7 @@ SOURCES += \
     widget.cpp
 
 HEADERS += \
+    CommunicationFPGA.h \
     birdattack.h \
     birditem.h \
     button.h \
@@ -42,3 +46,8 @@ RESOURCES += \
 DISTFILES += \
     ../../../../Downloads/pixel-fire-ball.png \
     images/pixel-fire-ball.png
+
+LIBS += -L$$PWD/lib/ -lCommunicationFPGA
+
+INCLUDEPATH += $$PWD/lib
+DEPENDPATH += $$PWD/lib
