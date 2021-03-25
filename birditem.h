@@ -16,14 +16,14 @@ enum BirdColor
     YELLOW
 };
 
-class BirdItem : public QObject, public QGraphicsPixmapItem
+class BirdItem:public QObject, public QGraphicsPixmapItem
 {    
-    const qreal JUMP_HEIGHT = 60;       // 30 - 120
-    const qreal JUMP_DURATION = 285;    // 200 - 300
-    const qreal FALL_SPEED = 1700;      // 800 - 2000
     Q_OBJECT
     Q_PROPERTY(qreal rotation READ rotation WRITE setRotation)
     Q_PROPERTY(qreal y READ y WRITE setY)
+    const qreal JUMP_HEIGHT = 60;       // 30 - 120
+    const qreal JUMP_DURATION = 285;    // 200 - 300
+    const qreal FALL_SPEED = 1700;      // 800 - 2000
 public:
     void pause();
     void start();

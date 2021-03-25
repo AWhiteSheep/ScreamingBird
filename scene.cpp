@@ -278,20 +278,10 @@ void Scene::hideTitle()
 
 void Scene::startFPGACommunication()
 {
-    // Instance du port de communication
-    port = new CommunicationFPGA();
-    fpgaTimer = new QTimer(this);
-    connect(fpgaTimer, &QTimer::timeout, [=](){
-        qDebug() << "FPGA:: Port est ok: " << port->estOk();
-    });
-    fpgaTimer->start(10);
 }
 
 void Scene::stopFPGACommunication()
 {
-    fpgaTimer->stop();
-    delete fpgaTimer;
-    delete port;
 }
 
 

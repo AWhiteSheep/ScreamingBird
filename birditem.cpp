@@ -11,7 +11,8 @@ BirdItem::BirdItem(QPixmap pixmap, qreal sky, qreal ground)
      groundPosition(ground)
 {
     setPixmap(pixmap);
-
+    m_y = 0;
+    setPos(QPoint(0, 0));
     birdWingsTimer = new QTimer(this);
     // listener pour le timer fait une appel à chaque fois le timer complêté
     connect(birdWingsTimer, &QTimer::timeout, [=](){
@@ -48,7 +49,8 @@ void BirdItem::shootUp()
     if(birdMedia->state() == QMediaPlayer::PlayingState)
         birdMedia->stop();
 
-    yAnimation->stop();
+    if(yAnimation->state() == QMediaPlayer::PlayingState)
+        yAnimation->stop();
     //rotationAnimation->stop();
     qreal curPosY = y();
     yAnimation->setStartValue(curPosY);
@@ -75,20 +77,15 @@ void BirdItem::shootDown()
         birdMedia->stop();
 
     yAnimation->stop();
-    qreal curPosY = y();
+    auto curPosY = y();
     yAnimation->setStartValue(curPosY);
-    qreal endValue = curPosY + JUMP_HEIGHT;
+    auto endValue = curPosY + JUMP_HEIGHT;
     if(groundPosition <= endValue)
         endValue = groundPosition;
     yAnimation->setEndValue(endValue);
     yAnimation->setEasingCurve(QEasingCurve::OutQuad);
     yAnimation->setDuration(JUMP_DURATION);
-    // lorsque l'animation est terminé débuter l'animation de tomber
-    //connect(yAnimation, &QPropertyAnimation::finished, [=](){
-        //fallToGroundIfNecessary();
-    //});
     yAnimation->start();
-    //rotateTo(-20, 200, QEasingCurve::OutCubic);
 
     birdMedia->setMedia(QUrl("qrc:/sound effects/sfx_wing.wav"));
     birdMedia->play();
@@ -136,7 +133,7 @@ void BirdItem::setRotation(qreal rotation)
 
 void BirdItem::setY(qreal y)
 {
-    moveBy(0,y-m_y);
+    setPos(QPointF(0, 0) + QPointF(0, y));
     m_y = y;
 }
 
