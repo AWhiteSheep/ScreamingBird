@@ -13,6 +13,11 @@ Scene::Scene(QObject *parent) : QGraphicsScene(parent),
 
 Scene::~Scene()
 {
+    delete pillarTimer;
+    delete enemyTimer;
+    delete titleTimer;
+    delete fireball;
+    delete titlePix;
     delete gameOverPix;
     delete scoreTextItem;
     delete sceneScoreTextItem;
@@ -250,16 +255,18 @@ void Scene::showTitle()
     // placement au centre de l'écran
     titlePix->setPos(QPointF(0,0) - QPointF(titlePix->boundingRect().width()/2,
                                                250));
+    titleTimer = new QTimer();
+    connect(titleTimer, &QTimer::timeout, [=]{
+        updatePixmap();
+    });
+    titleTimer->start(50);
 }
 
 void Scene::hideTitle()
-{
+{    
     if(titlePix != nullptr) {
-        removeItem(titlePix);
-        delete titlePix;
-        titlePix = nullptr;
-    }
-    if(titlePix != nullptr){
+        titleTimer->stop();
+        delete titleTimer;
         removeItem(titlePix);
         delete titlePix;
         titlePix = nullptr;
@@ -373,6 +380,16 @@ void Scene::cleanAttack()
             delete fireballItem;
         }
     }
+}
+
+void Scene::updatePixmap()
+{
+    if(titleIndex >= 21)
+        titleIndex = 1;
+    else
+        titleIndex++;
+    QString path =":/images/title/screaming-bird-title-"+QString::number(titleIndex)+".png";
+    titlePix->setPixmap(QPixmap(path));
 }
 
 bool Scene::getGameOn() const
