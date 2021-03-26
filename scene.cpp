@@ -16,8 +16,6 @@ Scene::~Scene()
 {
     delete pillarTimer;
     delete enemyTimer;
-    delete titleTimer;
-    delete fireball;
     delete titlePix;
     delete gameOverPix;
     delete scoreTextItem;
@@ -25,6 +23,9 @@ Scene::~Scene()
     delete sceneBackgroundMap;
     delete sceneMedia;
     delete bird;
+    delete fpga;
+    delete fpgaTimer;
+    cleanAttack();
     QList<QGraphicsItem*> sceneItems = items();
     foreach(QGraphicsItem *item, sceneItems){
         Button*button = dynamic_cast<Button*>(item);
@@ -33,6 +34,7 @@ Scene::~Scene()
             delete button;
         }
     }
+    delete titleTimer;
 }
 
 void Scene::startMusic()
@@ -151,7 +153,6 @@ void Scene::addMenu()
     btnNext->setPos(QPointF(50,0) - QPointF(btnNext->boundingRect().width()/2,
                                                btnNext->boundingRect().height()/2));
     connect(btnNext, &Button::mouseRelease, [=]{
-        qDebug() << "button next";
         if(birdColor == 2)
             birdColor = 0;
         else
@@ -166,7 +167,6 @@ void Scene::addMenu()
     btnBack->setPos(QPointF(-50,0) - QPointF(btnBack->boundingRect().width()/2,
                                                btnBack->boundingRect().height()/2));
     connect(btnBack, &Button::mouseRelease, [=]{
-        qDebug() << "button back";
         if(birdColor == 0)
             birdColor = 2;
         else
@@ -278,6 +278,34 @@ void Scene::hideTitle()
 
 void Scene::startFPGACommunication()
 {
+    fpga = new CommunicationFPGA();
+    fpgaTimer = new QTimer();
+    connect(fpgaTimer, &QTimer::timeout, [=] {
+        if (fpga->estOk()) 
+        {
+            // 0 1 2 4 8
+            int stat_btn = 0;
+            fpga->lireRegistre(nreg_lect_stat_btn, stat_btn);
+            if (fpga->stat_btn != stat_btn && stat_btn != 0)
+            {
+                qDebug() << "FPGA stat_btn::" << stat_btn;
+                switch (stat_btn)
+                {
+                case 1:
+                    bird->shootUp();
+                    break;
+                case 2:
+                    bird->shootDown();
+                    break;
+                case 4:
+                    setUpAttack();
+                    break;
+                }
+            }
+            fpga->stat_btn = stat_btn;
+        }
+    });
+    fpgaTimer->start(10);
 }
 
 void Scene::stopFPGACommunication()
@@ -416,8 +444,6 @@ void Scene::incrementScore()
         bestScore = score;
         updateSceneHighScore();
     }
-
-    qDebug() << "Score: " << score << " Best Score: " << bestScore;
     updateSceneScore();
 }
 

@@ -11,6 +11,7 @@
 #include <QDebug>
 #include <QMediaPlayer>
 #include "button.h"
+#include "CommunicationFPGA.h"
 
 class Scene : public QGraphicsScene
 {
@@ -82,6 +83,7 @@ private:
     // QGraphicsScene interface
 
     // Communication FPGA
+    CommunicationFPGA* fpga;
 };
 
 #endif // SCENE_H
