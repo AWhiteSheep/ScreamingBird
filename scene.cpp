@@ -102,7 +102,7 @@ void Scene::startGame()
     {
         pillarTimer->start(1000);
         enemyTimer->start(3000);
-        bonusTimer->start(500);
+        bonusTimer->start(4500);
     }
 }
 
@@ -373,6 +373,7 @@ void Scene::setUpBonusEffectTimer()
         if(!paused){
             Bonuseffect->play();
         }
+        bonusEffectTimer->stop();
     });
 }
 
@@ -466,6 +467,7 @@ void Scene::cleanBonus()
             delete bonusItem;
         }
     }
+}
 void Scene::updatePixmap()
 {
     if(titleIndex >= 21)
