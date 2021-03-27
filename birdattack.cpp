@@ -1,5 +1,6 @@
 #include "BirdAttack.h"
 #include "scene.h"
+#include "enemy.h"
 #include <QTimer>
 #include <QGraphicsScene>
 #include <QList>
@@ -43,6 +44,26 @@ BirdAttack::~BirdAttack()
 
 void BirdAttack::move()
 {
+    // if fireball collides with enemy, destroy both
+    // colliding_items contient tous les items qui entre en collision avec la boule de feu
+
+    QList<QGraphicsItem *> colliding_items = collidingItems();
+    for (int i=0, n=colliding_items.size(); i<n; i++)
+    {
+        // si l'objet qui est en collision avec la boule de feu est un enemy,
+        if (typeid(*(colliding_items[i])) == typeid(enemy))
+        {
+            // remove them both
+            scene() -> removeItem(colliding_items[i]);
+            //scene() -> removeItem(this);
+
+            // delete them both
+            delete colliding_items[i];
+            delete this;
+            return; // sort de la fonction
+        }
+    }
+
     // bouger la boule de feu
     if (freeze)
     {

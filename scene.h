@@ -63,6 +63,10 @@ private:
     QTimer * enemyTimer;
     QTimer * bonusTimer;
     QTimer * bonusEffectTimer;
+    void updatePixmap();
+    QTimer * pillarTimer;
+    QTimer * enemyTimer;
+    QTimer * titleTimer;
     BirdItem * bird;
     BirdAttack * fireball;
     Button * btnStart;
@@ -77,6 +81,7 @@ private:
     int bestScore;
     int birdColor = 0;
     int bonus;
+    int titleIndex = 1;
     QGraphicsPixmapItem * gameOverPix;
     QGraphicsPixmapItem * titlePix;
     QGraphicsTextItem * scoreTextItem;

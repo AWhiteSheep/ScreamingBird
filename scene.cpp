@@ -17,6 +17,11 @@ Scene::Scene(QObject *parent) : QGraphicsScene(parent),
 
 Scene::~Scene()
 {
+    delete pillarTimer;
+    delete enemyTimer;
+    delete titleTimer;
+    delete fireball;
+    delete titlePix;
     delete gameOverPix;
     delete scoreTextItem;
     delete bonusTextItem;
@@ -115,6 +120,8 @@ void Scene::addMenu()
         delete bird;
         addBird();
         cleanPillars();
+        cleanEnemy();
+        cleanAttack();
         QList<QGraphicsItem*> sceneItems = items();
         foreach(QGraphicsItem *item, sceneItems){
             Button*button = dynamic_cast<Button*>(item);
@@ -281,16 +288,18 @@ void Scene::showTitle()
     // placement au centre de l'écran
     titlePix->setPos(QPointF(0,0) - QPointF(titlePix->boundingRect().width()/2,
                                                250));
+    titleTimer = new QTimer();
+    connect(titleTimer, &QTimer::timeout, [=]{
+        updatePixmap();
+    });
+    titleTimer->start(50);
 }
 
 void Scene::hideTitle()
-{
+{    
     if(titlePix != nullptr) {
-        removeItem(titlePix);
-        delete titlePix;
-        titlePix = nullptr;
-    }
-    if(titlePix != nullptr){
+        titleTimer->stop();
+        delete titleTimer;
         removeItem(titlePix);
         delete titlePix;
         titlePix = nullptr;
@@ -387,11 +396,6 @@ void Scene::freezeBirdAndPillarsInPlace()
     // freeze bird
     bird->freezeInPlace();
 
-
-    // freeze fireball
-    //fireball->freezeInPlace();
-
-
     // freeze pillar, get all item in scene
     QList<QGraphicsItem*> sceneItems = items();
     foreach(QGraphicsItem *item, sceneItems){
@@ -430,7 +434,7 @@ void Scene::cleanEnemy()
     QList<QGraphicsItem*> sceneItems = items();
     foreach(QGraphicsItem *item, sceneItems){
         enemy *enemyItem = dynamic_cast<enemy*>(item);
-        // si c'est bien un pillar appel de la fonction
+        // si c'est bien un enemy appel de la fonction
         if(enemyItem){
             removeItem(enemyItem);
             delete enemyItem;
@@ -444,7 +448,6 @@ void Scene::cleanAttack()
     foreach(QGraphicsItem *item, sceneItems)
     {
         BirdAttack *fireballItem = dynamic_cast<BirdAttack*>(item);
-        // si c'est bien un pillar appel de la fonction
         if(fireballItem){
             //removeItem(fireballItem);
             delete fireballItem;
@@ -463,6 +466,14 @@ void Scene::cleanBonus()
             delete bonusItem;
         }
     }
+void Scene::updatePixmap()
+{
+    if(titleIndex >= 21)
+        titleIndex = 1;
+    else
+        titleIndex++;
+    QString path =":/images/title/screaming-bird-title-"+QString::number(titleIndex)+".png";
+    titlePix->setPixmap(QPixmap(path));
 }
 
 bool Scene::getGameOn() const
