@@ -35,6 +35,13 @@ Widget::Widget(QWidget *parent)
     highScore->setZValue(1);
     scene->addItem(highScore);
     scene->addSceneHighScore();
+    // ajout du bonus score
+    QGraphicsPixmapItem* bonus = new QGraphicsPixmapItem(QPixmap(":/images/scores/BonusPanel-200.png"));
+    bonus->setPos(-QPointF(pixItem->boundingRect().width()/2, pixItem->boundingRect().height()/2)
+                  +QPointF(10,60));
+    bonus->setZValue(1);
+    scene->addItem(bonus);
+    scene->addSceneBonus();
     // centrer l'arrière plan
     ui->graphicsView->setScene(scene);
     ui->graphicsView->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);

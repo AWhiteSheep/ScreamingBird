@@ -37,6 +37,7 @@ public:
     void startFlying();
     void die();
     void freezeInPlace();
+    void setPowerUp(bool bonus);
     BirdColor color;
 signals:
 public slots:
@@ -50,11 +51,15 @@ private:
     enum WingPosition{
         Up,
         Middle,
-        Down
+        Down,
+        UpLittle,
+        MiddleLittle,
+        DownLittle
     };
     void updatePixmap();
     WingPosition  wingPosition;
     bool wingDirection; // 0 : down, 1 : wing up
+    bool PowerUp;
     qreal m_rotation;
     qreal m_y;
     QPropertyAnimation * yAnimation;

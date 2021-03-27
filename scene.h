@@ -6,6 +6,7 @@
 #include "pillaritem.h"
 #include "birditem.h"
 #include "enemy.h"
+#include "Bonus.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QKeyEvent>
 #include <QDebug>
@@ -23,14 +24,17 @@ public:
     bool getGameOn() const;
     void setGameOn(bool value);
     void incrementScore();
+    void incrementBonus();
     void startMusic();
     int getScore();
     void addMenu();
     void addReplayButton();
     void addSceneScore();
     void addSceneHighScore();
+    void addSceneBonus();
     void updateSceneScore();
     void updateSceneHighScore();
+    void updateSceneBonus();
     void setMusic(bool x);
     void showTitle();
     void hideTitle();
@@ -45,14 +49,20 @@ private:
     void hideGameOverGraphics();
     void setUpPillarTimer();
     void setUpEnemy();
+    void setUpBonus();
     void setUpAttack();
     void setUpEnemyTimer();
+    void setUpBonusEffectTimer();
     void freezeBirdAndPillarsInPlace();
     void cleanPillars();
     void cleanEnemy();
     void cleanAttack();
+    void cleanBonus();
+    void BonusEffect();
     QTimer * pillarTimer;
     QTimer * enemyTimer;
+    QTimer * bonusTimer;
+    QTimer * bonusEffectTimer;
     BirdItem * bird;
     BirdAttack * fireball;
     Button * btnStart;
@@ -66,12 +76,16 @@ private:
     int score;
     int bestScore;
     int birdColor = 0;
+    int bonus;
     QGraphicsPixmapItem * gameOverPix;
     QGraphicsPixmapItem * titlePix;
     QGraphicsTextItem * scoreTextItem;
+    QGraphicsTextItem * bonusTextItem;
     QGraphicsTextItem * sceneScoreTextItem;
     QGraphicsTextItem * sceneHighScoreTextItem;
+    QGraphicsTextItem * sceneBonusTextItem;
     QMediaPlayer * sceneMedia;
+    QMediaPlayer * Bonuseffect;
 
     // QGraphicsScene interface
 };

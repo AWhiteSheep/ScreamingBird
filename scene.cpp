@@ -2,20 +2,26 @@
 #include "widget.h"
 
 Scene::Scene(QObject *parent) : QGraphicsScene(parent),
-    gameOn(false), score(0), bestScore(0)
+    gameOn(false), score(0), bestScore(0), bonus(0)
 {
     gameOverPix = nullptr;
     scoreTextItem = nullptr;
+    bonusTextItem = nullptr;
     sceneMedia =  new QMediaPlayer();
+    Bonuseffect = new QMediaPlayer();
     setUpPillarTimer();
     setUpEnemyTimer();
+    setUpBonus();
+    setUpBonusEffectTimer();
 }
 
 Scene::~Scene()
 {
     delete gameOverPix;
     delete scoreTextItem;
+    delete bonusTextItem;
     delete sceneScoreTextItem;
+    delete sceneBonusTextItem;
     delete sceneBackgroundMap;
     delete sceneMedia;
     delete bird;
@@ -73,10 +79,13 @@ void Scene::startGame()
     addItem(bird);
     bird->setZValue(1);
     score = 0;
+    bonus = 0;
     updateSceneScore();
+    updateSceneBonus();
     cleanPillars();
     cleanEnemy();
     cleanAttack();
+    cleanBonus();
     setGameOn(true);
     hideGameOverGraphics();
     Widget * parent = dynamic_cast<Widget*>(this->parent());
@@ -88,6 +97,7 @@ void Scene::startGame()
     {
         pillarTimer->start(1000);
         enemyTimer->start(3000);
+        bonusTimer->start(500);
     }
 }
 
@@ -215,8 +225,22 @@ void Scene::addSceneHighScore()
     sceneHighScoreTextItem->setDefaultTextColor(Qt::red);
     addItem(sceneHighScoreTextItem);
     sceneHighScoreTextItem->setPos(-QPointF(sceneBackgroundMap->boundingRect().width()/2,sceneBackgroundMap->boundingRect().height()/2)
-                               +QPointF(100,10));
+                               +QPointF(102,10));
     sceneHighScoreTextItem->setZValue(2);
+}
+
+void Scene::addSceneBonus()
+{
+    sceneBonusTextItem = new QGraphicsTextItem();
+    QString htmlString = "<p>" + QString::number(bonus) + "</p>";
+    QFont mFont("Consolas", 20, QFont::Bold);
+    sceneBonusTextItem->setHtml(htmlString);
+    sceneBonusTextItem->setFont(mFont);
+    sceneBonusTextItem->setDefaultTextColor(Qt::red);
+    addItem(sceneBonusTextItem);
+    sceneBonusTextItem->setPos(-QPointF(sceneBackgroundMap->boundingRect().width()/2,sceneBackgroundMap->boundingRect().height()/2)
+                               +QPointF(102,60));
+    sceneBonusTextItem->setZValue(2);
 }
 
 void Scene::updateSceneScore()
@@ -231,6 +255,13 @@ void Scene::updateSceneHighScore()
     QString htmlString = "<p>" + QString::number(bestScore) + "</p>";
     QFont mFont("Consolas", 20, QFont::Bold);
     sceneHighScoreTextItem->setHtml(htmlString);
+}
+
+void Scene::updateSceneBonus()
+{
+    QString htmlString = "<p>" + QString::number(bonus) + "</p>";
+    QFont mFont("Consolas", 20, QFont::Bold);
+    sceneBonusTextItem->setHtml(htmlString);
 }
 
 void Scene::setMusic(bool x)
@@ -277,6 +308,7 @@ void Scene::setUpPillarTimer()
             // stop pillar timer, lorsqu'il y a une collision
             pillarTimer->stop();
             enemyTimer->stop();
+            bonusTimer->stop();
             freezeBirdAndPillarsInPlace();
             setGameOn(false);
             showGameOverGraphics();
@@ -292,6 +324,7 @@ void Scene::setUpEnemyTimer(){
     connect(enemyItem, &enemy::collideFail,[=]{
         pillarTimer->stop();
         enemyTimer->stop();
+        bonusTimer->stop();
         freezeBirdAndPillarsInPlace();
         setGameOn(false);
         showGameOverGraphics();
@@ -302,10 +335,51 @@ void Scene::setUpEnemyTimer(){
     });
 }
 
+void Scene::setUpBonus()
+{
+    bonusTimer = new QTimer(this);
+    connect(bonusTimer, &QTimer::timeout, [=](){
+        Bonus * bonus = new Bonus();
+        connect(bonus, &Bonus::collideFail,[=]{
+
+        });
+    bonus->setPos(QPointF(0,0) - QPointF(bonus->boundingRect().width()/2,
+                                                       bonus->boundingRect().height()/2));
+    addItem(bonus);
+    });
+}
+
 void Scene::setUpAttack()
 {
     fireball = new BirdAttack(bird->y(), sceneBackgroundMap->boundingRect().width()/2);
     addItem(fireball);
+}
+
+void Scene::setUpBonusEffectTimer()
+{
+    bonusEffectTimer = new QTimer(this);
+    connect(bonusEffectTimer, &QTimer::timeout, [=](){    
+        bird->setPowerUp(false);
+        Bonuseffect->setMedia(QUrl("qrc:/sound effects/smb_pipe.wav"));
+        if(!paused){
+            Bonuseffect->play();
+        }
+    });
+}
+
+void Scene::BonusEffect(){
+    if(bonus <= 0){
+    } else {
+      // Nouveau nombres de bonus
+      bonus--;
+      updateSceneBonus();
+      // Jouer le son
+      Bonuseffect->setMedia(QUrl("qrc:/sound effects/smb_powerup.wav"));
+      Bonuseffect->play();
+      // Effet du bonus
+      bird->setPowerUp(true);
+      bonusEffectTimer->start(5000);
+    }
 }
 
 void Scene::freezeBirdAndPillarsInPlace()
@@ -324,6 +398,7 @@ void Scene::freezeBirdAndPillarsInPlace()
         PillarItem* pillar = dynamic_cast<PillarItem*>(item);
         enemy* EnemyItem = dynamic_cast<enemy*>(item);
         BirdAttack* fireballItem = dynamic_cast<BirdAttack*>(item);
+        Bonus* bonusItem = dynamic_cast<Bonus*>(item);
         // si c'est bien un pillar appel de la fonction
         if(pillar){
             pillar->freezeInPlace();
@@ -331,6 +406,8 @@ void Scene::freezeBirdAndPillarsInPlace()
             EnemyItem->freezeInPlace();
         }else if (fireballItem) {
             fireballItem->freezeInPlace();
+        }else if (bonusItem){
+            bonusItem->freezeInPlace();
         }
     }
 }
@@ -375,6 +452,19 @@ void Scene::cleanAttack()
     }
 }
 
+void Scene::cleanBonus()
+{
+    QList<QGraphicsItem*> sceneItems = items();
+    foreach(QGraphicsItem *item, sceneItems)
+    {
+        Bonus *bonusItem = dynamic_cast<Bonus*>(item);
+        if(bonusItem){
+            removeItem(bonusItem);
+            delete bonusItem;
+        }
+    }
+}
+
 bool Scene::getGameOn() const
 {
     return gameOn;
@@ -397,6 +487,13 @@ void Scene::incrementScore()
     updateSceneScore();
 }
 
+void Scene::incrementBonus()
+{
+    bonus++;
+    qDebug() << "Bonus: " << bonus;
+    updateSceneBonus();
+}
+
 void Scene::keyPressEvent(QKeyEvent *event)
 {
     // vérifier le le boutton presser else if(event->key() == Qt::Key_Escape)
@@ -416,6 +513,8 @@ void Scene::keyPressEvent(QKeyEvent *event)
         bird->shootDown();
     } else if (event->key() == Qt::Key_D && !paused) {
         setUpAttack();
+    } else if (event->key() == Qt::Key_A && !paused){
+        BonusEffect();
     }
     QGraphicsScene::keyPressEvent(event);
 }

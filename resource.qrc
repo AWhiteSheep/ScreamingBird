@@ -115,5 +115,14 @@
         <file>images/Fireball/Frame-4.png</file>
         <file>images/Fireball/Frame-5.png</file>
         <file>images/Fireball/Frame-6.png</file>
+        <file>images/Bonus.png</file>
+        <file>images/scores/BonusPanel-100.png</file>
+        <file>images/scores/BonusPanel.png</file>
+        <file>sound effects/smb_powerup.wav</file>
+        <file>images/birds/redbird-downflap-100.png</file>
+        <file>images/birds/redbird-midflap-100.png</file>
+        <file>images/birds/redbird-upflap-100.png</file>
+        <file>sound effects/smb_pipe.wav</file>
+        <file>images/scores/BonusPanel-200.png</file>
     </qresource>
 </RCC>
