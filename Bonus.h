@@ -5,10 +5,9 @@
 #include <QObject>
 #include <QGraphicsPixmapItem>
 #include <QMediaPlayer>
-
+#include <QRandomGenerator>
 
 #include "birditem.h"
-#include "scene.h"
 
 class Bonus:public QObject, public QGraphicsPixmapItem
 {

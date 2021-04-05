@@ -1,11 +1,5 @@
-#include "BirdAttack.h"
-#include "scene.h"
-#include "enemy.h"
-#include <QTimer>
-#include <QGraphicsScene>
-#include <QList>
-#include <QDebug>
-#include <QPixmap>
+#include "birdattack.h"
+
 
 BirdAttack::BirdAttack(qreal birdPosY, qreal limiteScreen) : fireball(Frame1)
 {

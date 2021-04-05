@@ -6,11 +6,10 @@
 #include <QPropertyAnimation>
 #include <QRandomGenerator>
 #include <QGraphicsScene>
-#include "birditem.h"
-#include "scene.h"
 #include <QDebug>
 #include <QMediaPlayer>
 
+#include "birditem.h"
 
 // nous utilison QGraphicsItemGroup afin de manipuler un group d'entité comme un seul
 class PillarItem : public QObject, public QGraphicsItemGroup

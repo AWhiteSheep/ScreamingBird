@@ -7,8 +7,14 @@
 #include <QGraphicsItemGroup>
 #include <QPropertyAnimation>
 #include <QGraphicsScene>
-#include "birditem.h"
 #include <QDebug>
+#include <QTimer>
+#include <QList>
+#include <QDebug>
+#include <QPixmap>
+
+#include "birditem.h"
+#include "enemy.h"
 
 class BirdAttack : public QObject, public QGraphicsPixmapItem
 {

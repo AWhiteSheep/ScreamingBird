@@ -7,6 +7,7 @@
 #include <QTimer>
 #include <QGraphicsScene>
 #include <QMediaPlayer>
+
 #include "birdattack.h"
 
 enum BirdColor
