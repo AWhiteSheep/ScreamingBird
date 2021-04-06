@@ -17,6 +17,7 @@ SOURCES += \
     scene.cpp \
     widget.cpp
 
+
 HEADERS += \
     CommunicationFPGA.h \
     freezable.h \
