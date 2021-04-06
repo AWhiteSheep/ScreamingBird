@@ -9,8 +9,9 @@
 #include <QGraphicsScene>
 #include "birditem.h"
 #include <QDebug>
+#include "freezable.h"
 
-class BirdAttack : public QObject, public QGraphicsPixmapItem
+class BirdAttack : public QObject, public QGraphicsPixmapItem, public Freezable
 {
 private:
     Q_OBJECT
@@ -57,6 +58,8 @@ public:
     //qreal getY();
     //void setX(qreal x);
     //void setY(qreal x);
+
+    // ABSTRACT IMPLEMENTATION
     void freezeInPlace();
     bool collidesWithEnemy();
 };

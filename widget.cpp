@@ -22,18 +22,18 @@ Widget::Widget(QWidget *parent)
     verticalLayout->addWidget(graphicsView);
     this->setLayout(verticalLayout);
 
-    // initialisation de la scene et configuration de ce qui sera affiché
-    // dans une vue graphique
+    // INITIALIZE SCENE
     scene = new Scene(this); // besoin d'une référence au parent
-    // recheche de la ressource de l'arrière plan
+
+    // ADD BACKGROUND TO SCENE
     QPixmap background(":/images/background-day.png");
-    scene->sceneBackgroundMap =
-            new QGraphicsPixmapItem(background);
+    scene->sceneBackgroundMap = new QGraphicsPixmapItem(background);
     QGraphicsPixmapItem * pixItem = scene->sceneBackgroundMap;
     scene->sceneBackgroundMap->setPos(QPointF(0,0) - QPointF(pixItem->boundingRect().width()/2,
                                            pixItem->boundingRect().height()/2));
     scene->addItem(pixItem);
-    // ajout du score
+
+    // ADD SCORE GRAPHICS SLOT
     QGraphicsPixmapItem* score = new QGraphicsPixmapItem(QPixmap(":/images/scores/score-background-200.png"));
     score->setPos(QPointF(pixItem->boundingRect().width()/2, -pixItem->boundingRect().height()/2)
                   -QPointF(score->boundingRect().width(),0)
@@ -41,20 +41,23 @@ Widget::Widget(QWidget *parent)
     score->setZValue(1);
     scene->addItem(score);
     scene->addSceneScore();
-    // ajout du high score
+
+    // ADD HIGHSCORE GRAPHICS SLOT
     QGraphicsPixmapItem* highScore = new QGraphicsPixmapItem(QPixmap(":/images/scores/high-score-200.png"));
     highScore->setPos(-QPointF(pixItem->boundingRect().width()/2, pixItem->boundingRect().height()/2)
                   +QPointF(10,10));
     highScore->setZValue(1);
     scene->addItem(highScore);
     scene->addSceneHighScore();
-    // centrer l'arrière plan
+    
+    // SET SCENE
     graphicsView->setScene(scene);
     graphicsView->setSceneRect(scene->sceneRect());
+
+    // SET APP BEGIN
     scene->addBird();
     scene->startMusic();
     scene->addMenu();
-
 }
 
 Widget::~Widget()
@@ -62,12 +65,6 @@ Widget::~Widget()
     delete scene;
     delete graphicsView;
     delete verticalLayout;
-}
-
-
-void Widget::on_startGameButton_clicked()
-{
-    scene->startGame();
 }
 
 void Widget::setFocusToGraphicView()

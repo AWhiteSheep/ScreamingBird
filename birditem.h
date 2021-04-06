@@ -8,6 +8,7 @@
 #include <QGraphicsScene>
 #include <QMediaPlayer>
 #include "birdattack.h"
+#include "freezable.h"
 
 enum BirdColor
 {
@@ -16,7 +17,7 @@ enum BirdColor
     YELLOW
 };
 
-class BirdItem:public QObject, public QGraphicsPixmapItem
+class BirdItem:public QObject, public QGraphicsPixmapItem, public Freezable
 {    
     Q_OBJECT
     Q_PROPERTY(qreal rotation READ rotation WRITE setRotation)
@@ -36,6 +37,7 @@ public:
     void shootDown();
     void startFlying();
     void die();
+    // ABSTRACT IMPLEMENTATION
     void freezeInPlace();
     BirdColor color;
 signals:

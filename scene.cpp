@@ -59,12 +59,12 @@ void Scene::addBird()
     bird->setZValue(1);
     bird->setPos(QPointF(0,0) - QPointF(bird->boundingRect().width()/2,
                                                    bird->boundingRect().height()/2));
-    addItem(bird);// fonction de QGraphicsScene
+    addItem(bird);
 }
 
 void Scene::startGame()
 {
-    //start animation for Bird and Pillars
+    //re-initialize bird
     delete bird;
     if(static_cast<enum::BirdColor>(birdColor) == BirdColor::RED)
         bird = new BirdItem(QPixmap(":/images/redbird-midflap.png"),
@@ -81,11 +81,14 @@ void Scene::startGame()
     bird->color = static_cast<BirdColor>(this->birdColor);
     addItem(bird);
     bird->setZValue(1);
+    // set new score
     score = 0;
     updateSceneScore();
+
     cleanPillars();
     cleanEnemy();
     cleanAttack();
+
     setGameOn(true);
     hideGameOverGraphics();
     Widget * parent = dynamic_cast<Widget*>(this->parent());
@@ -119,7 +122,6 @@ void Scene::addMenu()
         QList<QGraphicsItem*> sceneItems = items();
         foreach(QGraphicsItem *item, sceneItems){
             Button*button = dynamic_cast<Button*>(item);
-            // si c'est bien un pillar appel de la fonction
             if(button){
                 button->show();
             }
@@ -131,8 +133,7 @@ void Scene::addMenu()
     btnStart = new Button(QPixmap(":/images/buttons/play-button-idle-200.png"),
                              QPixmap(":/images/buttons/play-button-press-200.png"));
     btnStart->setZValue(1);
-    addItem(btnStart);// fonction de QGraphicsScene
-    // placement au centre de l'écran
+    addItem(btnStart);
     btnStart->setPos(QPointF(0,-50) - QPointF(btnStart->boundingRect().width()/2,
                                                btnStart->boundingRect().height()/2));
     connect(btnStart, &Button::mouseRelease, [=]{
@@ -309,12 +310,6 @@ void Scene::startFPGACommunication()
     fpgaTimer->start(10);
 }
 
-void Scene::stopFPGACommunication()
-{
-}
-
-
-
 void Scene::setUpPillarTimer()
 {
     pillarTimer = new QTimer(this);
@@ -356,25 +351,15 @@ void Scene::setUpAttack()
     fireball = new BirdAttack(bird->y(), sceneBackgroundMap->boundingRect().width()/2);
     addItem(fireball);
 }
-
+/**/
 void Scene::freezeBirdAndPillarsInPlace()
 {
-    // freeze bird
-    bird->freezeInPlace();
-
     // freeze pillar, get all item in scene
     QList<QGraphicsItem*> sceneItems = items();
     foreach(QGraphicsItem *item, sceneItems){
-        PillarItem* pillar = dynamic_cast<PillarItem*>(item);
-        enemy* EnemyItem = dynamic_cast<enemy*>(item);
-        BirdAttack* fireballItem = dynamic_cast<BirdAttack*>(item);
-        // si c'est bien un pillar appel de la fonction
-        if(pillar){
-            pillar->freezeInPlace();
-        }else if(EnemyItem){
-            EnemyItem->freezeInPlace();
-        }else if (fireballItem) {
-            fireballItem->freezeInPlace();
+        Freezable* freezableItem = dynamic_cast<Freezable*>(item);
+        if(freezableItem){
+            freezableItem->freezeInPlace();
         }
     }
 }

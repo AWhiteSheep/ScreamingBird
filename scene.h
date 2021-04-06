@@ -12,6 +12,7 @@
 #include <QMediaPlayer>
 #include "button.h"
 #include "CommunicationFPGA.h"
+#include "freezable.h"
 
 class Scene : public QGraphicsScene
 {
@@ -36,7 +37,6 @@ public:
     void showTitle();
     void hideTitle();
     void startFPGACommunication();
-    void stopFPGACommunication();
     QGraphicsPixmapItem * sceneBackgroundMap;
 signals:
 public slots:

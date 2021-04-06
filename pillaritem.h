@@ -10,10 +10,10 @@
 #include "scene.h"
 #include <QDebug>
 #include <QMediaPlayer>
-
+#include "freezable.h"
 
 // nous utilison QGraphicsItemGroup afin de manipuler un group d'entité comme un seul
-class PillarItem : public QObject, public QGraphicsItemGroup
+class PillarItem : public QObject, public QGraphicsItemGroup, public Freezable
 {
     Q_OBJECT
     Q_PROPERTY(qreal x READ x WRITE setX ) // QProperty est essentiel afin d'utiliser les animation QT sur un objet.
@@ -22,6 +22,7 @@ public:
     ~PillarItem();
 
     qreal x() const;
+    // ABSTRACT IMPLEMENTATION
     void freezeInPlace();
 
 signals:

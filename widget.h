@@ -20,7 +20,6 @@ public:
     ~Widget();
     void setFocusToGraphicView();
 private slots:
-    void on_startGameButton_clicked();
 
 private:
     Widget *ui;

@@ -5,12 +5,11 @@
 #include <QObject>
 #include <QGraphicsPixmapItem>
 #include <QMediaPlayer>
-
-
 #include "birditem.h"
 #include "scene.h"
+#include "freezable.h"
 
-class enemy:public QObject, public QGraphicsPixmapItem
+class enemy:public QObject, public QGraphicsPixmapItem, public Freezable
 {
     Q_OBJECT
     Q_PROPERTY(qreal x READ x WRITE setX) // QProperty est essentiel afin d'utiliser les animation QT sur un objet.
@@ -19,7 +18,7 @@ class enemy:public QObject, public QGraphicsPixmapItem
 public:
     explicit enemy();
     ~enemy();
-
+    // ABSTRACT IMPLEMENTATION
     void freezeInPlace();
     qreal x() const;
     qreal y() const;
