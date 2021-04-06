@@ -23,9 +23,6 @@ HEADERS += \
     score.h \
     widget.h
 
-FORMS += \
-    widget.ui
-
 RESOURCES += \
     resource.qrc
 
