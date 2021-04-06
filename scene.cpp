@@ -34,7 +34,7 @@ Scene::~Scene()
         }
     }
     delete titleTimer;
-    if (fpga != nullptr)
+    if (fpga->estOk())
         delete fpga;
 }
 
