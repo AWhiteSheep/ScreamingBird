@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <scene.h>
 #include <QMediaPlayer>
+#include <QVBoxLayout>
+#include <QGraphicsView>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class Widget; }
@@ -21,7 +23,9 @@ private slots:
     void on_startGameButton_clicked();
 
 private:
-    Ui::Widget *ui;
-    Scene * scene;
+    Widget *ui;
+    Scene * scene; 
+    QVBoxLayout* verticalLayout;
+    QGraphicsView* graphicsView;
 };
 #endif // WIDGET_H

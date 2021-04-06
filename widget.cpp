@@ -1,14 +1,27 @@
 #include "widget.h"
-#include "ui_widget.h"
 #include <QGraphicsPixmapItem>
 #include <pillaritem.h>
 #include "enemy.h"
 
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
-    , ui(new Ui::Widget)
 {
-    ui->setupUi(this);
+    // SETUP UI
+    verticalLayout = new QVBoxLayout;
+    graphicsView = new QGraphicsView;
+    this->resize(1177, this->width());
+    this->resize(637, this->height());
+    this->setWindowTitle("Screaming Bird");
+    this->setLayoutDirection(Qt::LayoutDirection::LeftToRight);
+    verticalLayout->setSizeConstraint(QLayout::SetFixedSize);
+    graphicsView->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    graphicsView->setTransformationAnchor(QGraphicsView::NoAnchor);
+    graphicsView->setResizeAnchor(QGraphicsView::NoAnchor);
+    graphicsView->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
+    verticalLayout->addWidget(graphicsView);
+    this->setLayout(verticalLayout);
+
     // initialisation de la scene et configuration de ce qui sera affiché
     // dans une vue graphique
     scene = new Scene(this); // besoin d'une référence au parent
@@ -36,9 +49,8 @@ Widget::Widget(QWidget *parent)
     scene->addItem(highScore);
     scene->addSceneHighScore();
     // centrer l'arrière plan
-    ui->graphicsView->setScene(scene);
-    ui->graphicsView->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-    ui->graphicsView->setSceneRect(scene->sceneRect());
+    graphicsView->setScene(scene);
+    graphicsView->setSceneRect(scene->sceneRect());
     scene->addBird();
     scene->startMusic();
     scene->addMenu();
@@ -48,7 +60,8 @@ Widget::Widget(QWidget *parent)
 Widget::~Widget()
 {
     delete scene;
-    delete ui;
+    delete graphicsView;
+    delete verticalLayout;
 }
 
 
@@ -59,5 +72,5 @@ void Widget::on_startGameButton_clicked()
 
 void Widget::setFocusToGraphicView()
 {
-    ui->graphicsView->setFocus();
+   graphicsView->setFocus();
 }

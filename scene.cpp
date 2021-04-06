@@ -23,7 +23,6 @@ Scene::~Scene()
     delete sceneBackgroundMap;
     delete sceneMedia;
     delete bird;
-    delete fpga;
     delete fpgaTimer;
     cleanAttack();
     QList<QGraphicsItem*> sceneItems = items();
@@ -35,6 +34,8 @@ Scene::~Scene()
         }
     }
     delete titleTimer;
+    if (fpga != nullptr)
+        delete fpga;
 }
 
 void Scene::startMusic()
