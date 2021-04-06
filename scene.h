@@ -14,6 +14,7 @@
 #include "enemy.h"
 #include "Bonus.h"
 #include "Boss.h"
+#include "BossAttack.h"
 
 class Scene : public QGraphicsScene
 {
@@ -55,6 +56,7 @@ private:
     void setUpBonus();
     void setUpAttack();
     void setUpBoss();
+    void setUpBossAttack();
     void setUpEnemyTimer();
     void setUpBonusEffectTimer();
     void setBossIndex(int Index);
@@ -71,8 +73,11 @@ private:
     QTimer * bonusTimer;
     QTimer * bonusEffectTimer;
     QTimer * titleTimer;
+    QTimer * BossAttackTimer;
     BirdItem * bird;
     BirdAttack * fireball;
+    BossAttack * BossBall;
+    Boss * BossItem;
     Button * btnStart;
     Button * btnNext;
     Button * btnBack;

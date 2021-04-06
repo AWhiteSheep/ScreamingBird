@@ -33,6 +33,7 @@ public slots:
     void setY(qreal y);
 signals:
     void Bossdead();
+    void BeginAttack();
 
 private:
     enum deathFrame{

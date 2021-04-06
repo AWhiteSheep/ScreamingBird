@@ -18,6 +18,7 @@ Boss::Boss():lifeCount(2),
     xAnimation->setEasingCurve(QEasingCurve::Linear); // la function utiliser pour atteindre la position final
     xAnimation->setDuration(5500);
     connect(xAnimation, &QPropertyAnimation::finished, [=](){
+        emit BeginAttack();
         yAnimation = new QPropertyAnimation(this, "y", this);
         yAnimationTimer = new QTimer(this);
         connect(yAnimationTimer, &QTimer::timeout, [=](){

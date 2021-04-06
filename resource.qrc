@@ -164,5 +164,11 @@
         <file>images/Boss/Boss-Frame-17.png</file>
         <file>images/Boss/Boss-Frame-18.png</file>
         <file>images/Boss/Boss-Frame-19.png</file>
+        <file>images/BossAttack/Frame-1.png</file>
+        <file>images/BossAttack/Frame-2.png</file>
+        <file>images/BossAttack/Frame-3.png</file>
+        <file>images/BossAttack/Frame-4.png</file>
+        <file>images/BossAttack/Frame-5.png</file>
+        <file>images/BossAttack/Frame-6.png</file>
     </qresource>
 </RCC>

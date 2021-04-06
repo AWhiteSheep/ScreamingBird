@@ -13,6 +13,7 @@ Scene::Scene(QObject *parent) : QGraphicsScene(parent),
     setUpEnemyTimer();
     setUpBonus();
     setUpBonusEffectTimer();
+    setUpBossAttack();
 }
 
 Scene::~Scene()
@@ -362,6 +363,25 @@ void Scene::setUpAttack()
     addItem(fireball);
 }
 
+void Scene::setUpBossAttack()
+{
+    BossAttackTimer = new QTimer(this);
+    connect(BossAttackTimer, &QTimer::timeout, [=](){
+    BossBall = new BossAttack(BossItem->y(),sceneBackgroundMap->boundingRect().width()/2,true);
+        connect(BossBall, &BossAttack::collideFail,[=]{
+            pillarTimer->stop();
+            enemyTimer->stop();
+            bonusTimer->stop();
+            freezeBirdAndPillarsInPlace();
+            setGameOn(false);
+            showGameOverGraphics();
+        });
+        BossBall->setZValue(2);
+        addItem(BossBall);
+    });
+
+}
+
 void Scene::setUpBonusEffectTimer()
 {
     bonusEffectTimer = new QTimer(this);
@@ -530,18 +550,24 @@ void Scene::incrementScore()
 
 void Scene::setUpBoss()
 {
-    Boss * BossItem = new Boss();
+    BossItem = new Boss();
     BossItem->setPos(QPointF(0,0) - QPointF(BossItem->boundingRect().width()/2,
                                                    BossItem->boundingRect().height()/2));
     BossItem->setZValue(1);
 
     connect(BossItem, &Boss::Bossdead,[=](){
         qDebug() << "Continuation du niveau";
+        BossAttackTimer->stop();
         pillarTimer->start(1000);
         enemyTimer->start(3000);
         bonusTimer->start(4500);
         setBossIndex(0);
     });
+    connect(BossItem, &Boss::BeginAttack,[=](){
+        qDebug() << "Phase de combat";
+        BossAttackTimer->start(1000);
+    });
+
     addItem(BossItem);
 }
 
