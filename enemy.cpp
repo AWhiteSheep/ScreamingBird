@@ -1,8 +1,4 @@
 #include "enemy.h"
-#include <QTimer>
-#include <QGraphicsScene>
-#include <QList>
-#include <QDebug>
 
 enemy::enemy():
    wingPosition(WingPosition::Frame1), pastBird(false)

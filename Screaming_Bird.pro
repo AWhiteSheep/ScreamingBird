@@ -10,6 +10,7 @@ CONFIG += c++11
 
 SOURCES += \
     Bonus.cpp \
+    Boss.cpp \
     birdattack.cpp \
     birditem.cpp \
     button.cpp \
@@ -21,6 +22,7 @@ SOURCES += \
 
 HEADERS += \
     Bonus.h \
+    Boss.h \
     birdattack.h \
     birditem.h \
     button.h \

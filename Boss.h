@@ -1,29 +1,30 @@
-#ifndef ENEMY_H
-#define ENEMY_H
-
+#ifndef BOSS_H
+#define BOSS_H
 #include <QObject>
 #include <QGraphicsPixmapItem>
 #include <QMediaPlayer>
 #include <QRandomGenerator>
+#include <QPropertyAnimation>
 #include <QTimer>
 #include <QGraphicsScene>
 #include <QList>
 #include <QDebug>
 
-#include "birditem.h"
+#include "birdattack.h"
 
-
-class enemy:public QObject, public QGraphicsPixmapItem
+class Boss:public QObject, public QGraphicsPixmapItem
 {
     Q_OBJECT
     Q_PROPERTY(qreal x READ x WRITE setX) // QProperty est essentiel afin d'utiliser les animation QT sur un objet.
     Q_PROPERTY(qreal y READ y WRITE setY)
-    qreal ENEMY_SPEED = 1200;      // 1000 - 3000
+    qreal BOSS_SPEED = 1200;      // 1000 - 3000
 public:
-    explicit enemy();
-    ~enemy();
+    explicit Boss();
+    ~Boss();
 
     void freezeInPlace();
+    void lifeDown();
+    int getLife();
     qreal x() const;
     qreal y() const;
 
@@ -31,36 +32,41 @@ public slots:
     void setX(qreal x);
     void setY(qreal y);
 signals:
-    void collideFail(); // fonction qui n'est pas défini elle est émise
+    void Bossdead();
 
 private:
-    enum WingPosition{
+    enum deathFrame{
         Frame1,
         Frame2,
         Frame3,
         Frame4,
         Frame5,
         Frame6,
-        Frame7,
-        Frame8
     };
+    deathFrame DeathFrame;
 
     int updatePixmap();
-    bool collidesWithBird();
+    bool deathPixmap();
+    bool collidesWithBirdAttack();
 
-    WingPosition  wingPosition;
-    QGraphicsPixmapItem * Enemy;
+    void BossDeath();
+    void rotateTo(const qreal &end, const int& duration, const QEasingCurve& curve);
+
+    QGraphicsPixmapItem * boss;
     QPropertyAnimation * xAnimation;
     QPropertyAnimation * yAnimation;
+    QPropertyAnimation * rotationAnimation;
     QTimer * yAnimationTimer;
-    QTimer * EnemyWingsTimer;
+    QTimer * deathTimer;
 
    int xPos;
    int yPos;
+   int lifeCount;
    qreal m_x;
    qreal m_y;
+   qreal groundPosition;
    bool isGoingUp = false;
-   bool pastBird;
+   bool deathAnimation;
+   bool bossAlive;
 };
-
-#endif // ENEMY_H
+#endif // BOSS_H

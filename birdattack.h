@@ -29,7 +29,6 @@ private:
     qreal rightLimiteScreen;
     QTimer * timer;
     bool freeze;
-
     //QGraphicsPixmapItem * feu;
     //QPropertyAnimation * xAnimation;
     //QMediaPlayer * feuMedia;

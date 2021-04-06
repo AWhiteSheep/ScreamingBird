@@ -3,15 +3,17 @@
 
 #include <QGraphicsScene>
 #include <QTimer>
-#include "pillaritem.h"
-#include "birditem.h"
-#include "enemy.h"
-#include "Bonus.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QKeyEvent>
 #include <QDebug>
 #include <QMediaPlayer>
+
 #include "button.h"
+#include "pillaritem.h"
+#include "birditem.h"
+#include "enemy.h"
+#include "Bonus.h"
+#include "Boss.h"
 
 class Scene : public QGraphicsScene
 {
@@ -38,6 +40,7 @@ public:
     void setMusic(bool x);
     void showTitle();
     void hideTitle();
+    void continueGame();
     QGraphicsPixmapItem * sceneBackgroundMap;
 signals:
 public slots:
@@ -51,13 +54,16 @@ private:
     void setUpEnemy();
     void setUpBonus();
     void setUpAttack();
+    void setUpBoss();
     void setUpEnemyTimer();
     void setUpBonusEffectTimer();
+    void setBossIndex(int Index);
     void freezeBirdAndPillarsInPlace();
     void cleanPillars();
     void cleanEnemy();
     void cleanAttack();
     void cleanBonus();
+    void cleanBoss();
     void BonusEffect();
     void updatePixmap();
     QTimer * pillarTimer;
@@ -80,6 +86,7 @@ private:
     int birdColor = 0;
     int bonus;
     int titleIndex = 1;
+    int bossIndex;
     QGraphicsPixmapItem * gameOverPix;
     QGraphicsPixmapItem * titlePix;
     QGraphicsTextItem * scoreTextItem;

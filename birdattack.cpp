@@ -31,7 +31,6 @@ BirdAttack::BirdAttack(qreal birdPosY, qreal limiteScreen) : fireball(Frame1)
 BirdAttack::~BirdAttack()
 {
     //delete xAnimation;
-    scene()->removeItem(this);
     delete timer;
     delete animationFireball;
 }
@@ -55,8 +54,9 @@ void BirdAttack::move()
             delete colliding_items[i];
             delete this;
             return; // sort de la fonction
-        }
-    }
+        };
+
+    };
 
     // bouger la boule de feu
     if (freeze)

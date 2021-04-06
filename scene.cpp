@@ -2,7 +2,7 @@
 #include "widget.h"
 
 Scene::Scene(QObject *parent) : QGraphicsScene(parent),
-    gameOn(false), score(0), bestScore(0), bonus(0)
+    gameOn(false), score(0), bestScore(0), bonus(0), bossIndex(0)
 {
     gameOverPix = nullptr;
     scoreTextItem = nullptr;
@@ -122,6 +122,7 @@ void Scene::addMenu()
         cleanPillars();
         cleanEnemy();
         cleanAttack();
+        cleanBoss();
         QList<QGraphicsItem*> sceneItems = items();
         foreach(QGraphicsItem *item, sceneItems){
             Button*button = dynamic_cast<Button*>(item);
@@ -349,9 +350,6 @@ void Scene::setUpBonus()
     bonusTimer = new QTimer(this);
     connect(bonusTimer, &QTimer::timeout, [=](){
         Bonus * bonus = new Bonus();
-        connect(bonus, &Bonus::collideFail,[=]{
-
-        });
     bonus->setPos(QPointF(0,0) - QPointF(bonus->boundingRect().width()/2,
                                                        bonus->boundingRect().height()/2));
     addItem(bonus);
@@ -375,6 +373,11 @@ void Scene::setUpBonusEffectTimer()
         }
         bonusEffectTimer->stop();
     });
+}
+
+void Scene::setBossIndex(int Index)
+{
+    bossIndex = Index;
 }
 
 void Scene::BonusEffect(){
@@ -404,6 +407,7 @@ void Scene::freezeBirdAndPillarsInPlace()
         enemy* EnemyItem = dynamic_cast<enemy*>(item);
         BirdAttack* fireballItem = dynamic_cast<BirdAttack*>(item);
         Bonus* bonusItem = dynamic_cast<Bonus*>(item);
+        Boss* bossItem = dynamic_cast<Boss*>(item);
         // si c'est bien un pillar appel de la fonction
         if(pillar){
             pillar->freezeInPlace();
@@ -413,6 +417,8 @@ void Scene::freezeBirdAndPillarsInPlace()
             fireballItem->freezeInPlace();
         }else if (bonusItem){
             bonusItem->freezeInPlace();
+        }else if (bossItem){
+            bossItem->freezeInPlace();
         }
     }
 }
@@ -468,6 +474,19 @@ void Scene::cleanBonus()
         }
     }
 }
+
+void Scene::cleanBoss()
+{
+    QList<QGraphicsItem*> sceneItems = items();
+    foreach(QGraphicsItem *item, sceneItems)
+    {
+        Boss *bossItem = dynamic_cast<Boss*>(item);
+        if(bossItem){
+            removeItem(bossItem);
+            delete bossItem;
+        }
+    }
+}
 void Scene::updatePixmap()
 {
     if(titleIndex >= 21)
@@ -491,13 +510,48 @@ void Scene::setGameOn(bool value)
 void Scene::incrementScore()
 {
     score++;
+    bossIndex++;
     if(score > bestScore){
         bestScore = score;
         updateSceneHighScore();
     }
 
+    //Initialisation du Boss apres un certain nombre
+    if(bossIndex == 5){
+        pillarTimer->stop();
+        enemyTimer->stop();
+        bonusTimer->stop();
+        setUpBoss();
+    }
+
     qDebug() << "Score: " << score << " Best Score: " << bestScore;
     updateSceneScore();
+}
+
+void Scene::setUpBoss()
+{
+    Boss * BossItem = new Boss();
+    BossItem->setPos(QPointF(0,0) - QPointF(BossItem->boundingRect().width()/2,
+                                                   BossItem->boundingRect().height()/2));
+    BossItem->setZValue(1);
+
+    connect(BossItem, &Boss::Bossdead,[=](){
+        qDebug() << "Continuation du niveau";
+        pillarTimer->start(1000);
+        enemyTimer->start(3000);
+        bonusTimer->start(4500);
+        setBossIndex(0);
+    });
+    addItem(BossItem);
+}
+
+void Scene::continueGame()
+{
+    qDebug() << "Continuation du niveau";
+    pillarTimer->start(1000);
+    enemyTimer->start(3000);
+    bonusTimer->start(4500);
+    setBossIndex(0);
 }
 
 void Scene::incrementBonus()
