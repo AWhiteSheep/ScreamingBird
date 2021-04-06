@@ -12,6 +12,7 @@ SOURCES += \
     Bonus.cpp \
     Boss.cpp \
     BossAttack.cpp \
+    BossBoulet.cpp \
     birdattack.cpp \
     birditem.cpp \
     button.cpp \
@@ -25,6 +26,7 @@ HEADERS += \
     Bonus.h \
     Boss.h \
     BossAttack.h \
+    BossBoulet.h \
     birdattack.h \
     birditem.h \
     button.h \

@@ -43,24 +43,11 @@ private:
         Frame6,
     };
 
-    enum Boulet{
-        Frame_1,
-        Frame_2,
-        Frame_3,
-        Frame_4,
-        Frame_5,
-        Frame_6,
-        Frame_7,
-        Frame_8
-    };
 
     Fireball fireball;
-    Boulet boulet;
     QTimer * animationFireball;
-    QTimer * animationBoulet;
 
     void updatePixmapFireball();
-    void updatePixmapBoulet();
 
 public slots:
     void move();
@@ -70,16 +57,11 @@ signals:
 
 public:
     // constructeur
-    explicit BossAttack(qreal bossPosY, qreal limiteScreen, bool attack);
+    explicit BossAttack(qreal bossPosY, qreal limiteScreen);
 
     // destructeur
     ~BossAttack();
 
-    // fonctions
-    //qreal getX();
-    //qreal getY();
-    //void setX(qreal x);
-    //void setY(qreal x);
     void freezeInPlace();
     bool collidesWithEnemy();
 };

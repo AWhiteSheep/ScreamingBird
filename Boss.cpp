@@ -1,23 +1,45 @@
 #include "Boss.h"
 #include "scene.h"
 
-Boss::Boss():lifeCount(2),
+Boss::Boss():lifeCount(20),
     groundPosition(1000),
     DeathFrame(deathFrame::Frame1),
-    bossAlive(true)
+    BossAnimation(bossAnimation::Frame_1),
+    bossAlive(true),
+    hitIndex(0)
 {
-    //set l'ennemi dans l'espace
     qDebug() << "Boss creer";
-
-    updatePixmap();
-    setY(0);
-    setPos(QPoint(0,0) + QPoint(260, m_y));
+    //debut de l'animation du boss
+    animationTimer = new QTimer(this);
+    connect(animationTimer, &QTimer::timeout, [=](){
+        updatePixmap();
+    });
+    animationTimer->start(100);
+    //animation hit
+    hitTimer = new QTimer(this);
+    connect(hitTimer, &QTimer::timeout, [=](){
+        animationTimer->stop();
+        deathPixmap();
+        hitIndex++;
+        if(hitIndex >= 5)
+        {
+            hitTimer->stop();
+            hitIndex = 0;
+            animationTimer->start(100);
+            DeathFrame = deathFrame::Frame1;
+        }
+    });
+    //set l'ennemi dans l'espace
+    setY(75);
+    setPos(QPoint(260, m_y));
+    //animation x
     xAnimation = new QPropertyAnimation(this, "x", this);
     xAnimation->setStartValue(900);
     xAnimation->setEndValue(275);
     xAnimation->setEasingCurve(QEasingCurve::Linear); // la function utiliser pour atteindre la position final
     xAnimation->setDuration(5500);
     connect(xAnimation, &QPropertyAnimation::finished, [=](){
+        //animation y + commancement du combat
         emit BeginAttack();
         yAnimation = new QPropertyAnimation(this, "y", this);
         yAnimationTimer = new QTimer(this);
@@ -28,12 +50,12 @@ Boss::Boss():lifeCount(2),
             if(isGoingUp)
             {
                 yAnimation->setStartValue(m_y);
-                yAnimation->setEndValue(m_y - 300);
+                yAnimation->setEndValue(m_y - 350);
             }
             else
             {
                 yAnimation->setStartValue(m_y);
-                yAnimation->setEndValue(m_y + 300);
+                yAnimation->setEndValue(m_y + 350);
             }
             yAnimation->setEasingCurve(QEasingCurve::Linear); // la function utiliser pour atteindre la position final
             yAnimation->setDuration(BOSS_SPEED);
@@ -83,6 +105,7 @@ void Boss::setY(qreal y)
     if(collidesWithBirdAttack())
     {
         lifeDown();
+        hitTimer->start(100);
     }
     setPos(QPointF(0,0) + QPointF(m_x,y));
 };
@@ -105,9 +128,49 @@ bool Boss::collidesWithBirdAttack()
     return false;
 };
 
-int Boss::updatePixmap()
+void Boss::updatePixmap()
 {
- setPixmap(QPixmap(":/images/Boss/Boss-Frame-1.png"));
+    if(BossAnimation == bossAnimation::Frame_1)
+    {
+        setPixmap(QPixmap(":/images/Boss/Boss-Frame-1.png"));
+        BossAnimation = bossAnimation::Frame_2;
+    }else if(BossAnimation == bossAnimation::Frame_2){
+        setPixmap(QPixmap(":/images/Boss/Boss-Frame-2.png"));
+        BossAnimation = bossAnimation::Frame_3;
+    }else if(BossAnimation == bossAnimation::Frame_3){
+        setPixmap(QPixmap(":/images/Boss/Boss-Frame-3.png"));
+        BossAnimation = bossAnimation::Frame_4;
+    }else if(BossAnimation == bossAnimation::Frame_4){
+        setPixmap(QPixmap(":/images/Boss/Boss-Frame-4.png"));
+        BossAnimation = bossAnimation::Frame_5;
+    }else if(BossAnimation == bossAnimation::Frame_5){
+        setPixmap(QPixmap(":/images/Boss/Boss-Frame-5.png"));
+        BossAnimation = bossAnimation::Frame_6;
+    }else if(BossAnimation == bossAnimation::Frame_6){
+        setPixmap(QPixmap(":/images/Boss/Boss-Frame-6.png"));
+        BossAnimation = bossAnimation::Frame_7;
+    }else if(BossAnimation == bossAnimation::Frame_7){
+        setPixmap(QPixmap(":/images/Boss/Boss-Frame-7.png"));
+        BossAnimation = bossAnimation::Frame_8;
+    }else if(BossAnimation == bossAnimation::Frame_8){
+        setPixmap(QPixmap(":/images/Boss/Boss-Frame-8.png"));
+        BossAnimation = bossAnimation::Frame_9;
+    }else if(BossAnimation == bossAnimation::Frame_9){
+        setPixmap(QPixmap(":/images/Boss/Boss-Frame-9.png"));
+        BossAnimation = bossAnimation::Frame_10;
+    }else if(BossAnimation == bossAnimation::Frame_10){
+        setPixmap(QPixmap(":/images/Boss/Boss-Frame-10.png"));
+        BossAnimation = bossAnimation::Frame_11;
+    }else if(BossAnimation == bossAnimation::Frame_11){
+        setPixmap(QPixmap(":/images/Boss/Boss-Frame_11.png"));
+        BossAnimation = bossAnimation::Frame_12;
+    }else if(BossAnimation == bossAnimation::Frame_12){
+        setPixmap(QPixmap(":/images/Boss/Boss-Frame-12.png"));
+        BossAnimation = bossAnimation::Frame_13;
+    }else if(BossAnimation == bossAnimation::Frame_13){
+        setPixmap(QPixmap(":/images/Boss/Boss-Frame-13.png"));
+        BossAnimation = bossAnimation::Frame_1;
+    }
 };
 
 void Boss::lifeDown()
@@ -142,6 +205,8 @@ void Boss::BossDeath()
     bossAlive = false;
     yAnimation->stop();
     yAnimationTimer->stop();
+    animationTimer->stop();
+    hitTimer->stop();
     //Commence l'animation de mort
     deathTimer = new QTimer(this);
     // listener pour le timer fait une appel à chaque fois le timer complêté
@@ -153,7 +218,7 @@ void Boss::BossDeath()
             deathTimer->stop();
         }
     });
-    deathTimer->start(100);
+    deathTimer->start(200);
     yAnimation->setStartValue(scenePos().y());
     yAnimation->setEndValue(groundPosition);
     yAnimation->setEasingCurve(QEasingCurve::InQuad);

@@ -2,7 +2,7 @@
 #include "widget.h"
 
 Scene::Scene(QObject *parent) : QGraphicsScene(parent),
-    gameOn(false), score(0), bestScore(0), bonus(0), bossIndex(0)
+    gameOn(false), score(0), bestScore(0), bonus(0), bossIndex(0), attack(0)
 {
     gameOverPix = nullptr;
     scoreTextItem = nullptr;
@@ -86,12 +86,16 @@ void Scene::startGame()
     bird->setZValue(1);
     score = 0;
     bonus = 0;
+    attack = 0;
+    bossIndex = 0;
     updateSceneScore();
     updateSceneBonus();
     cleanPillars();
     cleanEnemy();
     cleanAttack();
     cleanBonus();
+    cleanBoss();
+    cleanBossAttack();
     setGameOn(true);
     hideGameOverGraphics();
     Widget * parent = dynamic_cast<Widget*>(this->parent());
@@ -367,17 +371,35 @@ void Scene::setUpBossAttack()
 {
     BossAttackTimer = new QTimer(this);
     connect(BossAttackTimer, &QTimer::timeout, [=](){
-    BossBall = new BossAttack(BossItem->y(),sceneBackgroundMap->boundingRect().width()/2,true);
+    if(attack != 3){
+        BossBall = new BossAttack(BossItem->y(),sceneBackgroundMap->boundingRect().width()/2);
+        attack++;
         connect(BossBall, &BossAttack::collideFail,[=]{
             pillarTimer->stop();
             enemyTimer->stop();
             bonusTimer->stop();
+            BossAttackTimer->stop();
             freezeBirdAndPillarsInPlace();
             setGameOn(false);
             showGameOverGraphics();
         });
         BossBall->setZValue(2);
         addItem(BossBall);
+    }else{
+        Boulet = new BossBoulet(BossItem->y(),sceneBackgroundMap->boundingRect().width()/2);
+        attack = 0;
+        connect(Boulet, &BossBoulet::collideFail,[=]{
+            pillarTimer->stop();
+            enemyTimer->stop();
+            bonusTimer->stop();
+            BossAttackTimer->stop();
+            freezeBirdAndPillarsInPlace();
+            setGameOn(false);
+            showGameOverGraphics();
+        });
+        Boulet->setZValue(2);
+        addItem(Boulet);
+    }
     });
 
 }
@@ -428,6 +450,8 @@ void Scene::freezeBirdAndPillarsInPlace()
         BirdAttack* fireballItem = dynamic_cast<BirdAttack*>(item);
         Bonus* bonusItem = dynamic_cast<Bonus*>(item);
         Boss* bossItem = dynamic_cast<Boss*>(item);
+        BossBoulet * bouletItem = dynamic_cast<BossBoulet*>(item);
+        BossAttack * fireItem = dynamic_cast<BossAttack*>(item);
         // si c'est bien un pillar appel de la fonction
         if(pillar){
             pillar->freezeInPlace();
@@ -439,7 +463,8 @@ void Scene::freezeBirdAndPillarsInPlace()
             bonusItem->freezeInPlace();
         }else if (bossItem){
             bossItem->freezeInPlace();
-        }
+        }else if (bouletItem)
+            bouletItem->freezeInPlace();
     }
 }
 
@@ -507,6 +532,25 @@ void Scene::cleanBoss()
         }
     }
 }
+
+void Scene::cleanBossAttack()
+{
+    QList<QGraphicsItem*> sceneItems = items();
+    foreach(QGraphicsItem *item, sceneItems)
+    {
+        BossAttack *fireballItem = dynamic_cast<BossAttack*>(item);
+        if(fireballItem){
+            //removeItem(fireballItem);
+            delete fireballItem;
+        }
+        BossBoulet *bouletItem = dynamic_cast<BossBoulet*>(item);
+        if(bouletItem){
+            //removeItem(fireballItem);
+            delete bouletItem;
+        }
+    }
+}
+
 void Scene::updatePixmap()
 {
     if(titleIndex >= 21)
@@ -537,7 +581,7 @@ void Scene::incrementScore()
     }
 
     //Initialisation du Boss apres un certain nombre
-    if(bossIndex == 5){
+    if(bossIndex == 18){
         pillarTimer->stop();
         enemyTimer->stop();
         bonusTimer->stop();
@@ -554,9 +598,14 @@ void Scene::setUpBoss()
     BossItem->setPos(QPointF(0,0) - QPointF(BossItem->boundingRect().width()/2,
                                                    BossItem->boundingRect().height()/2));
     BossItem->setZValue(1);
-
+    //sceneMedia->stop();
+    //SceneMedia->setMedia(QUrl("qrc:/sound effects/mega-man-2-wily-stage-remix.mp3"));
+    //SceneMedia->play();
     connect(BossItem, &Boss::Bossdead,[=](){
         qDebug() << "Continuation du niveau";
+        cleanBossAttack();
+        //SceneMedia->stop();
+        startMusic();
         BossAttackTimer->stop();
         pillarTimer->start(1000);
         enemyTimer->start(3000);
@@ -569,15 +618,6 @@ void Scene::setUpBoss()
     });
 
     addItem(BossItem);
-}
-
-void Scene::continueGame()
-{
-    qDebug() << "Continuation du niveau";
-    pillarTimer->start(1000);
-    enemyTimer->start(3000);
-    bonusTimer->start(4500);
-    setBossIndex(0);
 }
 
 void Scene::incrementBonus()

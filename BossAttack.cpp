@@ -1,6 +1,6 @@
 #include "BossAttack.h"
 
-BossAttack::BossAttack(qreal BossPosY, qreal limiteScreen, bool attack) : fireball(Frame1), boulet(Frame_1)
+BossAttack::BossAttack(qreal BossPosY, qreal limiteScreen) : fireball(Frame1)
 {
 
     freeze = 0;
@@ -10,19 +10,14 @@ BossAttack::BossAttack(qreal BossPosY, qreal limiteScreen, bool attack) : fireba
 
     // set position
     setPos(QPoint(275,BossPosY));
-    if(attack){
+
         //animation de la boule de feu
         animationFireball = new QTimer();
         connect(animationFireball, &QTimer::timeout, [=](){
             updatePixmapFireball();
         });
         animationFireball->start(100);
-    }else{
-        animationBoulet = new QTimer();
-        connect(animationBoulet, &QTimer::timeout,[=](){
 
-        });
-    }
     // connect to signal
     timer = new QTimer;
     connect(timer, SIGNAL(timeout()), this, SLOT(move()));
@@ -46,14 +41,10 @@ void BossAttack::move()
     for (int i=0, n=colliding_items.size(); i<n; i++)
     {
         // si l'objet qui est en collision avec la boule de feu est un enemy,
-        if (typeid(*(colliding_items[i])) == typeid(enemy))
+        if (typeid(*(colliding_items[i])) == typeid(BirdItem))
         {
             // remove them both
-            scene() -> removeItem(colliding_items[i]);
-            //scene() -> removeItem(this);
-
-            // delete them both
-            delete colliding_items[i];
+            emit collideFail();
             delete this;
             return; // sort de la fonction
         };
@@ -87,27 +78,7 @@ bool BossAttack::collidesWithEnemy()
 {
     return 0;
 }
-/*
-qreal BirdAttack::getX()
-{
-    //return xPos;
-}
 
-qreal BirdAttack::getY()
-{
-    //return yPos;
-}
-
-void BirdAttack::setX(qreal x)
-{
-    //xPos = x;
-}
-
-void BirdAttack::setY(qreal y)
-{
-    //yPos = y;
-}
-*/
 void BossAttack::updatePixmapFireball()
 {
     if(fireball == Fireball::Frame1)
@@ -129,13 +100,5 @@ void BossAttack::updatePixmapFireball()
     }else if(fireball == Fireball::Frame6){
         setPixmap(QPixmap(":/images/BossAttack/Frame-6.png"));
         fireball = Fireball::Frame1;
-    }
-}
-
-void BossAttack::updatePixmapBoulet()
-{
-    if(boulet == Boulet::Frame_1)
-    {
-        setPixmap(QPixmap(":/images/BossAttack/Frame-1.png"));
     }
 }

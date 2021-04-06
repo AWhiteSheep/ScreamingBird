@@ -17,7 +17,7 @@ class Boss:public QObject, public QGraphicsPixmapItem
     Q_OBJECT
     Q_PROPERTY(qreal x READ x WRITE setX) // QProperty est essentiel afin d'utiliser les animation QT sur un objet.
     Q_PROPERTY(qreal y READ y WRITE setY)
-    qreal BOSS_SPEED = 1200;      // 1000 - 3000
+    qreal BOSS_SPEED = 1700;      // 1000 - 3000
 public:
     explicit Boss();
     ~Boss();
@@ -44,9 +44,25 @@ private:
         Frame5,
         Frame6,
     };
-    deathFrame DeathFrame;
+    enum bossAnimation{
+        Frame_1,
+        Frame_2,
+        Frame_3,
+        Frame_4,
+        Frame_5,
+        Frame_6,
+        Frame_7,
+        Frame_8,
+        Frame_9,
+        Frame_10,
+        Frame_11,
+        Frame_12,
+        Frame_13
+    };
 
-    int updatePixmap();
+    deathFrame DeathFrame;
+    bossAnimation BossAnimation;
+    void updatePixmap();
     bool deathPixmap();
     bool collidesWithBirdAttack();
 
@@ -59,10 +75,14 @@ private:
     QPropertyAnimation * rotationAnimation;
     QTimer * yAnimationTimer;
     QTimer * deathTimer;
+    QTimer * animationTimer;
+    QTimer * hitTimer;
+    QMediaPlayer * sceneMedia;
 
    int xPos;
    int yPos;
    int lifeCount;
+   int hitIndex;
    qreal m_x;
    qreal m_y;
    qreal groundPosition;

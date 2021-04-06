@@ -15,6 +15,7 @@
 #include "Bonus.h"
 #include "Boss.h"
 #include "BossAttack.h"
+#include "BossBoulet.h"
 
 class Scene : public QGraphicsScene
 {
@@ -41,7 +42,6 @@ public:
     void setMusic(bool x);
     void showTitle();
     void hideTitle();
-    void continueGame();
     QGraphicsPixmapItem * sceneBackgroundMap;
 signals:
 public slots:
@@ -66,6 +66,7 @@ private:
     void cleanAttack();
     void cleanBonus();
     void cleanBoss();
+    void cleanBossAttack();
     void BonusEffect();
     void updatePixmap();
     QTimer * pillarTimer;
@@ -77,6 +78,7 @@ private:
     BirdItem * bird;
     BirdAttack * fireball;
     BossAttack * BossBall;
+    BossBoulet * Boulet;
     Boss * BossItem;
     Button * btnStart;
     Button * btnNext;
@@ -92,6 +94,7 @@ private:
     int bonus;
     int titleIndex = 1;
     int bossIndex;
+    int attack;
     QGraphicsPixmapItem * gameOverPix;
     QGraphicsPixmapItem * titlePix;
     QGraphicsTextItem * scoreTextItem;

@@ -170,5 +170,14 @@
         <file>images/BossAttack/Frame-4.png</file>
         <file>images/BossAttack/Frame-5.png</file>
         <file>images/BossAttack/Frame-6.png</file>
+        <file>images/BossAttack/Boulet-1.png</file>
+        <file>images/BossAttack/Boulet-2.png</file>
+        <file>images/BossAttack/Boulet-3.png</file>
+        <file>images/BossAttack/Boulet-4.png</file>
+        <file>images/BossAttack/Boulet-5.png</file>
+        <file>images/BossAttack/Boulet-6.png</file>
+        <file>images/BossAttack/Boulet-7.png</file>
+        <file>images/BossAttack/Boulet-8.png</file>
+        <file>sound effects/mega-man-2-wily-stage-remix.mp3</file>
     </qresource>
 </RCC>
