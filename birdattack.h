@@ -12,11 +12,11 @@
 #include <QList>
 #include <QDebug>
 #include <QPixmap>
-
+#include "freezable.h"
 #include "birditem.h"
 #include "enemy.h"
 
-class BirdAttack : public QObject, public QGraphicsPixmapItem
+class BirdAttack : public QObject, public QGraphicsPixmapItem, public Freezable
 {
 private:
     Q_OBJECT

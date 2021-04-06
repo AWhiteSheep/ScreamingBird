@@ -21,8 +21,16 @@ Bonus::Bonus()
     xAnimation->setEasingCurve(QEasingCurve::Linear); // la function utiliser pour atteindre la position final
     xAnimation->setDuration(3500);
     connect(xAnimation, &QPropertyAnimation::finished, [=](){
-        scene()->removeItem(this);
-        delete this;
+        if (scene() != NULL) 
+        {
+            QList<QGraphicsItem*> sceneItems = scene()->items();
+            foreach(QGraphicsItem * item, sceneItems) {
+                if (item == this) {
+                    scene()->removeItem(this);
+                    delete this;
+                }
+            }
+        }
     });
     xAnimation->start();
 
@@ -32,6 +40,10 @@ Bonus::~Bonus()
 {
     delete xAnimation;
 };
+
+void Bonus::removeAnimation() 
+{
+}
 
 qreal Bonus::x() const
 {
@@ -50,13 +62,6 @@ void Bonus::setX(qreal x)
     if(collidesWithBird())
     {
         emit collideFail();
-        QGraphicsScene * mScene = scene();
-        Scene *myScene = dynamic_cast<Scene*>(mScene);
-        if(myScene)
-        {
-            myScene->incrementBonus();
-            delete this;
-        }
     }
 };
 

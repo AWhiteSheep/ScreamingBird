@@ -7,7 +7,6 @@
 #include <QKeyEvent>
 #include <QDebug>
 #include <QMediaPlayer>
-
 #include "button.h"
 #include "pillaritem.h"
 #include "birditem.h"
@@ -16,6 +15,9 @@
 #include "Boss.h"
 #include "BossAttack.h"
 #include "BossBoulet.h"
+#include "CommunicationFPGA.h"
+#include "freezable.h"
+#include <memory>
 
 class Scene : public QGraphicsScene
 {
@@ -42,6 +44,7 @@ public:
     void setMusic(bool x);
     void showTitle();
     void hideTitle();
+    void startFPGACommunication();
     QGraphicsPixmapItem * sceneBackgroundMap;
 signals:
 public slots:
@@ -74,6 +77,7 @@ private:
     QTimer * bonusTimer;
     QTimer * bonusEffectTimer;
     QTimer * titleTimer;
+    QTimer* fpgaTimer;
     QTimer * BossAttackTimer;
     BirdItem * bird;
     BirdAttack * fireball;
@@ -105,7 +109,8 @@ private:
     QMediaPlayer * sceneMedia;
     QMediaPlayer * Bonuseffect;
 
-    // QGraphicsScene interface
+    // Communication FPGA
+    CommunicationFPGA* fpga;
 };
 
 #endif // SCENE_H

@@ -223,9 +223,6 @@ void Boss::BossDeath()
     yAnimation->setEndValue(groundPosition);
     yAnimation->setEasingCurve(QEasingCurve::InQuad);
     yAnimation->setDuration(2000);
-    // initialisation de l'animation donnant la rotation
-    rotationAnimation = new QPropertyAnimation(this, "rotation", this);
-    rotateTo(90, 1200, QEasingCurve::InQuad);
     connect(yAnimation, &QPropertyAnimation::finished, [=](){
         emit Bossdead();
         scene()->removeItem(this);

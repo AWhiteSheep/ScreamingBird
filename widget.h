@@ -4,10 +4,8 @@
 #include <QWidget>
 #include <scene.h>
 #include <QMediaPlayer>
-
-QT_BEGIN_NAMESPACE
-namespace Ui { class Widget; }
-QT_END_NAMESPACE
+#include <QVBoxLayout>
+#include <QGraphicsView>
 
 class Widget : public QWidget
 {
@@ -18,10 +16,11 @@ public:
     ~Widget();
     void setFocusToGraphicView();
 private slots:
-    void on_startGameButton_clicked();
 
 private:
-    Ui::Widget *ui;
+    Widget* ui;
     Scene * scene;
+    QVBoxLayout* verticalLayout;
+    QGraphicsView* graphicsView;
 };
 #endif // WIDGET_H

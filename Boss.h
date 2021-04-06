@@ -9,14 +9,15 @@
 #include <QGraphicsScene>
 #include <QList>
 #include <QDebug>
-
+#include "freezable.h"
 #include "birdattack.h"
 
-class Boss:public QObject, public QGraphicsPixmapItem
+class Boss:public QObject, public QGraphicsPixmapItem, public Freezable
 {
     Q_OBJECT
     Q_PROPERTY(qreal x READ x WRITE setX) // QProperty est essentiel afin d'utiliser les animation QT sur un objet.
     Q_PROPERTY(qreal y READ y WRITE setY)
+    Q_PROPERTY(qreal rotation READ rotation WRITE setRotation)
     qreal BOSS_SPEED = 1700;      // 1000 - 3000
 public:
     explicit Boss();

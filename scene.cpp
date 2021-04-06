@@ -14,6 +14,7 @@ Scene::Scene(QObject *parent) : QGraphicsScene(parent),
     setUpBonus();
     setUpBonusEffectTimer();
     setUpBossAttack();
+    startFPGACommunication();
 }
 
 Scene::~Scene()
@@ -21,7 +22,6 @@ Scene::~Scene()
     delete pillarTimer;
     delete enemyTimer;
     delete titleTimer;
-    delete fireball;
     delete titlePix;
     delete gameOverPix;
     delete scoreTextItem;
@@ -31,6 +31,7 @@ Scene::~Scene()
     delete sceneBackgroundMap;
     delete sceneMedia;
     delete bird;
+    cleanAttack();
     QList<QGraphicsItem*> sceneItems = items();
     foreach(QGraphicsItem *item, sceneItems){
         Button*button = dynamic_cast<Button*>(item);
@@ -39,6 +40,8 @@ Scene::~Scene()
             delete button;
         }
     }
+    if (fpga->estOk())
+        delete fpga;
 }
 
 void Scene::startMusic()
@@ -55,14 +58,14 @@ void Scene::addBird()
 {
     // initialisation the bird et ajout à la scene
     bird = new BirdItem(QPixmap(":/images/redbird-upflap.png"),
-                        -sceneBackgroundMap->boundingRect().height()/2,
-                        sceneBackgroundMap->boundingRect().height()/2
-                        );
+        -sceneBackgroundMap->boundingRect().height() / 2,
+        sceneBackgroundMap->boundingRect().height() / 2
+    );
     bird->color = static_cast<enum::BirdColor>(0);
     bird->setZValue(1);
-    bird->setPos(QPointF(0,0) - QPointF(bird->boundingRect().width()/2,
-                                                   bird->boundingRect().height()/2));
-    addItem(bird);// fonction de QGraphicsScene
+    bird->setPos(QPointF(0, 0) - QPointF(bird->boundingRect().width() / 2,
+        bird->boundingRect().height() / 2));
+    addItem(bird);
 }
 
 void Scene::startGame()
@@ -312,6 +315,38 @@ void Scene::hideTitle()
     }
 }
 
+void Scene::startFPGACommunication()
+{
+    fpga = new CommunicationFPGA();
+    fpgaTimer = new QTimer();
+    connect(fpgaTimer, &QTimer::timeout, [=] {
+        if (fpga->estOk())
+        {
+            // 0 1 2 4 8
+            int stat_btn = 0;
+            fpga->lireRegistre(nreg_lect_stat_btn, stat_btn);
+            if (fpga->stat_btn != stat_btn && stat_btn != 0)
+            {
+                qDebug() << "FPGA stat_btn::" << stat_btn;
+                switch (stat_btn)
+                {
+                case 1:
+                    bird->shootUp();
+                    break;
+                case 2:
+                    bird->shootDown();
+                    break;
+                case 4:
+                    setUpAttack();
+                    break;
+                }
+            }
+            fpga->stat_btn = stat_btn;
+        }
+        });
+    fpgaTimer->start(10);
+}
+
 void Scene::setUpPillarTimer()
 {
     pillarTimer = new QTimer(this);
@@ -355,9 +390,13 @@ void Scene::setUpBonus()
     bonusTimer = new QTimer(this);
     connect(bonusTimer, &QTimer::timeout, [=](){
         Bonus * bonus = new Bonus();
-    bonus->setPos(QPointF(0,0) - QPointF(bonus->boundingRect().width()/2,
-                                                       bonus->boundingRect().height()/2));
-    addItem(bonus);
+        bonus->setPos(QPointF(0,0) - QPointF(bonus->boundingRect().width()/2,
+                                                           bonus->boundingRect().height()/2));
+        connect(bonus, &Bonus::collideFail, [=] {
+            incrementBonus();
+            removeItem(bonus);
+        });
+        addItem(bonus);
     });
 }
 
@@ -445,26 +484,10 @@ void Scene::freezeBirdAndPillarsInPlace()
     // freeze pillar, get all item in scene
     QList<QGraphicsItem*> sceneItems = items();
     foreach(QGraphicsItem *item, sceneItems){
-        PillarItem* pillar = dynamic_cast<PillarItem*>(item);
-        enemy* EnemyItem = dynamic_cast<enemy*>(item);
-        BirdAttack* fireballItem = dynamic_cast<BirdAttack*>(item);
-        Bonus* bonusItem = dynamic_cast<Bonus*>(item);
-        Boss* bossItem = dynamic_cast<Boss*>(item);
-        BossBoulet * bouletItem = dynamic_cast<BossBoulet*>(item);
-        BossAttack * fireItem = dynamic_cast<BossAttack*>(item);
+        Freezable* itemFreezable = dynamic_cast<Freezable*>(item);
         // si c'est bien un pillar appel de la fonction
-        if(pillar){
-            pillar->freezeInPlace();
-        }else if(EnemyItem){
-            EnemyItem->freezeInPlace();
-        }else if (fireballItem) {
-            fireballItem->freezeInPlace();
-        }else if (bonusItem){
-            bonusItem->freezeInPlace();
-        }else if (bossItem){
-            bossItem->freezeInPlace();
-        }else if (bouletItem)
-            bouletItem->freezeInPlace();
+        if(itemFreezable)
+            itemFreezable->freezeInPlace();
     }
 }
 
@@ -539,12 +562,11 @@ void Scene::cleanBossAttack()
     foreach(QGraphicsItem *item, sceneItems)
     {
         BossAttack *fireballItem = dynamic_cast<BossAttack*>(item);
+        BossBoulet *bouletItem = dynamic_cast<BossBoulet*>(item);
         if(fireballItem){
             //removeItem(fireballItem);
             delete fireballItem;
-        }
-        BossBoulet *bouletItem = dynamic_cast<BossBoulet*>(item);
-        if(bouletItem){
+        } else if(bouletItem){
             //removeItem(fireballItem);
             delete bouletItem;
         }

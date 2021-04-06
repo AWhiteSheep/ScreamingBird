@@ -1,0 +1,758 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Generated Files">
+      <UniqueIdentifier>{71ED8ED8-ACB9-4CE9-BBE1-E00B30144E11}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;moc;h;def;odl;idl;res;</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Distribution Files">
+      <UniqueIdentifier>{B83CAF91-C7BF-462F-B76C-EA11631F866C}</UniqueIdentifier>
+      <Extensions>*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Distribution Files">
+      <UniqueIdentifier>{B83CAF91-C7BF-462F-B76C-EA11631F866C}</UniqueIdentifier>
+      <Extensions>*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Bonus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Boss.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BossAttack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BossBoulet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="birdattack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="birditem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="button.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="enemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="pillaritem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="widget.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="Bonus.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="Boss.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="BossAttack.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="BossBoulet.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="CommunicationFPGA.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <CustomBuild Include="birdattack.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="birditem.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="button.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="enemy.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="freezable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <CustomBuild Include="pillaritem.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="scene.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <ClInclude Include="score.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <CustomBuild Include="widget.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="debug\moc_Bonus.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="release\moc_Bonus.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="debug\moc_Boss.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="release\moc_Boss.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="debug\moc_BossAttack.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="release\moc_BossAttack.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="debug\moc_BossBoulet.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="release\moc_BossBoulet.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="debug\moc_birdattack.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="release\moc_birdattack.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="debug\moc_birditem.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="release\moc_birditem.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="debug\moc_button.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="release\moc_button.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="debug\moc_enemy.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="release\moc_enemy.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="debug\moc_pillaritem.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="release\moc_pillaritem.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <CustomBuild Include="debug\moc_predefs.h.cbt">
+      <Filter>Generated Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="release\moc_predefs.h.cbt">
+      <Filter>Generated Files</Filter>
+    </CustomBuild>
+    <ClCompile Include="debug\moc_scene.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="release\moc_scene.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="debug\moc_widget.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="release\moc_widget.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="debug\qrc_resource.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="release\qrc_resource.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\Bonus.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\scores\BonusPanel-100.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\scores\BonusPanel-200.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\scores\BonusPanel.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Boss\Boss-Frame-1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Boss\Boss-Frame-10.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Boss\Boss-Frame-11.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Boss\Boss-Frame-12.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Boss\Boss-Frame-13.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Boss\Boss-Frame-14.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Boss\Boss-Frame-15.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Boss\Boss-Frame-16.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Boss\Boss-Frame-17.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Boss\Boss-Frame-18.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Boss\Boss-Frame-19.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Boss\Boss-Frame-2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Boss\Boss-Frame-3.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Boss\Boss-Frame-4.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Boss\Boss-Frame-5.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Boss\Boss-Frame-6.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Boss\Boss-Frame-7.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Boss\Boss-Frame-8.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Boss\Boss-Frame-9.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\BossAttack\Boulet-1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\BossAttack\Boulet-2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\BossAttack\Boulet-3.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\BossAttack\Boulet-4.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\BossAttack\Boulet-5.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\BossAttack\Boulet-6.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\BossAttack\Boulet-7.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\BossAttack\Boulet-8.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\BossAttack\Frame-1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Fireball\Frame-1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\BossAttack\Frame-2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Fireball\Frame-2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\BossAttack\Frame-3.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Fireball\Frame-3.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\BossAttack\Frame-4.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Fireball\Frame-4.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\BossAttack\Frame-5.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Fireball\Frame-5.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\BossAttack\Frame-6.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Fireball\Frame-6.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\koopa\Koopa-1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\koopa\Koopa-2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\koopa\Koopa-3.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\koopa\Koopa-4.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\background-day.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\birds\bluebird-downflap-100.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\birds\bluebird-downflap-200.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\birds\bluebird-downflap-300.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\birds\bluebird-downflap.pixil">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\birds\bluebird-midflap-100.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\birds\bluebird-midflap-200.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\birds\bluebird-midflap-300.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\birds\bluebird-midflap.pixil">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\birds\bluebird-upflap-100.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\birds\bluebird-upflap-200.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\birds\bluebird-upflap-300.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\birds\bluebird-upflap.pixil">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\gameover.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\scores\high-score-100.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\scores\high-score-200.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\scores\high-score-300.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\left-button-idle-100.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\left-button-idle-200.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\left-button-idle-300.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\left-button-idle-400.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\left-button-idle-500.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\left-button-press-100.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\left-button-press-200.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\left-button-press-300.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\left-button-press-400.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\left-button-press-500.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sound effects\mega-man-2-wily-stage-remix.mp3">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\menu-button-200.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\menu-button-press-200.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\music-on-off-idle-100.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\music-on-off-idle-200.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\music-on-off-idle-300.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\music-on-off-idle-400.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\music-on-off-idle-500.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\music-on-off-off-100.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\music-on-off-off-200.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\music-on-off-off-300.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\music-on-off-off-400.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\music-on-off-off-500.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\music-on-off-on-100.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\music-on-off-on-200.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\music-on-off-on-300.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\music-on-off-on-400.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\music-on-off-on-500.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\pipe-green-top.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\pipe-green.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\pixel-fire-ball.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\play-button-idle-100.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\play-button-idle-200.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\play-button-idle-300.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\play-button-idle-400.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\play-button-idle-500.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\play-button-press-100.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\play-button-press-200.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\play-button-press-300.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\play-button-press-400.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\play-button-press-500.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\birds\redbird-downflap-100.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\birds\redbird-downflap.pixil">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\redbird-downflap.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\birds\redbird-midflap-100.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\birds\redbird-midflap.pixil">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\redbird-midflap.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\birds\redbird-upflap-100.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\birds\redbird-upflap.pixil">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\redbird-upflap.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\replay-button-100.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\replay-button-200.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\replay-button-300.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\replay-button-400.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\replay-button-500.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <CustomBuild Include="resource.qrc">
+      <Filter>Resource Files</Filter>
+    </CustomBuild>
+    <None Include="images\buttons\right-button-idle-100.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\right-button-idle-200.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\right-button-idle-300.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\right-button-idle-400.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\right-button-idle-500.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\right-button-press-100.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\right-button-press-200.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\right-button-press-300.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\right-button-press-400.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\right-button-press-500.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\scores\score-background-100.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\scores\score-background-200.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\scores\score-background-300.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\title\screaming-bird-title-1.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\title\screaming-bird-title-10.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\title\screaming-bird-title-11.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\title\screaming-bird-title-12.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\title\screaming-bird-title-13.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\title\screaming-bird-title-14.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\title\screaming-bird-title-15.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\title\screaming-bird-title-16.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\title\screaming-bird-title-17.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\title\screaming-bird-title-18.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\title\screaming-bird-title-19.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\title\screaming-bird-title-2.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\title\screaming-bird-title-20.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\title\screaming-bird-title-21.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\title\screaming-bird-title-3.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\title\screaming-bird-title-4.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\screaming-bird-title-400.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\title\screaming-bird-title-5.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\title\screaming-bird-title-6.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\screaming-bird-title-600.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\title\screaming-bird-title-7.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\title\screaming-bird-title-8.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\title\screaming-bird-title-9.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sound effects\sfx_die.wav">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sound effects\sfx_hit.wav">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sound effects\sfx_point.wav">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sound effects\sfx_swooshing.wav">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sound effects\sfx_wing.wav">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sound effects\smb_breakblock.wav">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sound effects\smb_coin.wav">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sound effects\smb_gameover.wav">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sound effects\smb_pipe.wav">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sound effects\smb_powerup.wav">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\start-button-100.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\start-button-200.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\start-button-300.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\start-button-400.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\start-button-500.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\start-button-blue-100.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\start-button-blue-200.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\start-button-blue-300.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\start-button-blue-400.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\start-button-blue-500.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="sound effects\super_mario_medley.mp3">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\birds\yellowbird-downflap-200.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\birds\yellowbird-midflap-200.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\birds\yellowbird-upflap-200.png">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="images\pixel-fire-ball.png">
+      <Filter>Distribution Files</Filter>
+    </None>
+  </ItemGroup>
+</Project>

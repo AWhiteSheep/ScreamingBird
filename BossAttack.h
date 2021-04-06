@@ -11,12 +11,11 @@
 #include <QList>
 #include <QDebug>
 #include <QPixmap>
-
-
+#include "freezable.h"
 #include "birditem.h"
 #include "Boss.h"
 
-class BossAttack : public QObject, public QGraphicsPixmapItem
+class BossAttack : public QObject, public QGraphicsPixmapItem, public Freezable
 {
 private:
     Q_OBJECT
@@ -42,13 +41,9 @@ private:
         Frame5,
         Frame6,
     };
-
-
     Fireball fireball;
     QTimer * animationFireball;
-
     void updatePixmapFireball();
-
 public slots:
     void move();
 

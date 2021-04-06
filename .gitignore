@@ -1,4 +1,3 @@
-
 *.user
-birdattack.cpp
-birdattack.cpp
+.vs/*
+debug/

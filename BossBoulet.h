@@ -11,12 +11,11 @@
 #include <QList>
 #include <QDebug>
 #include <QPixmap>
-
-
+#include "freezable.h"
 #include "birditem.h"
 #include "Boss.h"
 
-class BossBoulet : public QObject, public QGraphicsPixmapItem
+class BossBoulet : public QObject, public QGraphicsPixmapItem, public Freezable
 {
 private:
     Q_OBJECT

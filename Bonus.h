@@ -6,10 +6,10 @@
 #include <QGraphicsPixmapItem>
 #include <QMediaPlayer>
 #include <QRandomGenerator>
-
+#include "freezable.h"
 #include "birditem.h"
 
-class Bonus:public QObject, public QGraphicsPixmapItem
+class Bonus:public QObject, public QGraphicsPixmapItem, public Freezable
 {
     Q_OBJECT
     Q_PROPERTY(qreal x READ x WRITE setX) // QProperty est essentiel afin d'utiliser les animation QT sur un objet.
@@ -20,6 +20,7 @@ public:
 
     void bonusEffect();
     void freezeInPlace();
+    void removeAnimation();
     qreal x() const;
 
 
