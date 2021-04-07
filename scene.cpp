@@ -209,6 +209,23 @@ void Scene::addMenu()
         else
             btnMusic->setIdlePixmap(QPixmap(":/images/buttons/music-on-off-off-200.png"));
     });
+    // TEST BUTTON
+    btnTest = new Button(QPixmap(":/images/buttons/test-button-200.png"),
+        QPixmap(":/images/buttons/test-button-press-200.png")); 
+    btnTest->setZValue(1);
+    addItem(btnTest);
+    btnTest->setPos(QPointF(0, 100) - QPointF(btnTest->boundingRect().width() / 2,
+        btnTest->boundingRect().height() / 2));
+    connect(btnTest, &Button::mouseRelease, [=] {
+        QList<QGraphicsItem*> sceneItems = items();
+        foreach(QGraphicsItem * item, sceneItems) {
+            Button* button = dynamic_cast<Button*>(item);
+            // si c'est bien un pillar appel de la fonction
+            if (button) {
+                button->hide();
+            }
+        }
+    });
 }
 
 void Scene::addReplayButton()
@@ -338,6 +355,9 @@ void Scene::startFPGACommunication()
                     break;
                 case 4:
                     setUpAttack();
+                    break;
+                case 8:
+                    BonusEffect();
                     break;
                 }
             }
