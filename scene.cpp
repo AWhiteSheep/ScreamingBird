@@ -226,6 +226,9 @@ void Scene::addMenu()
                 button->hide();
             }
         }
+        // ajout des bonus pour les tests
+        this->bonus = 999999;
+        this->updateSceneBonus();
     });
 }
 

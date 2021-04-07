@@ -96,7 +96,6 @@ private:
     int score;
     int bestScore;
     int birdColor = 0;
-    int bonus;
     int titleIndex = 1;
     int bossIndex;
     int attack;
@@ -115,6 +114,7 @@ private:
     
     // Phonèmes
 public:
+    int bonus;
     enum phonemes {
         A, E, I, O,DEFAULT
     };
