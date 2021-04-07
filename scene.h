@@ -112,6 +112,14 @@ private:
 
     // Communication FPGA
     CommunicationFPGA* fpga;
+    
+    // Phonèmes
+public:
+    enum phonemes {
+        A, E, I, O,DEFAULT
+    };
+    phonemes currentPhoneme = phonemes::DEFAULT;
+    int counter = 0;
 };
 
 #endif // SCENE_H

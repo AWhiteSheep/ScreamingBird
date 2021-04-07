@@ -1,3 +1,4 @@
+#include <math.h> 
 #include "scene.h"
 #include "widget.h"
 
@@ -340,8 +341,18 @@ void Scene::startFPGACommunication()
         if (fpga->estOk())
         {
             // 0 1 2 4 8
-            int stat_btn = 0;
-            fpga->lireRegistre(nreg_lect_stat_btn, stat_btn);
+            int stat_btn = 0; 
+            int echconv[4];
+            int filtrePredefinedPhone[4][4] = {{139,232,247,39}, 
+                                                {209,116,155,232}, 
+                                                {23,15,8,31},
+                                                {162,139,54,23}};
+            int filtreDist[4] = { 0,0,0,0};
+            fpga->lireRegistre(nreg_lect_stat_btn, stat_btn);     // lecture buttons
+            fpga->lireRegistre(nreg_lect_can0, echconv[0]);       // lecture canal 0
+            fpga->lireRegistre(nreg_lect_can1, echconv[1]);       // lecture canal 1
+            fpga->lireRegistre(nreg_lect_can2, echconv[2]);       // lecture canal 2
+            fpga->lireRegistre(nreg_lect_can3, echconv[3]);       // lecture canal 3
             if (fpga->stat_btn != stat_btn && stat_btn != 0)
             {
                 qDebug() << "FPGA stat_btn::" << stat_btn;
@@ -356,12 +367,84 @@ void Scene::startFPGACommunication()
                 case 4:
                     setUpAttack();
                     break;
-                case 8:
-                    BonusEffect();
-                    break;
                 }
             }
             fpga->stat_btn = stat_btn;
+            
+            // si seulement si le boutton 8 est présé
+            if (stat_btn == 8)
+            {
+                // enregistrement des distances pour chaque phonème
+                for (int m = 0; m < 4; m++)
+                {
+                    for (int n = 0; n < 4; n++)
+                    {
+                        filtreDist[m] += (filtrePredefinedPhone[m][n] - echconv[n]) * (filtrePredefinedPhone[m][n] - echconv[n]);
+                    }
+                    filtreDist[m] = sqrt(filtreDist[m]);
+                }
+
+                // trouver la distance minimal des distances trouvées 
+                int index = 0;
+                phonemes phonemeMinFound;
+                int minDist = filtreDist[index];
+                for (int m = 0; m < 4; m++)
+                {
+                    if (minDist > filtreDist[m])
+                    {
+                        minDist = filtreDist[m];
+                        index = m;
+                    }
+                }
+
+                if (minDist < 30) 
+                {
+                    // choix du phon et ajout au conteur
+                    phonemeMinFound = static_cast<phonemes>(index);
+                    if (this->currentPhoneme == phonemeMinFound)
+                    {
+                        this->counter++;
+                    }
+                    else
+                    {
+                        this->currentPhoneme = phonemeMinFound;
+                        this->counter = 1;
+                    }
+
+                    // faire l'action si plus que 50ms pour le phonèmes
+                    if (this->counter >= 12)
+                    {
+                        switch (index)
+                        {
+                        case 0:
+                            bird->shootUp();
+                            break;
+                        case 1:
+                            bird->shootDown();
+                            break;
+                        case 2:
+                            setUpAttack();
+                            break;
+                        case 3:
+                            BonusEffect();
+                            break;
+                        }
+                        qDebug() << "Distance min: " << filtreDist[index] << " Phonème: " << this->currentPhoneme;
+                        this->currentPhoneme = phonemes::DEFAULT;
+                        this->counter = 0;
+                    }
+                }
+                else
+                {
+                    this->currentPhoneme = phonemes::DEFAULT;
+                    this->counter = 0;
+                }
+            }
+            else
+            {
+                this->currentPhoneme = phonemes::DEFAULT;
+                this->counter = 0;
+            }
         }
         });
     fpgaTimer->start(10);

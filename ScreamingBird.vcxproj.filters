@@ -740,6 +740,12 @@
     <None Include="sound effects\super_mario_medley.mp3">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="images\buttons\test-button-200.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\test-button-press-200.png">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="images\birds\yellowbird-downflap-200.png">
       <Filter>Resource Files</Filter>
     </None>
@@ -749,19 +755,10 @@
     <None Include="images\birds\yellowbird-upflap-200.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="images\pixel-fire-ball.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="images\pixel-fire-ball.png">
       <Filter>Distribution Files</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="images\buttons\test-button-200.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="images\buttons\test-button-press-200.png">
-      <Filter>Resource Files</Filter>
-    </Image>
   </ItemGroup>
 </Project>
