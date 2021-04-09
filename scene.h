@@ -27,6 +27,7 @@ public:
     ~Scene();
     void addBird();
     void startGame();
+    void setDifficulty();
     bool getGameOn() const;
     void setGameOn(bool value);
     void incrementScore();
@@ -89,7 +90,9 @@ private:
     Button * btnBack;
     Button * btnMusic;
     Button * btnMenu;
-    Button* btnTest;
+    Button * btnTest;
+    Button * btnClavier;
+    Button * btnPhonemes;
     bool musicOn = true;
     bool paused = false;
     bool gameOn;

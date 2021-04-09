@@ -232,6 +232,32 @@ void Scene::addMenu()
     });
 }
 
+void Scene::setDifficulty()
+{   
+    // enlever l'oiseau
+    delete bird;
+
+    // ajouter 2 boutons
+    // clavier
+    btnClavier = new Button(QPixmap(":/images/buttons/clavier-button.png"),
+        QPixmap(":/images/buttons/clavier-button.png"));
+    btnClavier->setZValue(1);
+    addItem(btnClavier);
+    btnClavier->setPos(QPointF(0, 50) - QPointF(btnClavier->boundingRect().width() / 2,
+        btnClavier->boundingRect().height() / 2));
+
+    // phonemes
+    btnPhonemes = new Button(QPixmap(":/images/buttons/phonemes-button.png"),
+        QPixmap(":/images/buttons/phonemes-button.png"));
+    btnPhonemes->setZValue(1);
+    addItem(btnPhonemes);
+    btnPhonemes->setPos(QPointF(0, -50) - QPointF(btnPhonemes->boundingRect().width() / 2,
+        btnPhonemes->boundingRect().height() / 2));
+
+
+    //startGame();
+}
+
 void Scene::addReplayButton()
 {
 
