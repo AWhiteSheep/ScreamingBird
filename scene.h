@@ -7,6 +7,9 @@
 #include <QKeyEvent>
 #include <QDebug>
 #include <QMediaPlayer>
+#include <QProgressBar>
+#include <memory>
+#include <Vector>
 #include "button.h"
 #include "pillaritem.h"
 #include "birditem.h"
@@ -17,23 +20,24 @@
 #include "BossBoulet.h"
 #include "CommunicationFPGA.h"
 #include "freezable.h"
-#include <memory>
 
 class Scene : public QGraphicsScene
 {
     Q_OBJECT
+        enum GameState;
 public:
-    explicit Scene(QObject *parent = nullptr);
+    explicit Scene(QObject* parent = nullptr);
     ~Scene();
     void addBird();
     void startGame();
-    bool getGameOn() const;
-    void setGameOn(bool value);
+    GameState getGameState() const;
+    void setGameState(GameState state);
     void incrementScore();
     void incrementBonus();
     void startMusic();
     int getScore();
     void addMenu();
+    void addMenuCallibration();
     void addReplayButton();
     void addSceneScore();
     void addSceneHighScore();
@@ -45,12 +49,12 @@ public:
     void showTitle();
     void hideTitle();
     void startFPGACommunication();
-    QGraphicsPixmapItem * sceneBackgroundMap;
+    QGraphicsPixmapItem* sceneBackgroundMap;
 signals:
 public slots:
 protected:
-    void keyPressEvent(QKeyEvent *event);
-    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void keyPressEvent(QKeyEvent* event);
+    void mousePressEvent(QGraphicsSceneMouseEvent* event);
 private:
     void showGameOverGraphics();
     void hideGameOverGraphics();
@@ -72,24 +76,36 @@ private:
     void cleanBossAttack();
     void BonusEffect();
     void updatePixmap();
-    QTimer * pillarTimer;
-    QTimer * enemyTimer;
-    QTimer * bonusTimer;
-    QTimer * bonusEffectTimer;
-    QTimer * titleTimer;
+    void showMenu();
+    void showCallibration();
+    void hideAllButton();
+    QTimer* pillarTimer;
+    QTimer* enemyTimer;
+    QTimer* bonusTimer;
+    QTimer* bonusEffectTimer;
+    QTimer* titleTimer;
     QTimer* fpgaTimer;
-    QTimer * BossAttackTimer;
-    BirdItem * bird;
-    BirdAttack * fireball;
-    BossAttack * BossBall;
-    BossBoulet * Boulet;
-    Boss * BossItem;
-    Button * btnStart;
+    QTimer* BossAttackTimer;
+    BirdItem* bird;
+    BirdAttack* fireball;
+    BossAttack* BossBall;
+    BossBoulet* Boulet;
+    Boss* BossItem;
+    vector<Button*> menuButtons;
+    // phoneme
+    vector<Button*> btnPhonemes;
+    Button* backButtonPhoneme;
+    Button* espaceButton;
+    Button * btnMenu;
+    int currentProgression;
+    QProgressBar* progressBarPhonemes;
+    /*Button * btnStart;
     Button * btnNext;
     Button * btnBack;
     Button * btnMusic;
-    Button * btnMenu;
-    Button* btnTest;
+    
+    Button* btnTest;*/
+
     bool musicOn = true;
     bool paused = false;
     bool gameOn;
@@ -112,14 +128,19 @@ private:
     // Communication FPGA
     CommunicationFPGA* fpga;
     
-    // Phonèmes
 public:
     int bonus;
+    // Phonèmes
     enum phonemes {
         A, E, I, O,DEFAULT
     };
     phonemes currentPhoneme = phonemes::DEFAULT;
     int counter = 0;
+    // Game state
+    enum GameState {
+        STOPPED, PLAY, IN_CALLIBRATION
+    };
+    GameState gameState = GameState::STOPPED;
 };
 
 #endif // SCENE_H

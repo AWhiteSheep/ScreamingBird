@@ -2,7 +2,7 @@
 #include "scene.h"
 #include "widget.h"
 
-Scene::Scene(QObject *parent) : QGraphicsScene(parent),
+Scene::Scene(QObject* parent) : QGraphicsScene(parent),
     gameOn(false), score(0), bestScore(0), bonus(0), bossIndex(0), attack(0)
 {
     gameOverPix = nullptr;
@@ -33,14 +33,13 @@ Scene::~Scene()
     delete sceneMedia;
     delete bird;
     cleanAttack();
-    QList<QGraphicsItem*> sceneItems = items();
-    foreach(QGraphicsItem *item, sceneItems){
-        Button*button = dynamic_cast<Button*>(item);
-        // si c'est bien un pillar appel de la fonction
-        if(button){
-            delete button;
-        }
+    foreach(Button *item, menuButtons){
+        delete item;
     }
+    foreach(Button* item, btnPhonemes) {
+        delete item;
+    }
+    delete backButtonPhoneme;
     if (fpga->estOk())
         delete fpga;
 }
@@ -100,7 +99,7 @@ void Scene::startGame()
     cleanBonus();
     cleanBoss();
     cleanBossAttack();
-    setGameOn(true);
+    setGameState(GameState::PLAY);
     hideGameOverGraphics();
     Widget * parent = dynamic_cast<Widget*>(this->parent());
     parent->setFocusToGraphicView();
@@ -132,19 +131,12 @@ void Scene::addMenu()
         cleanEnemy();
         cleanAttack();
         cleanBoss();
-        QList<QGraphicsItem*> sceneItems = items();
-        foreach(QGraphicsItem *item, sceneItems){
-            Button*button = dynamic_cast<Button*>(item);
-            // si c'est bien un pillar appel de la fonction
-            if(button){
-                button->show();
-            }
-        }
+        showMenu();
         btnMenu->hide();
     });
     btnMenu->hide();
     // START BUTTON
-    btnStart = new Button(QPixmap(":/images/buttons/play-button-idle-200.png"),
+    Button * btnStart = new Button(QPixmap(":/images/buttons/play-button-idle-200.png"),
                              QPixmap(":/images/buttons/play-button-press-200.png"));
     btnStart->setZValue(1);
     addItem(btnStart);// fonction de QGraphicsScene
@@ -152,18 +144,12 @@ void Scene::addMenu()
     btnStart->setPos(QPointF(0,-50) - QPointF(btnStart->boundingRect().width()/2,
                                                btnStart->boundingRect().height()/2));
     connect(btnStart, &Button::mouseRelease, [=]{
-            QList<QGraphicsItem*> sceneItems = items();
-            foreach(QGraphicsItem *item, sceneItems){
-                Button*button = dynamic_cast<Button*>(item);
-                // si c'est bien un pillar appel de la fonction
-                if(button){
-                    button->hide();
-                }
-            }
-            startGame();
+        hideAllButton();
+        startGame();
     });
+    menuButtons.push_back(btnStart);
     // NEXT BUTTON
-    btnNext = new Button(QPixmap(":/images/buttons/right-button-idle-200.png"),
+    Button * btnNext = new Button(QPixmap(":/images/buttons/right-button-idle-200.png"),
                              QPixmap(":/images/buttons/right-button-press-200.png"));
     btnNext->setZValue(1);
     addItem(btnNext);
@@ -177,22 +163,24 @@ void Scene::addMenu()
             birdColor++;
         bird->color = static_cast<enum::BirdColor>(birdColor);
     });
+    menuButtons.push_back(btnNext);
     // BACK BUTTON
-    btnBack = new Button(QPixmap(":/images/buttons/left-button-idle-200.png"),
+    Button* btnBack = new Button(QPixmap(":/images/buttons/left-button-idle-200.png"),
                              QPixmap(":/images/buttons/left-button-press-200.png"));
     btnBack->setZValue(1);
     addItem(btnBack);
     btnBack->setPos(QPointF(-50,0) - QPointF(btnBack->boundingRect().width()/2,
                                                btnBack->boundingRect().height()/2));
     connect(btnBack, &Button::mouseRelease, [=]{
-        qDebug() << "button back";
         if(birdColor == 0)
             birdColor = 2;
         else
             birdColor--;
         bird->color = static_cast<enum::BirdColor>(birdColor);
     });
+    menuButtons.push_back(btnBack);
     // MUSIC BUTTON
+    Button* btnMusic;
     if(musicOn)
         btnMusic = new Button(QPixmap(":/images/buttons/music-on-off-on-200.png"),
                              QPixmap(":/images/buttons/music-on-off-idle-200.png"));
@@ -210,26 +198,155 @@ void Scene::addMenu()
         else
             btnMusic->setIdlePixmap(QPixmap(":/images/buttons/music-on-off-off-200.png"));
     });
+    menuButtons.push_back(btnMusic);
     // TEST BUTTON
-    btnTest = new Button(QPixmap(":/images/buttons/test-button-200.png"),
+    Button * btnTest = new Button(QPixmap(":/images/buttons/test-button-200.png"),
         QPixmap(":/images/buttons/test-button-press-200.png")); 
     btnTest->setZValue(1);
     addItem(btnTest);
     btnTest->setPos(QPointF(0, 100) - QPointF(btnTest->boundingRect().width() / 2,
         btnTest->boundingRect().height() / 2));
     connect(btnTest, &Button::mouseRelease, [=] {
-        QList<QGraphicsItem*> sceneItems = items();
-        foreach(QGraphicsItem * item, sceneItems) {
-            Button* button = dynamic_cast<Button*>(item);
-            // si c'est bien un pillar appel de la fonction
-            if (button) {
-                button->hide();
-            }
-        }
+        hideAllButton();
         // ajout des bonus pour les tests
         this->bonus = 999999;
         this->updateSceneBonus();
     });
+    menuButtons.push_back(btnTest);
+    // CALLIBRATION BUTTON
+    Button * btnCallibration = new Button(QPixmap(":/images/buttons/callibration-button-200.png"),
+        QPixmap(":/images/buttons/callibration-button-press-200.png"));
+    btnCallibration->setZValue(1);
+    addItem(btnCallibration);
+    btnCallibration->setPos(QPointF(0, 150) - QPointF(btnCallibration->boundingRect().width() / 2,
+        btnCallibration->boundingRect().height() / 2));
+    connect(btnCallibration, &Button::mouseRelease, [=] {
+        progressBarPhonemes = new QProgressBar();
+        progressBarPhonemes->setMaximum(200);
+        progressBarPhonemes->setMinimum(0);
+        hideAllButton();
+        this->setGameState(GameState::IN_CALLIBRATION);
+        showCallibration();
+    });
+    menuButtons.push_back(btnCallibration);
+    // PHONEME A BUTTON
+    Button* btnA = new Button(QPixmap(":/images/Phonemes/A.png"),
+        QPixmap(":/images/Phonemes/A-selected.png"));
+    btnA->setZValue(1);
+    addItem(btnA);
+    btnA->setPos(QPointF(btnA->boundingRect().width() * -3, 0) - QPointF(btnA->boundingRect().width() / 2,
+        btnA->boundingRect().height() / 2));
+    btnA->hide();
+    connect(btnA, &Button::mouseRelease, [=] {
+        foreach(Button* item, btnPhonemes) {
+            item->selected = false;
+            item->setToIdle();
+        }
+        btnA->selected = true;
+        btnA->setToPress();
+    });
+    btnPhonemes.push_back(btnA);
+    // PHONEME E BUTTON
+    Button* btnE = new Button(QPixmap(":/images/Phonemes/E.png"),
+        QPixmap(":/images/Phonemes/E-selected.png"));
+    btnE->setZValue(1);
+    addItem(btnE);
+    btnE->setPos(QPointF(btnE->boundingRect().width() * -1, 0) - QPointF(btnE->boundingRect().width() / 2,
+        btnE->boundingRect().height() / 2));
+    btnE->hide();
+    connect(btnE, &Button::mouseRelease, [=] {
+        foreach(Button * item, btnPhonemes) {
+            item->selected = false;
+            item->setToIdle();
+        }
+        btnE->selected = true;
+        btnE->setToPress();
+    });
+    btnPhonemes.push_back(btnE);
+    // PHONEME I BUTTON
+    Button* btnI = new Button(QPixmap(":/images/Phonemes/I.png"),
+        QPixmap(":/images/Phonemes/I-selected.png"));
+    btnI->setZValue(1);
+    addItem(btnI);
+    btnI->setPos(QPointF(btnI->boundingRect().width() * 1, 0) - QPointF(btnI->boundingRect().width() / 2,
+        btnI->boundingRect().height() / 2));
+    btnI->hide();
+    connect(btnI, &Button::mouseRelease, [=] {
+        foreach(Button * item, btnPhonemes) {
+            item->selected = false;
+            item->setToIdle();
+        }
+        btnI->selected = true;
+        btnI->setToPress();
+    });
+    btnPhonemes.push_back(btnI);
+    // PHONEME O BUTTON
+    Button* btnO = new Button(QPixmap(":/images/Phonemes/O.png"),
+        QPixmap(":/images/Phonemes/O-selected.png"));
+    btnO->setZValue(1);
+    addItem(btnO);
+    btnO->setPos(QPointF(btnO->boundingRect().width() * 3, 0) - QPointF(btnO->boundingRect().width() / 2,
+        btnO->boundingRect().height() / 2));
+    btnO->hide();
+    connect(btnO, &Button::mouseRelease, [=] {
+        foreach(Button * item, btnPhonemes) {
+            item->selected = false;
+            item->setToIdle();
+        }
+        btnO->selected = true;
+        btnO->setToPress();
+    });
+    btnPhonemes.push_back(btnO);
+    // BACK BUTTON PHONEME
+    backButtonPhoneme = new Button(QPixmap(":/images/buttons/left-button-idle-200.png"),
+        QPixmap(":/images/buttons/left-button-press-200.png"));
+    backButtonPhoneme->setZValue(1);
+    addItem(backButtonPhoneme);
+    backButtonPhoneme->hide();
+    QPointF backButtonPhoneme_position = QPointF(backButtonPhoneme->boundingRect().width(), -backButtonPhoneme->boundingRect().height())
+        + QPointF(-sceneBackgroundMap->boundingRect().width() / 2, sceneBackgroundMap->boundingRect().height() / 2)
+        + QPointF(20, -20);
+    backButtonPhoneme->setPos(backButtonPhoneme_position);
+    connect(backButtonPhoneme, &Button::mouseRelease, [=] {
+        this->setGameState(GameState::STOPPED);
+        hideAllButton();
+        showMenu();
+    });
+    // ESPACE BUTTON
+    espaceButton = new Button(QPixmap(":/images/Phonemes/espace-button.png"),
+        QPixmap(":/images/Phonemes/espace-button-press.png"));
+    espaceButton->setZValue(1);
+    addItem(espaceButton);
+    espaceButton->hide();
+    QPointF espaceButton_position = QPointF(-espaceButton->boundingRect().width() / 2, backButtonPhoneme_position.y())
+        + QPointF(0, -espaceButton->boundingRect().height() / 2);
+    espaceButton->setPos(espaceButton_position);
+// pas de connect pour espace parce que nous allons écrire le code dans le keypressevent de la scene
+}
+void Scene::showCallibration() 
+{
+    foreach(Button * item, btnPhonemes) {
+        item->show();
+    }
+    backButtonPhoneme->show();
+    espaceButton->show();
+}
+void Scene::showMenu() {
+    foreach(Button * item, menuButtons) {
+        item->show();
+    }
+}
+
+void Scene::hideAllButton() 
+{
+    QList<QGraphicsItem*> sceneItems = items();
+    foreach(QGraphicsItem * item, sceneItems) {
+        Button* button = dynamic_cast<Button*>(item);
+        // si c'est bien un pillar appel de la fonction
+        if (button) {
+            button->hide();
+        }
+    }
 }
 
 void Scene::addReplayButton()
@@ -341,98 +458,106 @@ void Scene::startFPGACommunication()
     fpga = new CommunicationFPGA();
     fpgaTimer = new QTimer();
     connect(fpgaTimer, &QTimer::timeout, [=] {
-        if (fpga->estOk())
-        {
-            // 0 1 2 4 8
-            int stat_btn = 0; 
-            int echconv[4];
-            int filtrePredefinedPhone[4][4] = {{139,232,247,39}, 
-                                                {209,116,155,232}, 
-                                                {23,15,8,31},
-                                                {162,139,54,23}};
-            int filtreDist[4] = { 0,0,0,0};
-            fpga->lireRegistre(nreg_lect_stat_btn, stat_btn);     // lecture buttons
-            fpga->lireRegistre(nreg_lect_can0, echconv[0]);       // lecture canal 0
-            fpga->lireRegistre(nreg_lect_can1, echconv[1]);       // lecture canal 1
-            fpga->lireRegistre(nreg_lect_can2, echconv[2]);       // lecture canal 2
-            fpga->lireRegistre(nreg_lect_can3, echconv[3]);       // lecture canal 3
-            if (fpga->stat_btn != stat_btn && stat_btn != 0)
+        if (fpga->estOk()) {
+            if (this->getGameState() == GameState::PLAY)
             {
-                qDebug() << "FPGA stat_btn::" << stat_btn;
-                switch (stat_btn)
+                // 0 1 2 4 8
+                int stat_btn = 0; 
+                /*int echconv[4];*/
+                int* echconv = fpga->read4Channel();
+                int filtrePredefinedPhone[4][4] = {{139,232,247,39}, 
+                                                    {209,116,155,232}, 
+                                                    {23,15,8,31},
+                                                    {162,139,54,23}};
+                int filtreDist[4] = { 0,0,0,0};
+                fpga->lireRegistre(nreg_lect_stat_btn, stat_btn);     // lecture buttons
+                //fpga->lireRegistre(nreg_lect_can0, echconv[0]);       // lecture canal 0
+                //fpga->lireRegistre(nreg_lect_can1, echconv[1]);       // lecture canal 1
+                //fpga->lireRegistre(nreg_lect_can2, echconv[2]);       // lecture canal 2
+                //fpga->lireRegistre(nreg_lect_can3, echconv[3]);       // lecture canal 3
+                if (fpga->stat_btn != stat_btn && stat_btn != 0)
                 {
-                case 1:
-                    bird->shootUp();
-                    break;
-                case 2:
-                    bird->shootDown();
-                    break;
-                case 4:
-                    setUpAttack();
-                    break;
+                    qDebug() << "FPGA stat_btn::" << stat_btn;
+                    switch (stat_btn)
+                    {
+                    case 1:
+                        bird->shootUp();
+                        break;
+                    case 2:
+                        bird->shootDown();
+                        break;
+                    case 4:
+                        setUpAttack();
+                        break;
+                    }
                 }
-            }
-            fpga->stat_btn = stat_btn;
+                fpga->stat_btn = stat_btn;
             
-            // si seulement si le boutton 8 est présé
-            if (stat_btn == 8)
-            {
-                // enregistrement des distances pour chaque phonème
-                for (int m = 0; m < 4; m++)
+                // si seulement si le boutton 8 est présé
+                if (stat_btn == 8)
                 {
-                    for (int n = 0; n < 4; n++)
+                    // enregistrement des distances pour chaque phonème
+                    for (int m = 0; m < 4; m++)
                     {
-                        filtreDist[m] += (filtrePredefinedPhone[m][n] - echconv[n]) * (filtrePredefinedPhone[m][n] - echconv[n]);
+                        for (int n = 0; n < 4; n++)
+                        {
+                            filtreDist[m] += (filtrePredefinedPhone[m][n] - echconv[n]) * (filtrePredefinedPhone[m][n] - echconv[n]);
+                        }
+                        filtreDist[m] = sqrt(filtreDist[m]);
                     }
-                    filtreDist[m] = sqrt(filtreDist[m]);
-                }
 
-                // trouver la distance minimal des distances trouvées 
-                int index = 0;
-                phonemes phonemeMinFound;
-                int minDist = filtreDist[index];
-                for (int m = 0; m < 4; m++)
-                {
-                    if (minDist > filtreDist[m])
+                    // trouver la distance minimal des distances trouvées 
+                    int index = 0;
+                    phonemes phonemeMinFound;
+                    int minDist = filtreDist[index];
+                    for (int m = 0; m < 4; m++)
                     {
-                        minDist = filtreDist[m];
-                        index = m;
+                        if (minDist > filtreDist[m])
+                        {
+                            minDist = filtreDist[m];
+                            index = m;
+                        }
                     }
-                }
 
-                if (minDist < 30) 
-                {
-                    // choix du phon et ajout au conteur
-                    phonemeMinFound = static_cast<phonemes>(index);
-                    if (this->currentPhoneme == phonemeMinFound)
+                    if (minDist < 30) 
                     {
-                        this->counter++;
+                        // choix du phon et ajout au conteur
+                        phonemeMinFound = static_cast<phonemes>(index);
+                        if (this->currentPhoneme == phonemeMinFound)
+                        {
+                            this->counter++;
+                        }
+                        else
+                        {
+                            this->currentPhoneme = phonemeMinFound;
+                            this->counter = 1;
+                        }
+
+                        // faire l'action si plus que 50ms pour le phonèmes
+                        if (this->counter >= 12)
+                        {
+                            switch (index)
+                            {
+                            case 0:
+                                bird->shootUp();
+                                break;
+                            case 1:
+                                bird->shootDown();
+                                break;
+                            case 2:
+                                setUpAttack();
+                                break;
+                            case 3:
+                                BonusEffect();
+                                break;
+                            }
+                            qDebug() << "Distance min: " << filtreDist[index] << " Phonème: " << this->currentPhoneme;
+                            this->currentPhoneme = phonemes::DEFAULT;
+                            this->counter = 0;
+                        }
                     }
                     else
                     {
-                        this->currentPhoneme = phonemeMinFound;
-                        this->counter = 1;
-                    }
-
-                    // faire l'action si plus que 50ms pour le phonèmes
-                    if (this->counter >= 12)
-                    {
-                        switch (index)
-                        {
-                        case 0:
-                            bird->shootUp();
-                            break;
-                        case 1:
-                            bird->shootDown();
-                            break;
-                        case 2:
-                            setUpAttack();
-                            break;
-                        case 3:
-                            BonusEffect();
-                            break;
-                        }
-                        qDebug() << "Distance min: " << filtreDist[index] << " Phonème: " << this->currentPhoneme;
                         this->currentPhoneme = phonemes::DEFAULT;
                         this->counter = 0;
                     }
@@ -443,12 +568,7 @@ void Scene::startFPGACommunication()
                     this->counter = 0;
                 }
             }
-            else
-            {
-                this->currentPhoneme = phonemes::DEFAULT;
-                this->counter = 0;
             }
-        }
         });
     fpgaTimer->start(10);
 }
@@ -466,7 +586,7 @@ void Scene::setUpPillarTimer()
             enemyTimer->stop();
             bonusTimer->stop();
             freezeBirdAndPillarsInPlace();
-            setGameOn(false);
+            setGameState(GameState::STOPPED);
             showGameOverGraphics();
         });
         addItem(pillarItem);
@@ -482,7 +602,7 @@ void Scene::setUpEnemyTimer(){
         enemyTimer->stop();
         bonusTimer->stop();
         freezeBirdAndPillarsInPlace();
-        setGameOn(false);
+        setGameState(GameState::STOPPED);
         showGameOverGraphics();
         });
     enemyItem->setPos(QPointF(0,0) - QPointF(enemyItem->boundingRect().width()/2,
@@ -525,7 +645,7 @@ void Scene::setUpBossAttack()
             bonusTimer->stop();
             BossAttackTimer->stop();
             freezeBirdAndPillarsInPlace();
-            setGameOn(false);
+            setGameState(GameState::STOPPED);
             showGameOverGraphics();
         });
         BossBall->setZValue(2);
@@ -539,7 +659,7 @@ void Scene::setUpBossAttack()
             bonusTimer->stop();
             BossAttackTimer->stop();
             freezeBirdAndPillarsInPlace();
-            setGameOn(false);
+            setGameState(GameState::STOPPED);
             showGameOverGraphics();
         });
         Boulet->setZValue(2);
@@ -689,14 +809,14 @@ void Scene::updatePixmap()
     titlePix->setPixmap(QPixmap(path));
 }
 
-bool Scene::getGameOn() const
+Scene::GameState Scene::getGameState() const
 {
-    return gameOn;
+    return this->gameState;
 }
 
-void Scene::setGameOn(bool value)
+void Scene::setGameState(GameState state)
 {
-    gameOn = value;
+    this->gameState = state;
 }
 
 void Scene::incrementScore()
@@ -758,25 +878,34 @@ void Scene::incrementBonus()
 void Scene::keyPressEvent(QKeyEvent *event)
 {
     // vérifier le le boutton presser else if(event->key() == Qt::Key_Escape)
-    if(!gameOn) { // ne rien faire
-    }
-    else if(event->key() == Qt::Key_Escape){
-        paused = !paused;
-        if(paused)
-        {
-            bird->pause();
-        } else {
-            bird->start();
+    qDebug() << "IN_CALLIBRATION : event";
+    if(this->getGameState() == GameState::IN_CALLIBRATION) { // ne rien faire
+        auto keypressed = event->key();
+        if (event->key() == Qt::Key_Space) {
+            progressBarPhonemes->setValue(++currentProgression);
+            qDebug() << "IN_CALLIBRATION : key_espace event";
         }
-    } else if((event->key() == Qt::Key_Space || event->key() == Qt::Key_W)  && !paused){
-        bird->shootUp();
-    } else if(event->key() == Qt::Key_S  && !paused){
-        bird->shootDown();
-    } else if (event->key() == Qt::Key_D && !paused) {
-        setUpAttack();
-    } else if (event->key() == Qt::Key_A && !paused){
-        BonusEffect();
     }
+    else if (this->getGameState() == GameState::PLAY) {
+        if(event->key() == Qt::Key_Escape){
+            paused = !paused;
+            if(paused)
+            {
+                bird->pause();
+            } else {
+                bird->start();
+            }
+        } else if((event->key() == Qt::Key_Space || event->key() == Qt::Key_W)  && !paused){
+            bird->shootUp();
+        } else if(event->key() == Qt::Key_S  && !paused){
+            bird->shootDown();
+        } else if (event->key() == Qt::Key_D && !paused) {
+            setUpAttack();
+        } else if (event->key() == Qt::Key_A && !paused){
+            BonusEffect();
+        }
+    }
+
     QGraphicsScene::keyPressEvent(event);
 }
 
@@ -811,7 +940,7 @@ void Scene::showGameOverGraphics()
                               -gameOverPix->boundingRect().height()
                               -30));
     btnMenu->show();
-    btnStart->show();
+    menuButtons[1]->show();
 }
 
 void Scene::hideGameOverGraphics()

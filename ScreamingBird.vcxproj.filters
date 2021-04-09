@@ -83,6 +83,9 @@
     <ClCompile Include="widget.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CommunicationFPGA.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="Bonus.h">
@@ -755,10 +758,16 @@
     <None Include="images\birds\yellowbird-upflap-200.png">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="images\pixel-fire-ball.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="images\pixel-fire-ball.png">
       <Filter>Distribution Files</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MainWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
