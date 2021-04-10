@@ -8,20 +8,18 @@ Widget::Widget(QWidget *parent)
 {
     // SETUP UI
     verticalLayout = new QVBoxLayout;
-    graphicsView = new QGraphicsView;
+    graphicsView = new QGraphicsView;/*
     this->resize(1177, this->width());
-    this->resize(637, this->height());
-    this->setWindowTitle("Screaming Bird");
-    this->setLayoutDirection(Qt::LayoutDirection::LeftToRight);
-    verticalLayout->setSizeConstraint(QLayout::SetFixedSize);
-    graphicsView->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+    this->resize(637, this->height());*/
+    this->setWindowTitle("Screaming Bird"); 
     graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    graphicsView->setTransformationAnchor(QGraphicsView::NoAnchor);
-    graphicsView->setResizeAnchor(QGraphicsView::NoAnchor);
+    graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     graphicsView->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
     verticalLayout->addWidget(graphicsView);
+    verticalLayout->setSizeConstraint(QLayout::SizeConstraint::SetNoConstraint);
     this->setLayout(verticalLayout);
     scene = new Scene(this); // besoin d'une référence au parent
+    scene->layout = verticalLayout;
     // recheche de la ressource de l'arrière plan
     QPixmap background(":/images/background-day.png");
     scene->sceneBackgroundMap =

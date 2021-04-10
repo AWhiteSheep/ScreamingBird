@@ -221,12 +221,18 @@ void Scene::addMenu()
     btnCallibration->setPos(QPointF(0, 150) - QPointF(btnCallibration->boundingRect().width() / 2,
         btnCallibration->boundingRect().height() / 2));
     connect(btnCallibration, &Button::mouseRelease, [=] {
+        for (int i = 0; i < 4; i++)
+            for (int y = 0; y < 4; y++)
+                phonemesCallibration[i][y] = 0;
+        // Progress bar
         progressBarPhonemes = new QProgressBar();
-        progressBarPhonemes->setMaximum(200);
+        progressBarPhonemes->setMaximum(100);
         progressBarPhonemes->setMinimum(0);
+        this->layout->addWidget(progressBarPhonemes);
         hideAllButton();
         this->setGameState(GameState::IN_CALLIBRATION);
         showCallibration();
+        btnPhonemes[0]->mouseRelease();
     });
     menuButtons.push_back(btnCallibration);
     // PHONEME A BUTTON
@@ -238,6 +244,10 @@ void Scene::addMenu()
         btnA->boundingRect().height() / 2));
     btnA->hide();
     connect(btnA, &Button::mouseRelease, [=] {
+        currentPhonemeCallibrationIndex = 0;
+        for (int y = 0; y < 4; y++)
+            phonemesCallibration[currentPhonemeCallibrationIndex][y] = 0;
+        progressBarPhonemes->setValue(currentProgression = 0);
         foreach(Button* item, btnPhonemes) {
             item->selected = false;
             item->setToIdle();
@@ -255,6 +265,10 @@ void Scene::addMenu()
         btnE->boundingRect().height() / 2));
     btnE->hide();
     connect(btnE, &Button::mouseRelease, [=] {
+        currentPhonemeCallibrationIndex = 1;
+        for (int y = 0; y < 4; y++)
+            phonemesCallibration[currentPhonemeCallibrationIndex][y] = 0;
+        progressBarPhonemes->setValue(currentProgression = 0);
         foreach(Button * item, btnPhonemes) {
             item->selected = false;
             item->setToIdle();
@@ -272,6 +286,10 @@ void Scene::addMenu()
         btnI->boundingRect().height() / 2));
     btnI->hide();
     connect(btnI, &Button::mouseRelease, [=] {
+        currentPhonemeCallibrationIndex = 2;
+        for (int y = 0; y < 4; y++)
+            phonemesCallibration[currentPhonemeCallibrationIndex][y] = 0;
+        progressBarPhonemes->setValue(currentProgression = 0);
         foreach(Button * item, btnPhonemes) {
             item->selected = false;
             item->setToIdle();
@@ -289,6 +307,10 @@ void Scene::addMenu()
         btnO->boundingRect().height() / 2));
     btnO->hide();
     connect(btnO, &Button::mouseRelease, [=] {
+        currentPhonemeCallibrationIndex = 3;
+        for (int y = 0; y < 4; y++)
+            phonemesCallibration[currentPhonemeCallibrationIndex][y] = 0;
+        progressBarPhonemes->setValue(currentProgression = 0);
         foreach(Button * item, btnPhonemes) {
             item->selected = false;
             item->setToIdle();
@@ -311,6 +333,11 @@ void Scene::addMenu()
         this->setGameState(GameState::STOPPED);
         hideAllButton();
         showMenu();
+        for (int i = 0; i < 4; i++)
+            for (int y = 0; y < 4; y++)
+                phonemesCallibration[i][y] = phonemesCallibration[i][y] / progressBarPhonemes->maximum();
+        layout->removeWidget(progressBarPhonemes);
+        delete progressBarPhonemes;
     });
     // ESPACE BUTTON
     espaceButton = new Button(QPixmap(":/images/Phonemes/espace-button.png"),
@@ -882,8 +909,26 @@ void Scene::keyPressEvent(QKeyEvent *event)
     if(this->getGameState() == GameState::IN_CALLIBRATION) { // ne rien faire
         auto keypressed = event->key();
         if (event->key() == Qt::Key_Space) {
-            progressBarPhonemes->setValue(++currentProgression);
-            qDebug() << "IN_CALLIBRATION : key_espace event";
+            if (currentProgression != progressBarPhonemes->maximum() && currentPhonemeCallibrationIndex >= 0 && currentPhonemeCallibrationIndex < 4)
+            {
+                if (fpga->estOk()) 
+                {
+                    int* echconv = fpga->read4Channel();
+                    phonemesCallibration[currentPhonemeCallibrationIndex][0] += echconv[0];
+                    phonemesCallibration[currentPhonemeCallibrationIndex][1] += echconv[1];
+                    phonemesCallibration[currentPhonemeCallibrationIndex][2] += echconv[2];
+                    phonemesCallibration[currentPhonemeCallibrationIndex][3] += echconv[3];
+                }
+                else
+                {
+                    phonemesCallibration[currentPhonemeCallibrationIndex][0] += 1;
+                    phonemesCallibration[currentPhonemeCallibrationIndex][1] += 1;
+                    phonemesCallibration[currentPhonemeCallibrationIndex][2] += 1;
+                    phonemesCallibration[currentPhonemeCallibrationIndex][3] += 1;
+                }
+                progressBarPhonemes->setValue(++currentProgression);
+            }
+            qDebug() << "IN_CALLIBRATION : key_espace event " << currentProgression << "   => " << phonemesCallibration[currentPhonemeCallibrationIndex][0];
         }
     }
     else if (this->getGameState() == GameState::PLAY) {

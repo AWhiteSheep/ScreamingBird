@@ -8,6 +8,7 @@
 #include <QDebug>
 #include <QMediaPlayer>
 #include <QProgressBar>
+#include <QVBoxLayout>
 #include <memory>
 #include <Vector>
 #include "button.h"
@@ -50,6 +51,7 @@ public:
     void hideTitle();
     void startFPGACommunication();
     QGraphicsPixmapItem* sceneBackgroundMap;
+    QVBoxLayout*layout;
 signals:
 public slots:
 protected:
@@ -94,6 +96,8 @@ private:
     vector<Button*> menuButtons;
     // phoneme
     vector<Button*> btnPhonemes;
+    int phonemesCallibration[4][4];
+    int currentPhonemeCallibrationIndex;
     Button* backButtonPhoneme;
     Button* espaceButton;
     Button * btnMenu;
