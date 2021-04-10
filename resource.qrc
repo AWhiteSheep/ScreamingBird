@@ -78,6 +78,8 @@
         <file>images/buttons/replay-button-500.png</file>
         <file>images/buttons/test-button-200.png</file>
         <file>images/buttons/test-button-press-200.png</file>
+        <file>images/buttons/callibration-button-press-200.png</file>
+        <file>images/buttons/callibration-button-200.png</file>
         <file>images/birds/bluebird-downflap.pixil</file>
         <file>images/birds/bluebird-downflap-100.png</file>
         <file>images/birds/bluebird-downflap-200.png</file>
@@ -180,6 +182,16 @@
         <file>images/BossAttack/Boulet-6.png</file>
         <file>images/BossAttack/Boulet-7.png</file>
         <file>images/BossAttack/Boulet-8.png</file>
+        <file>images/Phonemes/A.png</file>
+        <file>images/Phonemes/E.png</file>
+        <file>images/Phonemes/I.png</file>
+        <file>images/Phonemes/O.png</file>
+        <file>images/Phonemes/A-selected.png</file>
+        <file>images/Phonemes/E-selected.png</file>
+        <file>images/Phonemes/I-selected.png</file>
+        <file>images/Phonemes/O-selected.png</file>
+        <file>images/Phonemes/espace-button.png</file>
+        <file>images/Phonemes/espace-button-press.png</file>
         <file>sound effects/mega-man-2-wily-stage-remix.mp3</file>
     </qresource>
 </RCC>

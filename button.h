@@ -16,6 +16,9 @@ public:
     Button(QPixmap pixmap_idle, QPixmap pixmap_press);
     ~Button();
     void setIdlePixmap(QPixmap pixmap_idle);
+    void setToIdle();
+    void setToPress();
+    bool selected = false;
 signals:
     void mouseRelease();
 protected:

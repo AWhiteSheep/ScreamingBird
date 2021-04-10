@@ -26,3 +26,13 @@ void Button::mouseReleaseEvent(QGraphicsSceneMouseEvent *)
     setPixmap(pixmap_idle);
     emit mouseRelease();
 }
+
+void Button::setToIdle() 
+{
+    setPixmap(pixmap_idle);
+}
+
+void Button::setToPress()
+{
+    setPixmap(pixmap_press);
+}

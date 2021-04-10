@@ -54,6 +54,7 @@ public:
 	bool lireRegistre(int registre, int &valeur);
 	bool ecrireRegistre(int registre, int valeur);
 	void sleep(unsigned int millisecondes = 10);
+    int* read4Channel();
 
 	bool estOk();
 	const char * messageErreur();
