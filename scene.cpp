@@ -22,7 +22,6 @@ Scene::~Scene()
 {
     delete pillarTimer;
     delete enemyTimer;
-    delete titleTimer;
     delete titlePix;
     delete gameOverPix;
     delete scoreTextItem;
@@ -42,6 +41,7 @@ Scene::~Scene()
     delete backButtonPhoneme;
     if (fpga->estOk())
         delete fpga;
+    delete titleTimer;
 }
 
 void Scene::startMusic()
@@ -391,12 +391,12 @@ void Scene::setDifficulty()
         btnClavier->boundingRect().height() / 2));
 
     // phonemes
-    btnPhonemes = new Button(QPixmap(":/images/buttons/phonemes-button.png"),
+    btnPhoneme = new Button(QPixmap(":/images/buttons/phonemes-button.png"),
         QPixmap(":/images/buttons/phonemes-button.png"));
-    btnPhonemes->setZValue(1);
-    addItem(btnPhonemes);
-    btnPhonemes->setPos(QPointF(0, -50) - QPointF(btnPhonemes->boundingRect().width() / 2,
-        btnPhonemes->boundingRect().height() / 2));
+    btnPhoneme->setZValue(1);
+    addItem(btnPhoneme);
+    btnPhoneme->setPos(QPointF(0, -50) - QPointF(btnPhoneme->boundingRect().width() / 2,
+        btnPhoneme->boundingRect().height() / 2));
 
 
     //startGame();
@@ -1011,7 +1011,7 @@ void Scene::showGameOverGraphics()
                               -gameOverPix->boundingRect().height()
                               -30));
     btnMenu->show();
-    menuButtons[1]->show();
+    menuButtons[0]->show();
 }
 
 void Scene::hideGameOverGraphics()

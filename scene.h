@@ -94,6 +94,7 @@ private:
     BossAttack* BossBall;
     BossBoulet* Boulet;
     Boss* BossItem;
+    Button* btnPhoneme;
     vector<Button*> menuButtons;
     // phoneme
     vector<Button*> btnPhonemes;
