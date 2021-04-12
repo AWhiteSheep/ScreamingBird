@@ -15,7 +15,8 @@ SOURCES += \
     main.cpp \
     pillaritem.cpp \
     scene.cpp \
-    widget.cpp
+    widget.cpp \
+    CommunicationFPGA.cpp
 
 
 HEADERS += \
