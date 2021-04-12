@@ -35,7 +35,6 @@ public:
 
     void shootUp();
     void shootDown();
-    void startFlying();
     void die();
     void freezeInPlace();
     void setPowerUp(bool bonus);
@@ -47,15 +46,11 @@ public slots:
     void setY(qreal y);
 
     void rotateTo(const qreal &end, const int& duration, const QEasingCurve& curve);
-    void fallToGroundIfNecessary();
 private:
     enum WingPosition{
         Up,
         Middle,
-        Down,
-        UpLittle,
-        MiddleLittle,
-        DownLittle
+        Down
     };
     void updatePixmap();
     WingPosition  wingPosition;

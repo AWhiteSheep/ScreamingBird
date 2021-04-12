@@ -93,13 +93,6 @@ void BirdItem::shootDown()
     birdMedia->play();
 }
 
-void BirdItem::startFlying()
-{
-    // start y animation and rotation
-    //yAnimation->start();
-
-}
-
 void BirdItem::die()
 {
     birdWingsTimer->stop();
@@ -146,21 +139,6 @@ void BirdItem::rotateTo(const qreal &end, const int &duration, const QEasingCurv
     rotationAnimation->setEasingCurve(curve);
     rotationAnimation->setDuration(duration);
     rotationAnimation->start();
-}
-
-void BirdItem::fallToGroundIfNecessary()
-{
-    if(y() < groundPosition){
-        rotationAnimation->stop();
-        //yAnimation->stop();
-
-        yAnimation->setStartValue(y());
-        yAnimation->setEndValue(groundPosition);
-        yAnimation->setDuration(FALL_SPEED);
-        yAnimation->start();
-
-        rotateTo(90, 1100, QEasingCurve::InCubic);
-    }
 }
 
 // Animation de bird

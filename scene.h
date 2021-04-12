@@ -21,11 +21,17 @@
 #include "BossBoulet.h"
 #include "CommunicationFPGA.h"
 #include "freezable.h"
+#include "user.h"
 
 class Scene : public QGraphicsScene
 {
     Q_OBJECT
-        enum GameState;
+    enum GameState {
+        STOPPED, PLAY, IN_CALLIBRATION
+    };
+    enum phonemes {
+        A, E, I, O, DEFAULT
+    };
 public:
     explicit Scene(QObject* parent = nullptr);
     ~Scene();
@@ -90,9 +96,6 @@ private:
     QTimer* fpgaTimer;
     QTimer* BossAttackTimer;
     BirdItem* bird;
-    BirdAttack* fireball;
-    BossAttack* BossBall;
-    BossBoulet* Boulet;
     Boss* BossItem;
     Button* btnPhoneme;
     vector<Button*> menuButtons;
@@ -106,13 +109,7 @@ private:
     int currentProgression;
     QProgressBar* progressBarPhonemes;
     Button * btnClavier;
-    /*Button * btnStart;
-    Button * btnNext;
-    Button * btnBack;
-    Button * btnMusic;
-    
-    Button* btnTest;*/
-
+    User user;
     bool musicOn = true;
     bool paused = false;
     bool gameOn;
@@ -138,15 +135,9 @@ private:
 public:
     int bonus;
     // Phon�mes
-    enum phonemes {
-        A, E, I, O,DEFAULT
-    };
     phonemes currentPhoneme = phonemes::DEFAULT;
     int counter = 0;
     // Game state
-    enum GameState {
-        STOPPED, PLAY, IN_CALLIBRATION
-    };
     GameState gameState = GameState::STOPPED;
 };
 

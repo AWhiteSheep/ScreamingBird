@@ -531,10 +531,13 @@ void Scene::startFPGACommunication()
                 int stat_btn = 0; 
                 /*int echconv[4];*/
                 int* echconv = fpga->read4Channel();
-                int filtrePredefinedPhone[4][4] = {{139,232,247,39}, 
-                                                    {209,116,155,232}, 
-                                                    {23,15,8,31},
-                                                    {162,139,54,23}};
+                int filtrePredefinedPhone[4][4];
+
+                // si l'utilisateur n'a pas défini ses phonèmes
+                for (int m = 0; m < 4; m++)
+                    for (int n = 0; n < 4; n++)
+                        filtrePredefinedPhone[m][n] = fpga->filtrePredefinedPhone[m][n];
+
                 int filtreDist[4] = { 0,0,0,0};
                 fpga->lireRegistre(nreg_lect_stat_btn, stat_btn);     // lecture buttons
                 //fpga->lireRegistre(nreg_lect_can0, echconv[0]);       // lecture canal 0
@@ -694,7 +697,7 @@ void Scene::setUpBonus()
 
 void Scene::setUpAttack()
 {
-    fireball = new BirdAttack(bird->y(), sceneBackgroundMap->boundingRect().width()/2);
+    BirdAttack* fireball = new BirdAttack(bird->y(), sceneBackgroundMap->boundingRect().width()/2);
     addItem(fireball);
 }
 
@@ -703,7 +706,7 @@ void Scene::setUpBossAttack()
     BossAttackTimer = new QTimer(this);
     connect(BossAttackTimer, &QTimer::timeout, [=](){
     if(attack != 3){
-        BossBall = new BossAttack(BossItem->y(),sceneBackgroundMap->boundingRect().width()/2);
+        BossAttack* BossBall = new BossAttack(BossItem->y(),sceneBackgroundMap->boundingRect().width()/2);
         attack++;
         connect(BossBall, &BossAttack::collideFail,[=]{
             pillarTimer->stop();
@@ -717,7 +720,7 @@ void Scene::setUpBossAttack()
         BossBall->setZValue(2);
         addItem(BossBall);
     }else{
-        Boulet = new BossBoulet(BossItem->y(),sceneBackgroundMap->boundingRect().width()/2);
+        BossBoulet* Boulet = new BossBoulet(BossItem->y(),sceneBackgroundMap->boundingRect().width()/2);
         attack = 0;
         connect(Boulet, &BossBoulet::collideFail,[=]{
             pillarTimer->stop();
@@ -944,7 +947,6 @@ void Scene::incrementBonus()
 void Scene::keyPressEvent(QKeyEvent *event)
 {
     // vérifier le le boutton presser else if(event->key() == Qt::Key_Escape)
-    qDebug() << "IN_CALLIBRATION : event";
     if(this->getGameState() == GameState::IN_CALLIBRATION) { // ne rien faire
         auto keypressed = event->key();
         if (event->key() == Qt::Key_Space) {
@@ -953,17 +955,12 @@ void Scene::keyPressEvent(QKeyEvent *event)
                 if (fpga->estOk()) 
                 {
                     int* echconv = fpga->read4Channel();
-                    phonemesCallibration[currentPhonemeCallibrationIndex][0] += echconv[0];
-                    phonemesCallibration[currentPhonemeCallibrationIndex][1] += echconv[1];
-                    phonemesCallibration[currentPhonemeCallibrationIndex][2] += echconv[2];
-                    phonemesCallibration[currentPhonemeCallibrationIndex][3] += echconv[3];
+                    user.ajoutEnregistrement(echconv, static_cast<User::Phonemes>(currentPhonemeCallibrationIndex));
                 }
                 else
                 {
-                    phonemesCallibration[currentPhonemeCallibrationIndex][0] += 1;
-                    phonemesCallibration[currentPhonemeCallibrationIndex][1] += 1;
-                    phonemesCallibration[currentPhonemeCallibrationIndex][2] += 1;
-                    phonemesCallibration[currentPhonemeCallibrationIndex][3] += 1;
+                    int* echconv = new int[4]{ 1,1,1,1 };
+                    user.ajoutEnregistrement(echconv, static_cast<User::Phonemes>(currentPhonemeCallibrationIndex));
                 }
                 progressBarPhonemes->setValue(++currentProgression);
             }
