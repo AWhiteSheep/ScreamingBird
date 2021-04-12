@@ -47,6 +47,10 @@ public:
     int echconv[4];                      // donnee converties recues du FPGA
     int canal_a_afficher        = 0;     // donnee recue du FPGA
     int indice_canal_a_afficher = 0;
+    int filtrePredefinedPhone[4][4] = { {139,232,247,39},
+                                                    {209,116,155,232},
+                                                    {23,15,8,31},
+                                                    {162,139,54,23} };
 
     CommunicationFPGA();
 	~CommunicationFPGA();

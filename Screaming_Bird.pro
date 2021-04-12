@@ -16,7 +16,9 @@ SOURCES += \
     pillaritem.cpp \
     scene.cpp \
     widget.cpp \
-    CommunicationFPGA.cpp
+    CommunicationFPGA.cpp \
+    user.cpp \
+    phoneme.cpp
 
 
 HEADERS += \
@@ -33,7 +35,9 @@ HEADERS += \
     pillaritem.h \
     scene.h \
     score.h \
-    widget.h
+    widget.h \
+    user.h \
+    phoneme.h
 
 RESOURCES += \
     resource.qrc

@@ -21,6 +21,7 @@
 #include "BossBoulet.h"
 #include "CommunicationFPGA.h"
 #include "freezable.h"
+#include "user.h"
 
 class Scene : public QGraphicsScene
 {
@@ -106,6 +107,7 @@ private:
     int currentProgression;
     QProgressBar* progressBarPhonemes;
     Button * btnClavier;
+    User user;
     /*Button * btnStart;
     Button * btnNext;
     Button * btnBack;
