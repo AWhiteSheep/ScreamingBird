@@ -26,7 +26,12 @@
 class Scene : public QGraphicsScene
 {
     Q_OBJECT
-        enum GameState;
+    enum GameState {
+        STOPPED, PLAY, IN_CALLIBRATION
+    };
+    enum phonemes {
+        A, E, I, O, DEFAULT
+    };
 public:
     explicit Scene(QObject* parent = nullptr);
     ~Scene();
@@ -91,9 +96,6 @@ private:
     QTimer* fpgaTimer;
     QTimer* BossAttackTimer;
     BirdItem* bird;
-    BirdAttack* fireball;
-    BossAttack* BossBall;
-    BossBoulet* Boulet;
     Boss* BossItem;
     Button* btnPhoneme;
     vector<Button*> menuButtons;
@@ -108,13 +110,6 @@ private:
     QProgressBar* progressBarPhonemes;
     Button * btnClavier;
     User user;
-    /*Button * btnStart;
-    Button * btnNext;
-    Button * btnBack;
-    Button * btnMusic;
-    
-    Button* btnTest;*/
-
     bool musicOn = true;
     bool paused = false;
     bool gameOn;
@@ -140,15 +135,9 @@ private:
 public:
     int bonus;
     // Phon�mes
-    enum phonemes {
-        A, E, I, O,DEFAULT
-    };
     phonemes currentPhoneme = phonemes::DEFAULT;
     int counter = 0;
     // Game state
-    enum GameState {
-        STOPPED, PLAY, IN_CALLIBRATION
-    };
     GameState gameState = GameState::STOPPED;
 };
 

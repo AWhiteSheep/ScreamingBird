@@ -684,7 +684,7 @@ void Scene::setUpBonus()
 
 void Scene::setUpAttack()
 {
-    fireball = new BirdAttack(bird->y(), sceneBackgroundMap->boundingRect().width()/2);
+    BirdAttack* fireball = new BirdAttack(bird->y(), sceneBackgroundMap->boundingRect().width()/2);
     addItem(fireball);
 }
 
@@ -693,7 +693,7 @@ void Scene::setUpBossAttack()
     BossAttackTimer = new QTimer(this);
     connect(BossAttackTimer, &QTimer::timeout, [=](){
     if(attack != 3){
-        BossBall = new BossAttack(BossItem->y(),sceneBackgroundMap->boundingRect().width()/2);
+        BossAttack* BossBall = new BossAttack(BossItem->y(),sceneBackgroundMap->boundingRect().width()/2);
         attack++;
         connect(BossBall, &BossAttack::collideFail,[=]{
             pillarTimer->stop();
@@ -707,7 +707,7 @@ void Scene::setUpBossAttack()
         BossBall->setZValue(2);
         addItem(BossBall);
     }else{
-        Boulet = new BossBoulet(BossItem->y(),sceneBackgroundMap->boundingRect().width()/2);
+        BossBoulet* Boulet = new BossBoulet(BossItem->y(),sceneBackgroundMap->boundingRect().width()/2);
         attack = 0;
         connect(Boulet, &BossBoulet::collideFail,[=]{
             pillarTimer->stop();

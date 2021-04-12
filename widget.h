@@ -19,7 +19,6 @@ public:
 private slots:
 
 private:
-    Widget* ui;
     Scene * scene;
     QVBoxLayout* verticalLayout;
     QGraphicsView* graphicsView;
