@@ -16,6 +16,7 @@
         <file>sound effects/sfx_swooshing.wav</file>
         <file>sound effects/sfx_wing.wav</file>
         <file>sound effects/super_mario_medley.mp3</file>
+	<file>images/buttons/clavier-button.png</file>
         <file>images/buttons/start-button-100.png</file>
         <file>images/buttons/start-button-200.png</file>
         <file>images/buttons/start-button-300.png</file>
@@ -61,6 +62,7 @@
         <file>images/buttons/right-button-press-300.png</file>
         <file>images/buttons/right-button-press-400.png</file>
         <file>images/buttons/right-button-press-500.png</file>
+	<file>images/buttons/phonemes-button.png</file>
         <file>images/buttons/play-button-press-200.png</file>
         <file>images/buttons/play-button-press-300.png</file>
         <file>images/buttons/play-button-press-400.png</file>

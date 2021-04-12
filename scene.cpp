@@ -71,7 +71,7 @@ void Scene::addBird()
 void Scene::startGame()
 {
     //start animation for Bird and Pillars
-    delete bird;
+    //delete bird;
     if(static_cast<enum::BirdColor>(birdColor) == BirdColor::RED)
         bird = new BirdItem(QPixmap(":/images/redbird-midflap.png"),
                             -sceneBackgroundMap->boundingRect().height()/2, sceneBackgroundMap->boundingRect().height()/2);
@@ -114,6 +114,44 @@ void Scene::startGame()
     }
 }
 
+void Scene::setDifficulty()
+{
+    // enlever l'oiseau
+    delete bird;
+
+    // ajouter 2 boutons
+    // clavier
+    btnClavier = new Button(QPixmap(":/images/buttons/clavier-button.png"),
+        QPixmap(":/images/buttons/clavier-button.png"));
+    btnClavier->setZValue(1);
+    addItem(btnClavier);
+    btnClavier->setPos(QPointF(0, 50) - QPointF(btnClavier->boundingRect().width() / 2,
+        btnClavier->boundingRect().height() / 2));
+
+    connect(btnClavier, &Button::mouseRelease, [=] {
+        btnClavier->hide();
+        btnPhoneme->hide();
+        startGame();    
+        });
+
+    // phonemes
+    btnPhoneme = new Button(QPixmap(":/images/buttons/phonemes-button.png"),
+        QPixmap(":/images/buttons/phonemes-button.png"));
+    btnPhoneme->setZValue(1);
+    addItem(btnPhoneme);
+    btnPhoneme->setPos(QPointF(0, -50) - QPointF(btnPhoneme->boundingRect().width() / 2,
+        btnPhoneme->boundingRect().height() / 2));
+
+    connect(btnPhoneme, &Button::mouseRelease, [=] {
+        btnPhoneme->hide();
+        btnClavier->hide();
+        startGame();
+        });
+
+
+    //startGame();
+}
+
 void Scene::addMenu()
 {
     showTitle();
@@ -145,7 +183,8 @@ void Scene::addMenu()
                                                btnStart->boundingRect().height()/2));
     connect(btnStart, &Button::mouseRelease, [=]{
         hideAllButton();
-        startGame();
+        //startGame();
+        setDifficulty();
     });
     menuButtons.push_back(btnStart);
     // NEXT BUTTON
@@ -374,32 +413,6 @@ void Scene::hideAllButton()
             button->hide();
         }
     }
-}
-
-void Scene::setDifficulty()
-{   
-    // enlever l'oiseau
-    delete bird;
-
-    // ajouter 2 boutons
-    // clavier
-    btnClavier = new Button(QPixmap(":/images/buttons/clavier-button.png"),
-        QPixmap(":/images/buttons/clavier-button.png"));
-    btnClavier->setZValue(1);
-    addItem(btnClavier);
-    btnClavier->setPos(QPointF(0, 50) - QPointF(btnClavier->boundingRect().width() / 2,
-        btnClavier->boundingRect().height() / 2));
-
-    // phonemes
-    btnPhoneme = new Button(QPixmap(":/images/buttons/phonemes-button.png"),
-        QPixmap(":/images/buttons/phonemes-button.png"));
-    btnPhoneme->setZValue(1);
-    addItem(btnPhoneme);
-    btnPhoneme->setPos(QPointF(0, -50) - QPointF(btnPhoneme->boundingRect().width() / 2,
-        btnPhoneme->boundingRect().height() / 2));
-
-
-    //startGame();
 }
 
 void Scene::addReplayButton()

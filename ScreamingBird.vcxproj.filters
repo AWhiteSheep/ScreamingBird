@@ -59,6 +59,9 @@
     <ClCompile Include="BossBoulet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="CommunicationFPGA.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="birdattack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -81,9 +84,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="widget.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CommunicationFPGA.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -212,6 +212,12 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="images\Phonemes\A-selected.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Phonemes\A.png">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="images\Bonus.png">
       <Filter>Resource Files</Filter>
     </None>
@@ -305,6 +311,12 @@
     <None Include="images\BossAttack\Boulet-8.png">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="images\Phonemes\E-selected.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Phonemes\E.png">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="images\BossAttack\Frame-1.png">
       <Filter>Resource Files</Filter>
     </None>
@@ -341,6 +353,12 @@
     <None Include="images\Fireball\Frame-6.png">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="images\Phonemes\I-selected.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Phonemes\I.png">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="images\koopa\Koopa-1.png">
       <Filter>Resource Files</Filter>
     </None>
@@ -351,6 +369,12 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="images\koopa\Koopa-4.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Phonemes\O-selected.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Phonemes\O.png">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="images\background-day.png">
@@ -390,6 +414,18 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="images\birds\bluebird-upflap.pixil">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\callibration-button-200.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\callibration-button-press-200.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Phonemes\espace-button-press.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\Phonemes\espace-button.png">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="images\gameover.png">
@@ -766,8 +802,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MainWindow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <Image Include="images\buttons\phonemes-button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="images\buttons\clavier-button.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
