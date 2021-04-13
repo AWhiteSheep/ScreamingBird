@@ -74,11 +74,6 @@ void BossAttack::freezeInPlace()
     freeze = 1;
 }
 
-bool BossAttack::collidesWithEnemy()
-{
-    return 0;
-}
-
 void BossAttack::updatePixmapFireball()
 {
     if(fireball == Fireball::Frame1)

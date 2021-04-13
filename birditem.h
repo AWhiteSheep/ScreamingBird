@@ -1,3 +1,10 @@
+/*
+*
+*   Author: jara2502, pera3307, rouy2404, veic1101
+*   Date: 2021-04-13 (mar., 13 avril. 2021)
+*   Description: Classe de l'oiseau (personnage du joueur)
+*
+*/
 #ifndef BIRDITEM_H
 #define BIRDITEM_H
 

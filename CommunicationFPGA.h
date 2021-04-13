@@ -1,15 +1,9 @@
 /*
-*   CommunicationFPGA est une classe d'interface à la pour la communication
-*   avec la carte FPGA de la session S2. Pour les details de l'utilisation
-*   de cette classe, consultez le guide d'utilisation.
-*   
-*   $Author: bruc2001 $
-*   $Date: 2018-02-13 08:54:36 -0500 (mar., 13 févr. 2018) $
-*   $Revision: 108 $
-*   $Id: CommunicationFPGA.h 108 2018-02-13 13:54:36Z bruc2001 $
 *
-*   Copyright 2013 Département de génie électrique et génie informatique
-*                  Université de Sherbrooke  
+*   Author: jara2502, pera3307, rouy2404, veic1101
+*   Date: 2021-04-13 (mar., 13 avril. 2021)
+*   Description: Classe pour la communication avec la carte FPGA. Elle contient aussi des variables global pour l'utilisation des registres sur la carte FPGA.
+*
 */
 
 #ifndef COMMUNICATIONFPGA_H

@@ -1,3 +1,11 @@
+/*
+*
+*   Author: jara2502, pera3307, rouy2404, veic1101
+*   Date: 2021-04-13 (mar., 13 avril. 2021)
+*   Description: Classe des enemies (les tortues volantes) obstacle au joueur comportant un signal qui est émis si une collision se fait qui communique avec la scene.
+*                pour vaincre le joueur
+*
+*/
 #ifndef ENEMY_H
 #define ENEMY_H
 

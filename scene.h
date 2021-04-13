@@ -1,3 +1,10 @@
+/*
+*
+*   Author: jara2502, pera3307, rouy2404, veic1101
+*   Date: 2021-04-13 (mar., 13 avril. 2021)
+*   Description: Classe qui instancie et utilise la majorité des classes de l'application (le coeur de l'application)
+*
+*/
 #ifndef SCENE_H
 #define SCENE_H
 

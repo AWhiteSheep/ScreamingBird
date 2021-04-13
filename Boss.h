@@ -1,3 +1,10 @@
+/*
+*
+*   Author: jara2502, pera3307, rouy2404, veic1101
+*   Date: 2021-04-13 (mar., 13 avril. 2021)
+*   Description: Classe Boss, laquelle est instancié par la scene suite à ce que le joueur obtienne 18 au score.
+*
+*/
 #ifndef BOSS_H
 #define BOSS_H
 #include <QObject>
