@@ -35,7 +35,6 @@ HEADERS += \
     enemy.h \
     pillaritem.h \
     scene.h \
-    score.h \
     widget.h \
     user.h \
     phoneme.h\

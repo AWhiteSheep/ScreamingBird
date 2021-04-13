@@ -1,3 +1,10 @@
+/*
+*  
+*   Author: jara2502, pera3307, rouy2404, veic1101 
+*   Date: 2021-04-13 (mar., 13 avril. 2021) 
+*   Description: Attaque de l'oiseau instanciée par la scene
+* 
+*/
 #ifndef BIRDATTACK_H
 #define BIRDATTACK_H
 

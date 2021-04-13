@@ -1,3 +1,10 @@
+/*
+*
+*   Author: jara2502, pera3307, rouy2404, veic1101
+*   Date: 2021-04-13 (mar., 13 avril. 2021)
+*   Description: Classe de base pour les boutons graphiques du jeu, qui override le mouse press et le mouse release event.
+*
+*/
 #ifndef BUTTON_H
 #define BUTTON_H
 

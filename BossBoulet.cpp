@@ -1,3 +1,9 @@
+/*
+*
+*   Author: jara2502, pera3307, rouy2404, veic1101
+*   Date: 2021-04-13 (mar., 13 avril. 2021)
+*
+*/
 #include "BossBoulet.h"
 
 BossBoulet::BossBoulet(qreal BossPosY, qreal limiteScreen) :boulet(Frame_1)

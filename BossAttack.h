@@ -1,3 +1,11 @@
+/*
+*
+*   Author: jara2502, pera3307, rouy2404, veic1101
+*   Date: 2021-04-13 (mar., 13 avril. 2021)
+*   Description: Classe pour les boule de feu du boss, il est instancié par la scene, laquelle utilise la position 
+*                du boss pour son apparition dans la scene.
+*
+*/
 #ifndef BOSSATTACK_H
 #define BOSSATTACK_H
 #include <QObject>
@@ -58,6 +66,5 @@ public:
     ~BossAttack();
 
     void freezeInPlace();
-    bool collidesWithEnemy();
 };
 #endif // BOSSATTACK_H

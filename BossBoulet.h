@@ -1,3 +1,10 @@
+/*
+*
+*   Author: jara2502, pera3307, rouy2404, veic1101
+*   Date: 2021-04-13 (mar., 13 avril. 2021)
+*   Description: Classe pour l'attaque du boss lui aussi instancié par la scene qui une fois touche le joueur le met hors combat.
+*
+*/
 #ifndef BOSSBOULET_H
 #define BOSSBOULET_H
 #include <QObject>
