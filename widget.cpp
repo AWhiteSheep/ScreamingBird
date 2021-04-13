@@ -1,3 +1,9 @@
+/*
+*
+*   Author: jara2502, pera3307, rouy2404, veic1101
+*   Date: 2021-04-13 (mar., 13 avril. 2021)
+*
+*/
 #include "widget.h"
 #include <QGraphicsPixmapItem>
 #include <pillaritem.h>
@@ -8,9 +14,7 @@ Widget::Widget(QWidget *parent)
 {
     // SETUP UI
     verticalLayout = new QVBoxLayout;
-    graphicsView = new QGraphicsView;/*
-    this->resize(1177, this->width());
-    this->resize(637, this->height());*/
+    graphicsView = new QGraphicsView;
     this->setWindowTitle("Screaming Bird"); 
     graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
