@@ -62,6 +62,9 @@
     <ClCompile Include="CommunicationFPGA.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Instructions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="birdattack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -77,10 +80,16 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="phoneme.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="pillaritem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="scene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="user.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="widget.cpp">
@@ -103,6 +112,9 @@
     <ClInclude Include="CommunicationFPGA.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <CustomBuild Include="Instructions.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
     <CustomBuild Include="birdattack.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
@@ -118,6 +130,9 @@
     <ClInclude Include="freezable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="phoneme.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <CustomBuild Include="pillaritem.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
@@ -125,6 +140,9 @@
       <Filter>Header Files</Filter>
     </CustomBuild>
     <ClInclude Include="score.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="user.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <CustomBuild Include="widget.h">
@@ -154,6 +172,12 @@
       <Filter>Generated Files</Filter>
     </ClCompile>
     <ClCompile Include="release\moc_BossBoulet.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="debug\moc_Instructions.cpp">
+      <Filter>Generated Files</Filter>
+    </ClCompile>
+    <ClCompile Include="release\moc_Instructions.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
     <ClCompile Include="debug\moc_birdattack.cpp">
@@ -422,6 +446,9 @@
     <None Include="images\buttons\callibration-button-press-200.png">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="images\buttons\clavier-button.png">
+      <Filter>Resource Files</Filter>
+    </None>
     <None Include="images\Phonemes\espace-button-press.png">
       <Filter>Resource Files</Filter>
     </None>
@@ -522,6 +549,9 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="images\buttons\music-on-off-on-500.png">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="images\buttons\phonemes-button.png">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="images\pipe-green-top.png">
@@ -794,19 +824,10 @@
     <None Include="images\birds\yellowbird-upflap-200.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="images\pixel-fire-ball.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="images\pixel-fire-ball.png">
       <Filter>Distribution Files</Filter>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="images\buttons\phonemes-button.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="images\buttons\clavier-button.png">
-      <Filter>Resource Files</Filter>
-    </Image>
   </ItemGroup>
 </Project>
