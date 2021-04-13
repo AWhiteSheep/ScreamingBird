@@ -95,6 +95,7 @@ private:
     void showMenu();
     void showCallibration();
     void hideAllButton();
+    void createBird();
     QTimer* pillarTimer;
     QTimer* enemyTimer;
     QTimer* bonusTimer;
@@ -103,19 +104,21 @@ private:
     QTimer* fpgaTimer;
     QTimer* BossAttackTimer;
     BirdItem* bird;
-    Boss* BossItem;
-    Button* btnPhoneme;
+    Boss* BossItem;    
     vector<Button*> menuButtons;
     // phoneme
     vector<Button*> btnPhonemes;
     int phonemesCallibration[4][4];
     int currentPhonemeCallibrationIndex;
     Button* backButtonPhoneme;
+    Button* backButtonDifficulty;
     Button* espaceButton;
-    Button * btnMenu;
+    Button* btnMenu;
+    Button* btnClavier;
+    Button* btnPhoneme;
     int currentProgression;
     QProgressBar* progressBarPhonemes;
-    Button * btnClavier;
+    
     User user;
     bool musicOn = true;
     bool paused = false;

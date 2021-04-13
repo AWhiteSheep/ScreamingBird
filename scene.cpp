@@ -74,25 +74,31 @@ void Scene::addBird()
     addItem(bird);
 }
 
-void Scene::startGame()
+void Scene::createBird()
 {
-    //start animation for Bird and Pillars
-    //delete bird;
-    if(static_cast<enum::BirdColor>(birdColor) == BirdColor::RED)
+    if (static_cast<enum::BirdColor>(birdColor) == BirdColor::RED)
         bird = new BirdItem(QPixmap(":/images/redbird-midflap.png"),
-                            -sceneBackgroundMap->boundingRect().height()/2, sceneBackgroundMap->boundingRect().height()/2);
-    else if(static_cast<enum::BirdColor>(birdColor) == BirdColor::BLUE)
+            -sceneBackgroundMap->boundingRect().height() / 2, sceneBackgroundMap->boundingRect().height() / 2);
+    else if (static_cast<enum::BirdColor>(birdColor) == BirdColor::BLUE)
         bird = new BirdItem(QPixmap(":/images/birds/bluebird-midflap-200.png"),
-                            -sceneBackgroundMap->boundingRect().height()/2, sceneBackgroundMap->boundingRect().height()/2);
-    else if(static_cast<enum::BirdColor>(birdColor) == BirdColor::YELLOW)
+            -sceneBackgroundMap->boundingRect().height() / 2, sceneBackgroundMap->boundingRect().height() / 2);
+    else if (static_cast<enum::BirdColor>(birdColor) == BirdColor::YELLOW)
         bird = new BirdItem(QPixmap(":/images/birds/yellowbird-midflap-200.png"),
-                            -sceneBackgroundMap->boundingRect().height()/2, sceneBackgroundMap->boundingRect().height()/2);
-    bird->setPos(QPointF(0,0) - QPointF(bird->boundingRect().width()/2,
-                                                   bird->boundingRect().height()/2));
+            -sceneBackgroundMap->boundingRect().height() / 2, sceneBackgroundMap->boundingRect().height() / 2);
+    bird->setPos(QPointF(0, 0) - QPointF(bird->boundingRect().width() / 2,
+        bird->boundingRect().height() / 2));
 
     bird->color = static_cast<BirdColor>(this->birdColor);
     addItem(bird);
     bird->setZValue(1);
+}
+
+void Scene::startGame()
+{
+    //start animation for Bird and Pillars
+    //delete bird;
+    createBird();
+    
     score = 0;
     bonus = 0;
     attack = 0;
@@ -131,7 +137,7 @@ void Scene::setDifficulty()
         QPixmap(":/images/buttons/clavier-button.png"));
     btnClavier->setZValue(1);
     addItem(btnClavier);
-    btnClavier->setPos(QPointF(0, 50) - QPointF(btnClavier->boundingRect().width() / 2,
+    btnClavier->setPos(QPointF(0, -20) - QPointF(btnClavier->boundingRect().width() / 2,
         btnClavier->boundingRect().height() / 2));
 
     connect(btnClavier, &Button::mouseRelease, [=] {
@@ -145,7 +151,7 @@ void Scene::setDifficulty()
         QPixmap(":/images/buttons/phonemes-button.png"));
     btnPhoneme->setZValue(1);
     addItem(btnPhoneme);
-    btnPhoneme->setPos(QPointF(0, -50) - QPointF(btnPhoneme->boundingRect().width() / 2,
+    btnPhoneme->setPos(QPointF(0, 50) - QPointF(btnPhoneme->boundingRect().width() / 2,
         btnPhoneme->boundingRect().height() / 2));
 
     connect(btnPhoneme, &Button::mouseRelease, [=] {
@@ -154,8 +160,23 @@ void Scene::setDifficulty()
         startGame();
         });
 
-
-    //startGame();
+    // back button
+    backButtonDifficulty = new Button(QPixmap(":/images/buttons/left-button-idle-200.png"),
+        QPixmap(":/images/buttons/left-button-press-200.png"));
+    backButtonDifficulty->setZValue(1);
+    addItem(backButtonDifficulty);
+    QPointF backButtonDifficulty_position = QPointF(backButtonPhoneme->boundingRect().width(), -backButtonPhoneme->boundingRect().height())
+        + QPointF(-sceneBackgroundMap->boundingRect().width() / 2, sceneBackgroundMap->boundingRect().height() / 2)
+        + QPointF(20, -20);
+    backButtonDifficulty->setPos(backButtonDifficulty_position);
+    connect(backButtonDifficulty, &Button::mouseRelease, [=]
+        {
+            btnPhoneme->hide();
+            btnClavier->hide();
+            showMenu();
+            createBird();
+        });
+          
 }
 
 void Scene::addMenu()
