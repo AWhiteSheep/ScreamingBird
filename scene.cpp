@@ -37,7 +37,6 @@ Scene::~Scene()
     delete sceneBackgroundMap;
     delete sceneMedia;
     delete bird;
-    cleanAttack();
     foreach(Button *item, menuButtons){
         delete item;
     }
@@ -105,12 +104,7 @@ void Scene::startGame()
     bossIndex = 0;
     updateSceneScore();
     updateSceneBonus();
-    cleanPillars();
-    cleanEnemy();
-    cleanAttack();
-    cleanBonus();
-    cleanBoss();
-    cleanBossAttack();
+    cleanAll();
     setGameState(GameState::PLAY);
     hideGameOverGraphics();
     Widget * parent = dynamic_cast<Widget*>(this->parent());
@@ -143,6 +137,7 @@ void Scene::setDifficulty()
     connect(btnClavier, &Button::mouseRelease, [=] {
         btnClavier->hide();
         btnPhoneme->hide();
+        backButtonDifficulty->hide();
         startGame();    
     });
 
@@ -157,6 +152,7 @@ void Scene::setDifficulty()
     connect(btnPhoneme, &Button::mouseRelease, [=] {
         btnPhoneme->hide();
         btnClavier->hide();
+        backButtonDifficulty->hide();
         startGame();
     });
 
@@ -173,10 +169,22 @@ void Scene::setDifficulty()
         {
             btnPhoneme->hide();
             btnClavier->hide();
+            backButtonDifficulty->hide();
             showMenu();
             createBird();
         });
           
+}
+
+void Scene::cleanAll()
+{
+    hideGameOverGraphics();
+    cleanPillars();
+    cleanEnemy();
+    cleanAttack();
+    cleanBonus();
+    cleanBoss();
+    cleanBossAttack();
 }
 
 void Scene::addMenu()
@@ -188,15 +196,12 @@ void Scene::addMenu()
     btnMenu->setZValue(1);
     addItem(btnMenu);
     connect(btnMenu, &Button::mouseRelease, [=]{
+        cleanAll();
         showTitle();
-        hideGameOverGraphics();
         delete bird;
-        addBird();
-        cleanPillars();
-        cleanEnemy();
-        cleanAttack();
-        cleanBoss();
+        addBird();        
         showMenu();
+        setDifficultyOrNo = true;
         btnMenu->hide();
     });
     btnMenu->hide();
@@ -210,8 +215,16 @@ void Scene::addMenu()
                                                btnStart->boundingRect().height()/2));
     connect(btnStart, &Button::mouseRelease, [=]{
         hideAllButton();
-        //startGame();
-        setDifficulty();
+        cleanAll();
+        if (setDifficultyOrNo)
+        {
+            setDifficulty();
+            setDifficultyOrNo = false;
+        }
+        else
+        {
+            startGame();
+        }
     });
     menuButtons.push_back(btnStart);
     // NEXT BUTTON

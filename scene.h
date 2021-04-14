@@ -64,6 +64,7 @@ public:
     void showTitle();
     void hideTitle();
     void startFPGACommunication();
+    void cleanAll();
     QGraphicsPixmapItem* sceneBackgroundMap;
     QVBoxLayout*layout;
 signals:
@@ -123,6 +124,7 @@ private:
     bool musicOn = true;
     bool paused = false;
     bool gameOn;
+    bool setDifficultyOrNo = true;
     int score;
     int bestScore;
     int birdColor = 0;
