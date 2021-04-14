@@ -21,6 +21,7 @@ void Phoneme::clear(int channel)
 {
 	_nombreEnregistrement[channel] = 0;
 	_sommeValeurEnregistrement[channel] = 0;
+	_moyenEnregistrement[channel] = 0;
 }
 
 bool Phoneme::empty() 
@@ -62,4 +63,14 @@ void Phoneme::setPhoneme()
 int * Phoneme::moyenEnregistrement() 
 {
 	return _moyenEnregistrement;
+}
+
+bool Phoneme::isReady()
+{
+	for (int i = 0; i < nombre_channel; i++)
+	{
+		if (_nombreEnregistrement[i] < 100)
+			return false;
+	}
+	return true;
 }

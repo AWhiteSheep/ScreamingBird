@@ -7,7 +7,9 @@ public:
 	enum class Phonemes { A, E, I, O};
 	User();
 	bool setPhonemes();
+	bool phonemesReady();
 	bool userPhonemeEmpty();
+	void clearPhoneme(Phonemes phoneme);
 	void ajoutEnregistrement(int enregistrement, int channel, Phonemes phoneme);
 	void ajoutEnregistrement(int* echconv, Phonemes phoneme);
 	int** getPhonemes();
