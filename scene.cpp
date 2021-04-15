@@ -36,8 +36,7 @@ Scene::~Scene()
     delete sceneBonusTextItem;
     delete sceneBackgroundMap;
     delete sceneMedia;
-    delete bird;
-    cleanAttack();
+    //delete bird;
     foreach(Button *item, menuButtons){
         delete item;
     }
@@ -74,37 +73,38 @@ void Scene::addBird()
     addItem(bird);
 }
 
-void Scene::startGame()
+void Scene::createBird()
 {
-    //start animation for Bird and Pillars
-    //delete bird;
-    if(static_cast<enum::BirdColor>(birdColor) == BirdColor::RED)
+    if (static_cast<enum::BirdColor>(birdColor) == BirdColor::RED)
         bird = new BirdItem(QPixmap(":/images/redbird-midflap.png"),
-                            -sceneBackgroundMap->boundingRect().height()/2, sceneBackgroundMap->boundingRect().height()/2);
-    else if(static_cast<enum::BirdColor>(birdColor) == BirdColor::BLUE)
+            -sceneBackgroundMap->boundingRect().height() / 2, sceneBackgroundMap->boundingRect().height() / 2);
+    else if (static_cast<enum::BirdColor>(birdColor) == BirdColor::BLUE)
         bird = new BirdItem(QPixmap(":/images/birds/bluebird-midflap-200.png"),
-                            -sceneBackgroundMap->boundingRect().height()/2, sceneBackgroundMap->boundingRect().height()/2);
-    else if(static_cast<enum::BirdColor>(birdColor) == BirdColor::YELLOW)
+            -sceneBackgroundMap->boundingRect().height() / 2, sceneBackgroundMap->boundingRect().height() / 2);
+    else if (static_cast<enum::BirdColor>(birdColor) == BirdColor::YELLOW)
         bird = new BirdItem(QPixmap(":/images/birds/yellowbird-midflap-200.png"),
-                            -sceneBackgroundMap->boundingRect().height()/2, sceneBackgroundMap->boundingRect().height()/2);
-    bird->setPos(QPointF(0,0) - QPointF(bird->boundingRect().width()/2,
-                                                   bird->boundingRect().height()/2));
+            -sceneBackgroundMap->boundingRect().height() / 2, sceneBackgroundMap->boundingRect().height() / 2);
+    bird->setPos(QPointF(0, 0) - QPointF(bird->boundingRect().width() / 2,
+        bird->boundingRect().height() / 2));
 
     bird->color = static_cast<BirdColor>(this->birdColor);
     addItem(bird);
     bird->setZValue(1);
+}
+
+void Scene::startGame()
+{
+    //start animation for Bird and Pillars
+    //delete bird;
+    createBird();
+    
     score = 0;
     bonus = 0;
     attack = 0;
     bossIndex = 0;
     updateSceneScore();
     updateSceneBonus();
-    cleanPillars();
-    cleanEnemy();
-    cleanAttack();
-    cleanBonus();
-    cleanBoss();
-    cleanBossAttack();
+    cleanAll();
     setGameState(GameState::PLAY);
     hideGameOverGraphics();
     Widget * parent = dynamic_cast<Widget*>(this->parent());
@@ -131,31 +131,61 @@ void Scene::setDifficulty()
         QPixmap(":/images/buttons/clavier-button.png"));
     btnClavier->setZValue(1);
     addItem(btnClavier);
-    btnClavier->setPos(QPointF(0, 50) - QPointF(btnClavier->boundingRect().width() / 2,
+    btnClavier->setPos(QPointF(0, -20) - QPointF(btnClavier->boundingRect().width() / 2,
         btnClavier->boundingRect().height() / 2));
 
     connect(btnClavier, &Button::mouseRelease, [=] {
         btnClavier->hide();
         btnPhoneme->hide();
+        backButtonDifficulty->hide();
         startGame();    
-        });
+    });
 
     // phonemes
     btnPhoneme = new Button(QPixmap(":/images/buttons/phonemes-button.png"),
         QPixmap(":/images/buttons/phonemes-button.png"));
     btnPhoneme->setZValue(1);
     addItem(btnPhoneme);
-    btnPhoneme->setPos(QPointF(0, -50) - QPointF(btnPhoneme->boundingRect().width() / 2,
+    btnPhoneme->setPos(QPointF(0, 50) - QPointF(btnPhoneme->boundingRect().width() / 2,
         btnPhoneme->boundingRect().height() / 2));
 
     connect(btnPhoneme, &Button::mouseRelease, [=] {
         btnPhoneme->hide();
         btnClavier->hide();
+        backButtonDifficulty->hide();
         startGame();
+    });
+
+    // back button
+    backButtonDifficulty = new Button(QPixmap(":/images/buttons/left-button-idle-200.png"),
+        QPixmap(":/images/buttons/left-button-press-200.png"));
+    backButtonDifficulty->setZValue(1);
+    addItem(backButtonDifficulty);
+    QPointF backButtonDifficulty_position = QPointF(backButtonPhoneme->boundingRect().width(), -backButtonPhoneme->boundingRect().height())
+        + QPointF(-sceneBackgroundMap->boundingRect().width() / 2, sceneBackgroundMap->boundingRect().height() / 2)
+        + QPointF(20, -20);
+    backButtonDifficulty->setPos(backButtonDifficulty_position);
+    connect(backButtonDifficulty, &Button::mouseRelease, [=]
+        {
+            btnPhoneme->hide();
+            btnClavier->hide();
+            backButtonDifficulty->hide();
+            showMenu();
+            createBird();
+            setDifficultyOrNo = true;
         });
+          
+}
 
-
-    //startGame();
+void Scene::cleanAll()
+{
+    hideGameOverGraphics();
+    cleanPillars();
+    cleanEnemy();
+    cleanAttack();
+    cleanBonus();
+    cleanBoss();
+    cleanBossAttack();
 }
 
 void Scene::addMenu()
@@ -167,15 +197,12 @@ void Scene::addMenu()
     btnMenu->setZValue(1);
     addItem(btnMenu);
     connect(btnMenu, &Button::mouseRelease, [=]{
+        cleanAll();
         showTitle();
-        hideGameOverGraphics();
-        delete bird;
-        addBird();
-        cleanPillars();
-        cleanEnemy();
-        cleanAttack();
-        cleanBoss();
+        //delete bird;
+        addBird();        
         showMenu();
+        setDifficultyOrNo = true;
         btnMenu->hide();
     });
     btnMenu->hide();
@@ -189,8 +216,16 @@ void Scene::addMenu()
                                                btnStart->boundingRect().height()/2));
     connect(btnStart, &Button::mouseRelease, [=]{
         hideAllButton();
-        //startGame();
-        setDifficulty();
+        cleanAll();
+        if (setDifficultyOrNo)
+        {
+            setDifficulty();
+            setDifficultyOrNo = false;
+        }
+        else
+        {
+            startGame();
+        }
     });
     menuButtons.push_back(btnStart);
     // NEXT BUTTON
@@ -201,7 +236,6 @@ void Scene::addMenu()
     btnNext->setPos(QPointF(50,0) - QPointF(btnNext->boundingRect().width()/2,
                                                btnNext->boundingRect().height()/2));
     connect(btnNext, &Button::mouseRelease, [=]{
-        qDebug() << "button next";
         if(birdColor == 2)
             birdColor = 0;
         else
@@ -292,6 +326,7 @@ void Scene::addMenu()
         currentPhonemeCallibrationIndex = 0;
         for (int y = 0; y < 4; y++)
             phonemesCallibration[currentPhonemeCallibrationIndex][y] = 0;
+        user.clearPhoneme(static_cast<User::Phonemes>(currentPhonemeCallibrationIndex));
         progressBarPhonemes->setValue(currentProgression = 0);
         foreach(Button* item, btnPhonemes) {
             item->selected = false;
@@ -313,6 +348,7 @@ void Scene::addMenu()
         currentPhonemeCallibrationIndex = 1;
         for (int y = 0; y < 4; y++)
             phonemesCallibration[currentPhonemeCallibrationIndex][y] = 0;
+        user.clearPhoneme(static_cast<User::Phonemes>(currentPhonemeCallibrationIndex));
         progressBarPhonemes->setValue(currentProgression = 0);
         foreach(Button * item, btnPhonemes) {
             item->selected = false;
@@ -334,6 +370,7 @@ void Scene::addMenu()
         currentPhonemeCallibrationIndex = 2;
         for (int y = 0; y < 4; y++)
             phonemesCallibration[currentPhonemeCallibrationIndex][y] = 0;
+        user.clearPhoneme(static_cast<User::Phonemes>(currentPhonemeCallibrationIndex));
         progressBarPhonemes->setValue(currentProgression = 0);
         foreach(Button * item, btnPhonemes) {
             item->selected = false;
@@ -355,6 +392,7 @@ void Scene::addMenu()
         currentPhonemeCallibrationIndex = 3;
         for (int y = 0; y < 4; y++)
             phonemesCallibration[currentPhonemeCallibrationIndex][y] = 0;
+        user.clearPhoneme(static_cast<User::Phonemes>(currentPhonemeCallibrationIndex));
         progressBarPhonemes->setValue(currentProgression = 0);
         foreach(Button * item, btnPhonemes) {
             item->selected = false;
@@ -533,6 +571,7 @@ void Scene::startFPGACommunication()
         if (fpga->estOk()) {
             if (this->getGameState() == GameState::PLAY)
             {
+                auto start = chrono::steady_clock::now();
                 // 0 1 2 4 8
                 int stat_btn = 0; 
                 /*int echconv[4];*/
@@ -540,19 +579,24 @@ void Scene::startFPGACommunication()
                 int filtrePredefinedPhone[4][4];
 
                 // si l'utilisateur n'a pas défini ses phonèmes
-                for (int m = 0; m < 4; m++)
-                    for (int n = 0; n < 4; n++)
-                        filtrePredefinedPhone[m][n] = fpga->filtrePredefinedPhone[m][n];
+                if (user.phonemesReady()) 
+                {
+                    int** userDefinedPhonemes = user.getPhonemes();
+                    for (int m = 0; m < 4; m++)
+                        for (int n = 0; n < 4; n++)
+                            filtrePredefinedPhone[m][n] = userDefinedPhonemes[m][n];
+                }
+                else 
+                {
+                    for (int m = 0; m < 4; m++)
+                        for (int n = 0; n < 4; n++)
+                            filtrePredefinedPhone[m][n] = fpga->filtrePredefinedPhone[m][n];
+                }
 
                 int filtreDist[4] = { 0,0,0,0};
                 fpga->lireRegistre(nreg_lect_stat_btn, stat_btn);     // lecture buttons
-                //fpga->lireRegistre(nreg_lect_can0, echconv[0]);       // lecture canal 0
-                //fpga->lireRegistre(nreg_lect_can1, echconv[1]);       // lecture canal 1
-                //fpga->lireRegistre(nreg_lect_can2, echconv[2]);       // lecture canal 2
-                //fpga->lireRegistre(nreg_lect_can3, echconv[3]);       // lecture canal 3
                 if (fpga->stat_btn != stat_btn && stat_btn != 0)
                 {
-                    qDebug() << "FPGA stat_btn::" << stat_btn;
                     switch (stat_btn)
                     {
                     case 1:
@@ -642,6 +686,9 @@ void Scene::startFPGACommunication()
                     this->currentPhoneme = phonemes::DEFAULT;
                     this->counter = 0;
                 }
+                auto end = chrono::steady_clock::now();
+                auto diff = end - start;
+                qDebug() << chrono::duration <double, milli>(diff).count() << " ms" << endl;
             }
             }
         });
@@ -910,8 +957,6 @@ void Scene::incrementScore()
         bonusTimer->stop();
         setUpBoss();
     }
-
-    qDebug() << "Score: " << score << " Best Score: " << bestScore;
     updateSceneScore();
 }
 
@@ -925,7 +970,6 @@ void Scene::setUpBoss()
     //SceneMedia->setMedia(QUrl("qrc:/sound effects/mega-man-2-wily-stage-remix.mp3"));
     //SceneMedia->play();
     connect(BossItem, &Boss::Bossdead,[=](){
-        qDebug() << "Continuation du niveau";
         cleanBossAttack();
         //SceneMedia->stop();
         startMusic();
@@ -936,7 +980,6 @@ void Scene::setUpBoss()
         setBossIndex(0);
     });
     connect(BossItem, &Boss::BeginAttack,[=](){
-        qDebug() << "Phase de combat";
         BossAttackTimer->start(1000);
     });
 
@@ -946,7 +989,6 @@ void Scene::setUpBoss()
 void Scene::incrementBonus()
 {
     bonus++;
-    qDebug() << "Bonus: " << bonus;
     updateSceneBonus();
 }
 
@@ -961,14 +1003,30 @@ void Scene::keyPressEvent(QKeyEvent *event)
                 if (fpga->estOk()) 
                 {
                     int* echconv = fpga->read4Channel();
-                    user.ajoutEnregistrement(echconv, static_cast<User::Phonemes>(currentPhonemeCallibrationIndex));
+                    bool nearPredefined = true; 
+                    int filtreDist[4] = { 0,0,0,0 };
+                    for (int channel = 0; channel < Phoneme::nombre_channel; channel++)
+                    {
+                        for (int n = 0; n < Phoneme::nombre_channel; n++)
+                        {
+                            filtreDist[channel] += (fpga->filtrePredefinedPhone[channel][n] - echconv[n]) * (fpga->filtrePredefinedPhone[channel][n] - echconv[n]);
+                        }
+                        filtreDist[channel] = sqrt(filtreDist[channel]);
+                        if (filtreDist[channel] > 60)
+                            nearPredefined = false;
+                    }
+                    if (nearPredefined)
+                    {
+                        user.ajoutEnregistrement(echconv, static_cast<User::Phonemes>(currentPhonemeCallibrationIndex));
+                        progressBarPhonemes->setValue(++currentProgression);
+                    }
                 }
                 else
                 {
                     int* echconv = new int[4]{ 1,1,1,1 };
                     user.ajoutEnregistrement(echconv, static_cast<User::Phonemes>(currentPhonemeCallibrationIndex));
+                    progressBarPhonemes->setValue(++currentProgression);
                 }
-                progressBarPhonemes->setValue(++currentProgression);
             }
             qDebug() << "IN_CALLIBRATION : key_espace event " << currentProgression << "   => " << phonemesCallibration[currentPhonemeCallibrationIndex][0];
         }

@@ -47,3 +47,23 @@ int** User::getPhonemes()
 	}
 	return _phonemes;
 }
+
+bool User::phonemesReady() 
+{
+	bool ready;
+	for each (Phoneme var in phonemes)
+	{
+		if(!(var.isReady()))
+			return false;
+	}
+	for each (Phoneme var in phonemes)
+	{
+		var.setPhoneme();
+	}
+	return true;
+}
+
+void User::clearPhoneme(Phonemes phoneme) 
+{
+	phonemes[int(phoneme)].clear();
+}

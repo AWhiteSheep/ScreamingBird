@@ -10,6 +10,7 @@ public:
 	void clear();
 	bool empty();
 	bool hasEmpty();
+	bool isReady();
 	int nombreEnregistrement(int channel);
 	int sommeValeursEnregistrement(int channel);
 	int* moyenEnregistrement();
