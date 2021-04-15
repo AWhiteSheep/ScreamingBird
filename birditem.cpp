@@ -111,6 +111,10 @@ void BirdItem::die()
     // initialisation de l'animation donnant la rotation
     rotationAnimation = new QPropertyAnimation(this, "rotation", this);
     rotateTo(90, 1200, QEasingCurve::InQuad);
+    connect(yAnimation, &QPropertyAnimation::finished, [=]() {
+        scene()->removeItem(this);
+        delete this;
+        });
 }
 
 void BirdItem::freezeInPlace()

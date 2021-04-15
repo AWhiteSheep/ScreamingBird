@@ -36,7 +36,7 @@ private:
     QTimer * timer;
     bool freeze;
     //QGraphicsPixmapItem * feu;
-    //QPropertyAnimation * xAnimation;
+    //QPropertyAnimation * xAnimation;d
     //QMediaPlayer * feuMedia;
 
     enum Boulet{

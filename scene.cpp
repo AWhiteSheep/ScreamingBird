@@ -36,7 +36,7 @@ Scene::~Scene()
     delete sceneBonusTextItem;
     delete sceneBackgroundMap;
     delete sceneMedia;
-    delete bird;
+    //delete bird;
     foreach(Button *item, menuButtons){
         delete item;
     }
@@ -199,7 +199,7 @@ void Scene::addMenu()
     connect(btnMenu, &Button::mouseRelease, [=]{
         cleanAll();
         showTitle();
-        delete bird;
+        //delete bird;
         addBird();        
         showMenu();
         setDifficultyOrNo = true;
