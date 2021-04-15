@@ -5,11 +5,10 @@
 *
 */
 #include "widget.h"
+#include "Instructions.h"
 #include <QApplication>
 #include <QMainWindow>
 #include <QTextCodec>
-#include <QMenuBar>
-#include <QMessageBox>
 
 int main(int argc, char* argv[])
 {
@@ -27,15 +26,15 @@ int main(int argc, char* argv[])
 					"S = Descendre\n"
 					"D = Lancer du feu\n"
 					"A = Utiliser le bonus\n"
-					"\nCliquez sur Show Details pour plus d'informations.");
-	message.setDetailedText("Le but de l'application est d'effectuer "
-		                    "le plus grand haut score possible en evitant les obstacles et en "
-							"combattant certains ennemis. Les actions disponibles lorsque le "
-							"jeu est actif sont de monter, descendre, cracher une boule de feu "
+					"\nCliquez sur Show Details pour plus de details FOOOK");
+	message.setDetailedText("Le but de l'application est d'effectuer"
+		                    "le plus grand haut score possible en evitant les obstacles et en"
+							"combattant certains ennemis. Les actions disponibles lorsque le"
+							"jeu est actif sont de monter, descendre, cracher une boule de feu"
 							"et d'utiliser un bonus. Le jeu fini lorsque l'utilisateur touche "
-							"un tuyau, un ennemi ou l'un des projectiles du boss. " 
+							"un tuyau, un ennemi ou l'un des projectiles du boss." 
 							"Lorsque le joueur commence le jeu, plusieurs obstacle ou bonus "
-							"vont etre envoyes vers l'utilisateur.Il y a des tuyaux, des tortues "
+							"vont etre envoyes vers l'utilisateur.Il y a des tuyaux, des tortues"
 							"volantes qui font fit d'ennemis et des petites boites de bonus.");
 
 	Widget* w = new Widget;
