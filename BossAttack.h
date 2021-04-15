@@ -27,7 +27,7 @@ class BossAttack : public QObject, public QGraphicsPixmapItem, public Freezable
 {
 private:
     Q_OBJECT
-    Q_PROPERTY(qreal x READ x WRITE setX )
+    Q_PROPERTY(qreal x READ x WRITE setX)
 
     // variables
     const qreal VITESSE_BOULE = 5;    //valeur à ajuster

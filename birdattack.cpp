@@ -53,7 +53,8 @@ void BirdAttack::move()
         if (typeid(*(colliding_items[i])) == typeid(enemy))
         {
             // remove them both
-            scene() -> removeItem(colliding_items[i]);
+            scene()->removeItem(colliding_items[i]);           
+            emit this->enemyKilled();
 
             // delete them both
             delete colliding_items[i];

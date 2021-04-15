@@ -751,6 +751,9 @@ void Scene::setUpBonus()
 void Scene::setUpAttack()
 {
     BirdAttack* fireball = new BirdAttack(bird->y(), sceneBackgroundMap->boundingRect().width()/2);
+    connect(fireball, &BirdAttack::enemyKilled, this, [=] {
+        this->incrementScore();
+    });
     addItem(fireball);
 }
 
@@ -941,9 +944,9 @@ void Scene::setGameState(GameState state)
     this->gameState = state;
 }
 
-void Scene::incrementScore()
+void Scene::incrementScore(int scoreIncrement)
 {
-    score++;
+    score += scoreIncrement;
     bossIndex++;
     if(score > bestScore){
         bestScore = score;
@@ -970,6 +973,7 @@ void Scene::setUpBoss()
     //SceneMedia->setMedia(QUrl("qrc:/sound effects/mega-man-2-wily-stage-remix.mp3"));
     //SceneMedia->play();
     connect(BossItem, &Boss::Bossdead,[=](){
+        this->incrementScore(10);
         cleanBossAttack();
         //SceneMedia->stop();
         startMusic();

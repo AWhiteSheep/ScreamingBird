@@ -47,7 +47,7 @@ public:
     void setDifficulty();
     GameState getGameState() const;
     void setGameState(GameState state);
-    void incrementScore();
+    void incrementScore(int scoreIncrement = 1);
     void incrementBonus();
     void startMusic();
     int getScore();
@@ -125,6 +125,7 @@ private:
     bool paused = false;
     bool gameOn;
     bool setDifficultyOrNo = true;
+    bool clavierPhoneme; // 0 = phoneme, 1 = clavier
     int score;
     int bestScore;
     int birdColor = 0;

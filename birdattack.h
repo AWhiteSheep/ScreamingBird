@@ -51,7 +51,8 @@ private:
     int updatePixmap();
 public slots:
     void move();
-
+signals:
+    void enemyKilled();
 public:
     // constructeur
     explicit BirdAttack(qreal birdPosY, qreal limiteScreen);
