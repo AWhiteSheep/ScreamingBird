@@ -7,6 +7,7 @@ Phoneme::Phoneme()
 void Phoneme::ajoutValeur(int enregistrement, int channel)
 {
 	_nombreEnregistrement[channel] += 1;
+	_sommeValeurEnregistrement[channel] += enregistrement;
 }
 
 void Phoneme::clear()
@@ -57,7 +58,7 @@ int Phoneme::sommeValeursEnregistrement(int channel)
 void Phoneme::setPhoneme()
 {
 	for (int i = 0; i < nombre_channel; i++)
-		_moyenEnregistrement[i] = _nombreEnregistrement[i] / _sommeValeurEnregistrement[i];
+		_moyenEnregistrement[i] = _sommeValeurEnregistrement[i] / _nombreEnregistrement[i];
 }
 
 int * Phoneme::moyenEnregistrement() 

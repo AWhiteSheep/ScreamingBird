@@ -43,6 +43,7 @@ int** User::getPhonemes()
 	int** _phonemes = new int*[nombre_phoneme];
 	for (int i = 0; i < nombre_phoneme; i++)
 	{
+		phonemes[i].setPhoneme();
 		_phonemes[i] = phonemes[i].moyenEnregistrement();
 	}
 	return _phonemes;

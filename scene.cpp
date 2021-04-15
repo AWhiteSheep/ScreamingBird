@@ -290,6 +290,7 @@ void Scene::addMenu()
         // ajout des bonus pour les tests
         this->bonus = 999999;
         this->updateSceneBonus();
+        this->setGameState(GameState::PLAY);
     });
     menuButtons.push_back(btnTest);
     // CALLIBRATION BUTTON
@@ -416,9 +417,6 @@ void Scene::addMenu()
         this->setGameState(GameState::STOPPED);
         hideAllButton();
         showMenu();
-        for (int i = 0; i < 4; i++)
-            for (int y = 0; y < 4; y++)
-                phonemesCallibration[i][y] = phonemesCallibration[i][y] / progressBarPhonemes->maximum();
         layout->removeWidget(progressBarPhonemes);
         delete progressBarPhonemes;
     });
@@ -571,12 +569,15 @@ void Scene::startFPGACommunication()
         if (fpga->estOk()) {
             if (this->getGameState() == GameState::PLAY)
             {
-                auto start = chrono::steady_clock::now();
+                /*auto start = chrono::steady_clock::now();*/
                 // 0 1 2 4 8
                 int stat_btn = 0; 
                 /*int echconv[4];*/
                 int* echconv = fpga->read4Channel();
-                int filtrePredefinedPhone[4][4];
+                int filtrePredefinedPhone[4][4] = { {139,232,247,39},
+                                                    {209,116,155,232},
+                                                    {23,15,8,31},
+                                                    {162,139,54,23} };;
 
                 // si l'utilisateur n'a pas défini ses phonèmes
                 if (user.phonemesReady()) 
@@ -585,12 +586,6 @@ void Scene::startFPGACommunication()
                     for (int m = 0; m < 4; m++)
                         for (int n = 0; n < 4; n++)
                             filtrePredefinedPhone[m][n] = userDefinedPhonemes[m][n];
-                }
-                else 
-                {
-                    for (int m = 0; m < 4; m++)
-                        for (int n = 0; n < 4; n++)
-                            filtrePredefinedPhone[m][n] = fpga->filtrePredefinedPhone[m][n];
                 }
 
                 int filtreDist[4] = { 0,0,0,0};
@@ -613,7 +608,7 @@ void Scene::startFPGACommunication()
                 fpga->stat_btn = stat_btn;
             
                 // si seulement si le boutton 8 est présé
-                if (stat_btn == 8)
+                if (true)
                 {
                     // enregistrement des distances pour chaque phonème
                     for (int m = 0; m < 4; m++)
@@ -638,7 +633,8 @@ void Scene::startFPGACommunication()
                         }
                     }
 
-                    if (minDist < 30) 
+                    qDebug() << "Distance min: " << filtreDist[index];
+                    if (minDist < 40) 
                     {
                         // choix du phon et ajout au conteur
                         phonemeMinFound = static_cast<phonemes>(index);
@@ -653,7 +649,7 @@ void Scene::startFPGACommunication()
                         }
 
                         // faire l'action si plus que 50ms pour le phonèmes
-                        if (this->counter >= 12)
+                        if (this->counter >= 5)
                         {
                             switch (index)
                             {
@@ -686,9 +682,9 @@ void Scene::startFPGACommunication()
                     this->currentPhoneme = phonemes::DEFAULT;
                     this->counter = 0;
                 }
-                auto end = chrono::steady_clock::now();
+                /*auto end = chrono::steady_clock::now();
                 auto diff = end - start;
-                qDebug() << chrono::duration <double, milli>(diff).count() << " ms" << endl;
+                qDebug() << chrono::duration <double, milli>(diff).count() << " ms" << endl;*/
             }
             }
         });
@@ -1008,20 +1004,25 @@ void Scene::keyPressEvent(QKeyEvent *event)
             {
                 if (fpga->estOk()) 
                 {
-                    int* echconv = fpga->read4Channel();
+                    int* echconv = new int[4];
+                    fpga->lireRegistre(nreg_lect_can0, echconv[0]);       // lecture canal 0
+                    fpga->lireRegistre(nreg_lect_can1, echconv[1]);       // lecture canal 1
+                    fpga->lireRegistre(nreg_lect_can2, echconv[2]);       // lecture canal 2
+                    fpga->lireRegistre(nreg_lect_can3, echconv[3]);       // lecture canal 3
+                    qDebug() << "lecture " << echconv[0] << " lecture " << echconv[1] << " lecture " << echconv[2] << " lecture " << echconv[3];
                     bool nearPredefined = true; 
                     int filtreDist[4] = { 0,0,0,0 };
                     for (int channel = 0; channel < Phoneme::nombre_channel; channel++)
                     {
                         for (int n = 0; n < Phoneme::nombre_channel; n++)
                         {
-                            filtreDist[channel] += (fpga->filtrePredefinedPhone[channel][n] - echconv[n]) * (fpga->filtrePredefinedPhone[channel][n] - echconv[n]);
+                            filtreDist[channel] += (fpga->filtrePredefinedPhone[n][channel] - echconv[channel]) * (fpga->filtrePredefinedPhone[n][channel] - echconv[channel]);
                         }
                         filtreDist[channel] = sqrt(filtreDist[channel]);
-                        if (filtreDist[channel] > 60)
+                        if (filtreDist[channel] > 99999999999999)
                             nearPredefined = false;
                     }
-                    if (nearPredefined)
+                    if (nearPredefined && echconv[0] > 0 && echconv[1] > 0 && echconv[2] > 0 && echconv[3] > 0)
                     {
                         user.ajoutEnregistrement(echconv, static_cast<User::Phonemes>(currentPhonemeCallibrationIndex));
                         progressBarPhonemes->setValue(++currentProgression);
