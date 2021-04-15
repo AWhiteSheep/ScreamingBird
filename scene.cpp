@@ -172,6 +172,7 @@ void Scene::setDifficulty()
             backButtonDifficulty->hide();
             showMenu();
             createBird();
+            setDifficultyOrNo = true;
         });
           
 }
