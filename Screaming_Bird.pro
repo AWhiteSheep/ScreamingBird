@@ -18,8 +18,7 @@ SOURCES += \
     widget.cpp \
     CommunicationFPGA.cpp \
     user.cpp \
-    phoneme.cpp\
-	Instructions.cpp
+    phoneme.cpp
 
 
 HEADERS += \
@@ -37,8 +36,7 @@ HEADERS += \
     scene.h \
     widget.h \
     user.h \
-    phoneme.h\
-	Instructions.h
+    phoneme.h
 
 RESOURCES += \
     resource.qrc
