@@ -31,14 +31,9 @@ private:
 
     // variables
     const qreal VITESSE_BOULE = 5;    //valeur à ajuster
-    //qreal yPos;
-    //qreal xPos;
     qreal rightLimiteScreen;
     QTimer * timer;
     bool freeze;
-    //QGraphicsPixmapItem * feu;
-    //QPropertyAnimation * xAnimation;
-    //QMediaPlayer * feuMedia;
 
     //animation boule de feu
     enum Fireball{
@@ -65,10 +60,6 @@ public:
     ~BirdAttack();
 
     // fonctions
-    //qreal getX();
-    //qreal getY();
-    //void setX(qreal x);
-    //void setY(qreal x);
     void freezeInPlace();
     bool collidesWithEnemy();
 };
