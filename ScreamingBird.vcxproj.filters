@@ -62,9 +62,6 @@
     <ClCompile Include="CommunicationFPGA.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Instructions.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="birdattack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -112,9 +109,6 @@
     <ClInclude Include="CommunicationFPGA.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <CustomBuild Include="Instructions.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
     <CustomBuild Include="birdattack.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
@@ -139,9 +133,6 @@
     <CustomBuild Include="scene.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <ClInclude Include="score.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="user.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -172,12 +163,6 @@
       <Filter>Generated Files</Filter>
     </ClCompile>
     <ClCompile Include="release\moc_BossBoulet.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="debug\moc_Instructions.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="release\moc_Instructions.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
     <ClCompile Include="debug\moc_birdattack.cpp">
