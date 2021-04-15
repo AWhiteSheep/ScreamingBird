@@ -24,9 +24,16 @@
 
 class BossBoulet : public QObject, public QGraphicsPixmapItem, public Freezable
 {
+public:
+    enum Direction {
+        Up,
+        Middle,
+        Down
+    };
 private:
     Q_OBJECT
     Q_PROPERTY(qreal x READ x WRITE setX )
+    Q_PROPERTY(qreal y READ y WRITE setY )
 
     // variables
     const qreal VITESSE_BOULET = 3;    //valeur à ajuster
@@ -50,6 +57,8 @@ private:
         Frame_8
     };
 
+    Direction attackDirection;
+
     Boulet boulet;
     QTimer * animationBoulet;
 
@@ -63,7 +72,7 @@ signals:
 
 public:
     // constructeur
-    explicit BossBoulet(qreal bossPosY, qreal limiteScreen);
+    explicit BossBoulet(qreal bossPosY, qreal limiteScreen, Direction direction = Direction::Middle);
 
     // destructeur
     ~BossBoulet();

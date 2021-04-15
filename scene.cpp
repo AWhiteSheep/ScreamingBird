@@ -776,19 +776,21 @@ void Scene::setUpBossAttack()
         BossBall->setZValue(2);
         addItem(BossBall);
     }else{
-        BossBoulet* Boulet = new BossBoulet(BossItem->y(),sceneBackgroundMap->boundingRect().width()/2);
         attack = 0;
-        connect(Boulet, &BossBoulet::collideFail,[=]{
-            pillarTimer->stop();
-            enemyTimer->stop();
-            bonusTimer->stop();
-            BossAttackTimer->stop();
-            freezeBirdAndPillarsInPlace();
-            setGameState(GameState::STOPPED);
-            showGameOverGraphics();
-        });
-        Boulet->setZValue(2);
-        addItem(Boulet);
+        for (int m = 0; m < 3; m++) {
+            BossBoulet* Boulet = new BossBoulet(BossItem->y(),sceneBackgroundMap->boundingRect().width()/2, static_cast<BossBoulet::Direction>(m));
+            connect(Boulet, &BossBoulet::collideFail,[=]{
+                pillarTimer->stop();
+                enemyTimer->stop();
+                bonusTimer->stop();
+                BossAttackTimer->stop();
+                freezeBirdAndPillarsInPlace();
+                setGameState(GameState::STOPPED);
+                showGameOverGraphics();
+            });
+            Boulet->setZValue(2);
+            addItem(Boulet);
+        }
     }
     });
 

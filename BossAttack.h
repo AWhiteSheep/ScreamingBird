@@ -36,6 +36,7 @@ private:
     qreal rightLimiteScreen;
     QTimer * timer;
     bool freeze;
+    
     //QGraphicsPixmapItem * feu;
     //QPropertyAnimation * xAnimation;
     //QMediaPlayer * feuMedia;
@@ -49,6 +50,7 @@ private:
         Frame5,
         Frame6,
     };
+
     Fireball fireball;
     QTimer * animationFireball;
     void updatePixmapFireball();

@@ -6,7 +6,7 @@
 */
 #include "BossBoulet.h"
 
-BossBoulet::BossBoulet(qreal BossPosY, qreal limiteScreen) :boulet(Frame_1)
+BossBoulet::BossBoulet(qreal BossPosY, qreal limiteScreen, Direction direction) :boulet(Frame_1)
 {
 
     freeze = 0;
@@ -27,6 +27,7 @@ BossBoulet::BossBoulet(qreal BossPosY, qreal limiteScreen) :boulet(Frame_1)
 
     // set timer
     timer->start(30); //every 30 ms the fireball will move
+    attackDirection = direction;
 }
 
 BossBoulet::~BossBoulet()
@@ -61,7 +62,18 @@ void BossBoulet::move()
     }
     else
     {
-       setPos(x()-VITESSE_BOULET,y());
+        switch (attackDirection)
+        {
+        case Direction::Up:
+            setPos(x() - VITESSE_BOULET, y() + VITESSE_BOULET);
+            break;
+        case Direction::Middle:
+            setPos(x() - VITESSE_BOULET, y());
+            break;
+        case Direction::Down:
+            setPos(x() - VITESSE_BOULET, y() - VITESSE_BOULET);
+            break;
+        }
     }
 
     // delete if off the screan

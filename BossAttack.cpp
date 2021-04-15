@@ -16,7 +16,6 @@ BossAttack::BossAttack(qreal BossPosY, qreal limiteScreen) : fireball(Frame1)
 
     // set position
     setPos(QPoint(275,BossPosY));
-
         //animation de la boule de feu
         animationFireball = new QTimer();
         connect(animationFireball, &QTimer::timeout, [=](){
@@ -30,6 +29,7 @@ BossAttack::BossAttack(qreal BossPosY, qreal limiteScreen) : fireball(Frame1)
 
     // set timer
     timer->start(30); //every 30 ms the fireball will move
+
 }
 
 BossAttack::~BossAttack()
