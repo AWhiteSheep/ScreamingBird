@@ -24,8 +24,8 @@ BirdAttack::BirdAttack(qreal birdPosY, qreal limiteScreen) : fireball(Frame1)
         updatePixmap();
     });
 
-    // animation
     animationFireball->start(100);
+    // animation
     // connect to signal
     timer = new QTimer;
     connect(timer, SIGNAL(timeout()), this, SLOT(move()));
@@ -36,7 +36,7 @@ BirdAttack::BirdAttack(qreal birdPosY, qreal limiteScreen) : fireball(Frame1)
 
 BirdAttack::~BirdAttack()
 {
-    // delete xAnimation;
+    //delete xAnimation;
     delete timer;
     delete animationFireball;
 }
@@ -54,6 +54,7 @@ void BirdAttack::move()
         {
             // remove them both
             scene() -> removeItem(colliding_items[i]);
+            //scene() -> removeItem(this);
 
             // delete them both
             delete colliding_items[i];
@@ -80,6 +81,28 @@ void BirdAttack::move()
         delete this;
     }
 }
+
+/*
+qreal BirdAttack::getX()
+{
+    //return xPos;
+}
+
+qreal BirdAttack::getY()
+{
+    //return yPos;
+}
+
+void BirdAttack::setX(qreal x)
+{
+    //xPos = x;
+}
+
+void BirdAttack::setY(qreal y)
+{
+    //yPos = y;
+}
+*/
 
 void BirdAttack::freezeInPlace()
 {
