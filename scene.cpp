@@ -583,12 +583,13 @@ void Scene::startFPGACommunication()
                 if (user.phonemesReady()) 
                 {
                     int** userDefinedPhonemes = user.getPhonemes();
+                    // m est le phonème
                     for (int m = 0; m < 4; m++)
+                        // n est le canal
                         for (int n = 0; n < 4; n++)
                             filtrePredefinedPhone[m][n] = userDefinedPhonemes[m][n];
                 }
 
-                int filtreDist[4] = { 0,0,0,0};
                 fpga->lireRegistre(nreg_lect_stat_btn, stat_btn);     // lecture buttons
                 if (fpga->stat_btn != stat_btn && stat_btn != 0)
                 {
@@ -607,50 +608,66 @@ void Scene::startFPGACommunication()
                 }
                 fpga->stat_btn = stat_btn;
             
-                // si seulement si le boutton 8 est présé
-                if (true)
+                // enregistrement des distances pour chaque phonème
+                bool checkedContinue = true;
+                for (int m = 0; m < 4; m++)
                 {
-                    // enregistrement des distances pour chaque phonème
-                    for (int m = 0; m < 4; m++)
+                    if (echconv[m] == 0)
+                        checkedContinue = false;
+                }
+
+                if (checkedContinue) 
+                {
+                    // n addition pour chaque canal
+                    for (int n = 0; n < 4; n++)
                     {
+                        counterFilters[n] += echconv[n];
+                    }
+                    this->counter++;
+                    if (this->counter >= 5)
+                    {
+                        // n addition pour chaque canal
                         for (int n = 0; n < 4; n++)
                         {
-                            filtreDist[m] += (filtrePredefinedPhone[m][n] - echconv[n]) * (filtrePredefinedPhone[m][n] - echconv[n]);
+                            counterFilters[n] = echconv[n]/ this->counter;
                         }
-                        filtreDist[m] = sqrt(filtreDist[m]);
-                    }
 
-                    // trouver la distance minimal des distances trouvées 
-                    int index = 0;
-                    phonemes phonemeMinFound;
-                    int minDist = filtreDist[index];
-                    for (int m = 0; m < 4; m++)
-                    {
-                        if (minDist > filtreDist[m])
+                        int distance[4] = { 0,0,0,0 };
+                        // m au travers les phonèmes 
+                        for (int m = 0; m < 4; m++)
                         {
-                            minDist = filtreDist[m];
-                            index = m;
+                            // n au travers les canaux
+                            for (int n = 0; n < 4; n++)
+                            {
+                                // clacule des distance pour chaque phoneme (m) selon le canal (n)
+                                distance[m] += (filtrePredefinedPhone[m][n] - counterFilters[n])* (filtrePredefinedPhone[m][n] - counterFilters[n]);
+                            }
+                            // racine pour obtenir la distance
+                            distance[m] = sqrt(counterFilters[m]);
                         }
-                    }
 
-                    qDebug() << "Distance min: " << filtreDist[index];
-                    if (minDist < 40) 
-                    {
-                        // choix du phon et ajout au conteur
-                        phonemeMinFound = static_cast<phonemes>(index);
-                        if (this->currentPhoneme == phonemeMinFound)
+                        // trouver la distance minimal des distances trouvées 
+                        int index = 0;
+                        phonemes phonemeMinFound;
+                        int minDist = distance[index];
+                        // m pour chaque phonème
+                        for (int m = 0; m < 4; m++)
                         {
-                            this->counter++;
+                            if (minDist > distance[m])
+                            {
+                                minDist = distance[m];
+                                index = m;
+                            }
                         }
-                        else
+
+                        qDebug() << "Distance min: " << distance[index];
+                        if (minDist < 40) 
                         {
+                            // choix du phon et ajout au conteur
+                            phonemeMinFound = static_cast<phonemes>(index);
                             this->currentPhoneme = phonemeMinFound;
-                            this->counter = 1;
-                        }
 
-                        // faire l'action si plus que 50ms pour le phonèmes
-                        if (this->counter >= 5)
-                        {
+                            // faire l'action si plus que 50ms pour le phonèmes
                             switch (index)
                             {
                             case 0:
@@ -666,28 +683,32 @@ void Scene::startFPGACommunication()
                                 BonusEffect();
                                 break;
                             }
-                            qDebug() << "Distance min: " << filtreDist[index] << " Phonème: " << this->currentPhoneme;
+                            qDebug() << "Distance min: " << distance[index] << " Phonème: " << this->currentPhoneme;
+                            for (int i = 0; i < 4; i++)
+                                counterFilters[i] = 0;
                             this->currentPhoneme = phonemes::DEFAULT;
                             this->counter = 0;
                         }
+        
                     }
-                    else
+                    else 
                     {
+                        for (int i = 0; i < 4; i++)
+                            counterFilters[i] = 0;
                         this->currentPhoneme = phonemes::DEFAULT;
                         this->counter = 0;
                     }
                 }
                 else
                 {
+                    for (int i = 0; i < 4; i++)
+                        counterFilters[i] = 0;
                     this->currentPhoneme = phonemes::DEFAULT;
                     this->counter = 0;
                 }
-                /*auto end = chrono::steady_clock::now();
-                auto diff = end - start;
-                qDebug() << chrono::duration <double, milli>(diff).count() << " ms" << endl;*/
             }
-            }
-        });
+        }
+    });
     fpgaTimer->start(10);
 }
 

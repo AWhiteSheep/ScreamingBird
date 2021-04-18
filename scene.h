@@ -149,6 +149,7 @@ public:
     int bonus;
     // Phon�mes
     phonemes currentPhoneme = phonemes::DEFAULT;
+    int counterFilters[4] = { 0,0,0,0 };
     int counter = 0;
     // Game state
     GameState gameState = GameState::STOPPED;
