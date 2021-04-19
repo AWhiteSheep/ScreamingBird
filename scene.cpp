@@ -574,11 +574,10 @@ void Scene::startFPGACommunication()
                 int stat_btn = 0; 
                 /*int echconv[4];*/
                 int* echconv = fpga->read4Channel();
-                int filtrePredefinedPhone[4][4] = { {139,232,247,39},
-                                                    {209,116,155,232},
-                                                    {23,15,8,31},
-                                                    {162,139,54,23} };;
-
+                int filtrePredefinedPhone[4][4] = { {27, 89, 214, 115},
+                                                    {65, 22, 78, 97},
+                                                    {24, 3, 20, 19},
+                                                    {85, 29, 63, 9} };
                 // si l'utilisateur n'a pas défini ses phonèmes
                 if (user.phonemesReady()) 
                 {
@@ -634,7 +633,17 @@ void Scene::startFPGACommunication()
                     }
 
                     qDebug() << "Distance min: " << filtreDist[index];
-                    if (minDist < 40) 
+                    bool doAction = true;
+                    if (index == 2 && minDist > 20)
+                    {
+                        doAction = false;
+                    }
+                    if (minDist > 200) 
+                    {
+                        doAction = false;
+                    }
+
+                    if (doAction)
                     {
                         // choix du phon et ajout au conteur
                         phonemeMinFound = static_cast<phonemes>(index);
@@ -649,7 +658,7 @@ void Scene::startFPGACommunication()
                         }
 
                         // faire l'action si plus que 50ms pour le phonèmes
-                        if (this->counter >= 5)
+                        if (this->counter >= 10)
                         {
                             switch (index)
                             {
