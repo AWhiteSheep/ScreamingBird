@@ -691,13 +691,6 @@ void Scene::startFPGACommunication()
                         }
         
                     }
-                    else 
-                    {
-                        for (int i = 0; i < 4; i++)
-                            counterFilters[i] = 0;
-                        this->currentPhoneme = phonemes::DEFAULT;
-                        this->counter = 0;
-                    }
                 }
                 else
                 {
